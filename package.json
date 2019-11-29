@@ -16,7 +16,8 @@
     "sourcemap": "source-map-explorer lib/index.min.js",
     "test": "mocha",
     "test:watch": "mocha -w",
-    "test:types": "dtslint ./test/types"
+    "test:types": "dtslint ./test/types",
+    "prepublishOnly": "npm run build"
   },
   "author": "Simon Green <simon@captaincodeman.com> (https://github.com/captaincodeman)",
   "license": "ISC",

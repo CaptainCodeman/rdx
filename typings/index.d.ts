@@ -1,4 +1,4 @@
-export declare class Store<S> extends EventTarget {
+export declare class Store<S = any> extends EventTarget {
   constructor(state: S, reducer: Reducer<S>);
   dispatch(action: Action): Action<any>;
   reducer: Reducer<S>;
@@ -20,3 +20,5 @@ export type ReducerState<R extends Reducer> = R extends Reducer<infer S> ? S : n
 export type State<R extends Reducers> = {
   [K in keyof R]: ReducerState<R[K]>
 }
+
+export declare function combineReducers<R extends Reducers>(reducers: R): Reducer<State<R>>

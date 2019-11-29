@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>simple-state</title>
+  <style>
+    body { height: 5000px; }
+    test-element { position: fixed; }
+  </style>
+</head>
+
+<body>
+  <p>This is all the content that there is</p>
+  <test-element></test-element>
+
+  <script type="module">
+
+    import { Store, combineReducers, connect, thunk, persist, devtools} from '/dist/index.min.js'
+    // import { persist } from '/dist/persist.js'
+    // import { devtools } from '/dist/devtools.js'
+
+    const counter = (state = 0, action) => {
+      switch (action.type) {
+        case 'counter/inc':
+          return state + 1
+        case 'counter/dec':
+          return state - 1
+        default:
+          return state
+      }
+    }
+
+    const todos = (state = {
+      data: {},
+      loading: false,
+      err: '',
+    }, action) => {
+      switch (action.type) {
+        case 'todos/request':
+          return {...state, loading: true }
+        case 'todos/receive':
+          return {...state, loading: false, data: action.payload }
+        case 'todos/failure':
+          return {...state, loading: false, err: action.payload }
+        default:
+          return state
+      }
+    }
+
+    const reducer = combineReducers({ counter, todos })
+
+    const store = devtools(persist(thunk(new Store(undefined, reducer)), {
+      /* persist options */
+      predicate: (action) => action.type.startsWith('todos/'),
+      persist: (state) => ({ todos: state.todos }),
+      delay: 250,
+    }))
+
+    class TestElement extends connect(store, HTMLElement) {
+      set count(val) {
+        this.setAttribute('count', val);
+        this.textContent = val + '';
+      }
+
+      mapState(state) {
+        return {
+          count: state.counter
+        }
+      }
+    }
+
+    customElements.define('test-element', TestElement)
+
+    // middleware
+    store.addEventListener('dispatch', async e => {
+      // console.log('middleware start')
+      const { action } = e.detail
+      switch (action.type) {
+        case 'counter/dec':
+          // middleware can handle an action and return something different ...
+          // e.detail.action = { type: 'foo', payload: 'bar' }
+          // if you don't want any further middleware to  process
+          // e.stopImmediatePropagation()
+          break
+        case 'xxx':
+          // or just not return anything (like not calling 'next')
+          e.preventDefault()
+          break
+      }
+
+      // microtask to delay until dispatch has happened
+      // await Promise.resolve()
+      // console.log('middleware end', store.state)
+    })
+
+    // for notifications of state changes
+    // (because action dispatch may not update state immediately)
+    // store.addEventListener('state', e => {
+    //   const { action } = e.detail
+    //   console.log('state changed', action, JSON.stringify(store.state))
+    // })
+
+    // for simply logging actions
+    // store.addEventListener('dispatch', e => {
+    //   const { action } = e.detail
+    //   console.log('action dispatched', action)
+    // })
+
+    store.dispatch({ type: 'counter/inc' })
+    store.dispatch({ type: 'counter/inc' })
+    store.dispatch({ type: 'counter/dec' })
+
+    // using async actions (thunk middleware)
+    store.dispatch(async (dispatch, state) => {
+      await new Promise(r => setTimeout(r, 1000))
+      dispatch({ type: 'counter/dec' })
+    })
+
+    // data fetching pattern
+    store.dispatch(async (dispatch, state) => {
+      if (Object.keys(state.todos.data).length) return
+      dispatch({ type: 'todos/request' })
+      try {
+        const resp = await fetch(`https://jsonplaceholder.typicode.com/todos`)
+        const json = await resp.json()
+        dispatch({ type: 'todos/receive', payload: json })
+      } catch (err) {
+        dispatch({ type: 'todos/failure', payload: err })
+      }
+    })
+
+    // const thunkMiddleware = ({ dispatch, getState }) => next => action => (typeof action === 'function')
+    //   ? action(dispatch, getState)
+    //   : next(action)
+
+    // document.addEventListener('pointermove', e => store.dispatch({ type: 'counter/inc' }))
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+{
+  "name": "@captaincodeman/rdx",
+  "version": "1.0.0-alpha.1",
+  "description": "",
+  "main": "dust/index.cjs",
+  "module": "dist/index.js",
+  "browser": "dist/index.umd.js",
+  "scripts": {
+    "tsc": "tsc --emitDeclarationOnly",
+    "build": "rollup -c",
+    "build:watch": "rollup -c -w",
+    "sourcemap": "source-map-explorer dist/index.min.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Simon Green <simon@captaincodeman.com> (https://github.com/captaincodeman)",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "compression": "^1.7.4",
+    "redux-devtools-extension": "^2.13.8",
+    "rollup": "^1.27.5",
+    "rollup-plugin-size": "^0.2.0",
+    "rollup-plugin-terser": "^5.1.2",
+    "rollup-plugin-typescript": "^1.0.1",
+    "source-map-explorer": "^2.1.1",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "tslib": "^1.10.0"
+  }
+}

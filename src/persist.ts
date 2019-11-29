@@ -1,4 +1,5 @@
 import { Store, StoreEvent, Action } from "./store";
+import { stateEvent } from "const";
 
 export interface Options<S> {
   // name sets the state key to use, useful in development to avoid conflict
@@ -39,7 +40,7 @@ export function persist<S>(store: Store<S>, options: Partial<Options<S>>) {
 
   let task = 0
 
-  store.addEventListener('state', e => {
+  store.addEventListener(stateEvent, e => {
     const ev = <CustomEvent<StoreEvent>>e
     const { action } = ev.detail
 

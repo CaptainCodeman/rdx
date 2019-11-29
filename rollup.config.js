@@ -33,7 +33,7 @@ export default [{
     file: pkg.main,
     format: 'cjs',
   }, {
-    file: pkg.module,
+    file: 'lib/index.min.js',
     format: 'esm',
     sourcemap: true,
   }],

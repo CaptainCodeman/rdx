@@ -11,14 +11,14 @@ Root reducer function (combineReducers)
 Handling of async actions (Thunks)
 Mixin to connect custom elements to the store (map state and events)
 
-Total size: 1.53 Kb minified / 639 bytes gzipped
+Total size: 1.52 Kb minified / 635 bytes gzipped
 
 With additional enhancements:
 
 Redux DevTools integration for debug and time-travel
 State hydrations / persistence using localStorage
 
-Total size: 2.23 Kb minified / 952 bytes gzipped
+Total size: 2.20 Kb minified / 954 bytes gzipped
 
 ## Plans
 

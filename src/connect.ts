@@ -1,4 +1,5 @@
 import { Action, Store } from './store'
+import { stateEvent } from 'const'
 
 export type DispatchMap = { [key: string]: (event: Event) => void }
 
@@ -39,11 +40,7 @@ export function connect<T extends Constructor<Connectable>, S>(
     }
 
     connectedCallback() {
-      // this minifies better
-      let callback = super.connectedCallback
-      callback && callback()
-      
-      // super.connectedCallback && super.connectedCallback()
+      super.connectedCallback && super.connectedCallback()
 
       this[addEventListeners]()
       this[addStateSubscription]()
@@ -53,11 +50,7 @@ export function connect<T extends Constructor<Connectable>, S>(
       this[removeStateSubscription]()
       this[removeEventListeners]()
 
-      // this minifies better
-      let callback = super.disconnectedCallback
-      callback && callback()
-
-      // super.disconnectedCallback && super.disconnectedCallback()
+      super.disconnectedCallback && super.disconnectedCallback()
     }
 
     private [createDispatchMap]() {
@@ -67,7 +60,8 @@ export function connect<T extends Constructor<Connectable>, S>(
         for (const key in eventMap) {
           const fn = eventMap[key]
           this[dispatchMap][key] = function (event: Event) {
-            event.stopImmediatePropagation()
+            // TODO: add options to mixin to control
+            // event.stopImmediatePropagation()
             store.dispatch(fn(event))
           }.bind(this)
         }
@@ -87,12 +81,12 @@ export function connect<T extends Constructor<Connectable>, S>(
     }
 
     private [addStateSubscription]() {
-      store.addEventListener('state', this[onStateChange])
+      store.addEventListener(stateEvent, this[onStateChange])
       this[onStateChange]()
     }
 
     private [removeStateSubscription]() {
-      this.removeEventListener('state', this[onStateChange])
+      this.removeEventListener(stateEvent, this[onStateChange])
     }
 
     private [onStateChange]() {

@@ -1,4 +1,5 @@
 import { Store, StoreEvent } from "./store";
+import { stateEvent } from "const";
 
 declare global {
   interface Window {
@@ -14,7 +15,7 @@ export function devtools(store: Store<any>) {
 
     let ignoreState = false
 
-    store.addEventListener('state', e => {
+    store.addEventListener(stateEvent, e => {
       const { action } = (<CustomEvent<StoreEvent>>e).detail
       if (ignoreState) {
         ignoreState = false

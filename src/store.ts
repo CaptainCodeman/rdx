@@ -1,3 +1,5 @@
+import { stateEvent, dispatchEvent } from "const"
+
 export type Action<P = any> = { type?: string, payload?: P }
 
 export type Dispatch = <A extends Action>(action: A) => any
@@ -13,7 +15,7 @@ export class Store<S> extends EventTarget {
   }
 
   dispatch(action: Action) {
-    const evt = new CustomEvent<StoreEvent>('dispatch', {
+    const evt = new CustomEvent<StoreEvent>(dispatchEvent, {
       cancelable: true,
       detail: { action },
     })
@@ -21,7 +23,7 @@ export class Store<S> extends EventTarget {
     if (this.dispatchEvent(evt)) {
       action = evt.detail.action
       this.state = this.reducer(this.state, action)
-      this.dispatchEvent(new CustomEvent<StoreEvent>('state', {
+      this.dispatchEvent(new CustomEvent<StoreEvent>(stateEvent, {
         detail: { action },
       }))
     }

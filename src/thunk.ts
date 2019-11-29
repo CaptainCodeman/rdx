@@ -1,11 +1,12 @@
 import { Store, StoreEvent, Dispatch } from "./store";
+import { dispatchEvent } from './const'
 
 export type ThunkAction = <S>(dispatch: Dispatch, getState: () => S) => void
 
 export function thunk(store: Store<any>) {
   const dispatch = store.dispatch.bind(store)
 
-  store.addEventListener('dispatch', e => {
+  store.addEventListener(dispatchEvent, e => {
     const ev = <CustomEvent<StoreEvent>>e
     const { action } = ev.detail
 

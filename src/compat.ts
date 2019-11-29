@@ -1,9 +1,10 @@
 import { Store, Reducer } from "./store";
+import { stateEvent } from "const";
 
 export function compat<S>(store: Store<S>) {
   let listeners: Function[] = []
 
-  store.addEventListener('state', () => listeners.forEach(listener => listener()))
+  store.addEventListener(stateEvent, () => listeners.forEach(listener => listener()))
 
   return {
     ...store,

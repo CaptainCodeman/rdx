@@ -1,5 +1,5 @@
-import { Store, StoreEvent, Action } from "./store";
-import { stateEvent } from "const";
+import { Store, StoreEvent, Action } from "../typings"
+import { stateEvent } from "./const"
 
 export interface Options<S> {
   // name sets the state key to use, useful in development to avoid conflict

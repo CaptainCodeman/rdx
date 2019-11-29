@@ -1,5 +1,5 @@
-import { Action, Store } from './store'
-import { stateEvent } from 'const'
+import { Action, Store } from '../typings'
+import { stateEvent } from './const'
 
 export type DispatchMap = { [key: string]: (event: Event) => void }
 
@@ -40,7 +40,9 @@ export function connect<T extends Constructor<Connectable>, S>(
     }
 
     connectedCallback() {
-      super.connectedCallback && super.connectedCallback()
+      if (super.connectedCallback) {
+        super.connectedCallback()
+      }
 
       this[addEventListeners]()
       this[addStateSubscription]()
@@ -50,7 +52,9 @@ export function connect<T extends Constructor<Connectable>, S>(
       this[removeStateSubscription]()
       this[removeEventListeners]()
 
-      super.disconnectedCallback && super.disconnectedCallback()
+      if (super.disconnectedCallback) {
+        super.disconnectedCallback()
+      }
     }
 
     private [createDispatchMap]() {
@@ -58,12 +62,7 @@ export function connect<T extends Constructor<Connectable>, S>(
       if (this.mapEvents) {
         const eventMap = this.mapEvents()
         for (const key in eventMap) {
-          const fn = eventMap[key]
-          this[dispatchMap][key] = function (event: Event) {
-            // TODO: add options to mixin to control
-            // event.stopImmediatePropagation()
-            store.dispatch(fn(event))
-          }.bind(this)
+          this[dispatchMap][key] = (event: Event) => store.dispatch(eventMap[key](event))
         }
       }
     }

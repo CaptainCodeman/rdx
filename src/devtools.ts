@@ -1,5 +1,5 @@
-import { Store, StoreEvent } from "./store";
-import { stateEvent } from "const";
+import { Store, StoreEvent } from "../typings"
+import { stateEvent } from "./const"
 
 declare global {
   interface Window {
@@ -24,7 +24,7 @@ export function devtools(store: Store<any>) {
       }
     })
 
-    devtools.subscribe(message => {
+    devtools.subscribe((message: any) => {
       if (message.type === 'DISPATCH' && message.state) {
         ignoreState = true
         store.state = JSON.parse(message.state)

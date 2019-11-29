@@ -1,4 +1,4 @@
-import { Store, StoreEvent, Dispatch } from "./store";
+import { Store, StoreEvent, Dispatch } from "../typings"
 import { dispatchEvent } from './const'
 
 export type ThunkAction = <S>(dispatch: Dispatch, getState: () => S) => void

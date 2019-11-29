@@ -1,12 +1,5 @@
-import { stateEvent, dispatchEvent } from "const"
-
-export type Action<P = any> = { type?: string, payload?: P }
-
-export type Dispatch = <A extends Action>(action: A) => any
-
-export type Reducer<S = any, A = Action> = (state: S, action: A) => S
-
-export type StoreEvent = { action: Action }
+import { stateEvent, dispatchEvent } from "./const"
+import { Action, Reducer, StoreEvent } from "../typings"
 
 export class Store<S> extends EventTarget {
   constructor(public state: S, public reducer: Reducer<S>) {

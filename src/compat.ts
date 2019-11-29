@@ -1,5 +1,5 @@
-import { Store, Reducer } from "./store";
-import { stateEvent } from "const";
+import { Store, Reducer } from "../typings"
+import { stateEvent } from "./const"
 
 export function compat<S>(store: Store<S>) {
   let listeners: Function[] = []

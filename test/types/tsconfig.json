@@ -1,0 +1,21 @@
+// this additional tsconfig is required by dtslint
+// see: https://github.com/Microsoft/dtslint#typestsconfigjson
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noEmit": true,
+    "baseUrl": "../../src",
+    "paths": {
+      "@captaincodeman/rdx": ["index"]
+    }
+  }
+}

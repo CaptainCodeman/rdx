@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "dist",
-    "outDir": "dist",
+    "declarationDir": "lib",
+    "outDir": "lib",
     "sourceMap": true,
     "module": "esnext",
     "target": "esnext",

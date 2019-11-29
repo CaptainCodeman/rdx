@@ -1,5 +1,6 @@
 'use strict';
 
+import pkg from './package.json';
 import typescript from 'rollup-plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
 import size from 'rollup-plugin-size';
@@ -21,7 +22,7 @@ export default [{
     thunk: 'src/thunk.ts',
   },
   output: {
-    dir: 'dist',
+    dir: 'lib',
     format: 'esm',
     sourcemap: true,
   },
@@ -29,10 +30,10 @@ export default [{
 }, {
   input: 'src/index.ts',
   output: [{
-    file: 'dist/index.cjs',
+    file: pkg.main,
     format: 'cjs',
   }, {
-    file: 'dist/index.min.js',
+    file: pkg.module,
     format: 'esm',
     sourcemap: true,
   }],
@@ -40,78 +41,10 @@ export default [{
 }, {
   input: 'src/index.ts',
   output: {
-    file: 'dist/index.umd.js',
+    file: pkg.browser,
     format: 'umd',
     name: 'store',
     esModule: false
   },
   plugins,
 }]
-
-/*
-export default [{
-  input: 'src/index.ts',
-  output: {
-    file: 'dist/index.js',
-    format: 'esm',
-    sourcemap: true,
-  },
-  plugins,
-}, {
-  input: 'src/combineReducers.ts',
-  output: {
-    file: 'dist/combineReducers.js',
-    format: 'esm',
-    sourcemap: true,
-  },
-  plugins,
-}, {
-  input: 'src/compat.ts',
-  output: {
-    file: 'dist/compat.js',
-    format: 'esm',
-    sourcemap: true,
-  },
-  plugins,
-}, {
-  input: 'src/connect.ts',
-  output: {
-    file: 'dist/connect.js',
-    format: 'esm',
-    sourcemap: true,
-  },
-  plugins,
-}, {
-  input: 'src/devtools.ts',
-  output: {
-    file: 'dist/devtools.js',
-    format: 'esm',
-    sourcemap: true,
-  },
-  plugins,
-}, {
-  input: 'src/persist.ts',
-  output: {
-    file: 'dist/persist.js',
-    format: 'esm',
-    sourcemap: true,
-  },
-  plugins,
-}, {
-  input: 'src/store.ts',
-  output: {
-    file: 'dist/store.js',
-    format: 'esm',
-    sourcemap: true,
-  },
-  plugins,
-}, {
-  input: 'src/thunk.ts',
-  output: {
-    file: 'dist/thunk.js',
-    format: 'esm',
-    sourcemap: true,
-  },
-  plugins,
-}]
-*/

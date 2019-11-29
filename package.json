@@ -2,14 +2,18 @@
   "name": "@captaincodeman/rdx",
   "version": "1.0.0-alpha.1",
   "description": "",
-  "main": "dust/index.cjs",
-  "module": "dist/index.js",
-  "browser": "dist/index.umd.js",
+  "main": "lib/index.cjs",
+  "module": "lib/index.js",
+  "browser": "lib/index.umd.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/**"
+  ],
   "scripts": {
     "tsc": "tsc --emitDeclarationOnly",
     "build": "rollup -c",
     "build:watch": "rollup -c -w",
-    "sourcemap": "source-map-explorer dist/index.min.js",
+    "sourcemap": "source-map-explorer lib/index.min.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Simon Green <simon@captaincodeman.com> (https://github.com/captaincodeman)",

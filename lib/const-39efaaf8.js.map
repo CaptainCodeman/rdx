@@ -1,1 +1,0 @@
-{"version":3,"file":"const-39efaaf8.js","sources":["../src/const.ts"],"sourcesContent":["export const dispatchEvent = 'dispatch'\nexport const stateEvent = 'state'"],"names":["dispatchEvent","stateEvent"],"mappings":"MAAaA,EAAgB,WAChBC,EAAa"}

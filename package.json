@@ -7,23 +7,43 @@
   "browser": "lib/index.umd.js",
   "types": "typings/index.d.ts",
   "files": [
-    "lib/**"
+    "lib/**",
+    "typings/**"
   ],
   "scripts": {
-    "tsc": "tsc --emitDeclarationOnly",
     "build": "rollup -c",
     "build:watch": "rollup -c -w",
     "sourcemap": "source-map-explorer lib/index.min.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
+    "test:watch": "mocha -w",
     "test:types": "dtslint ./test/types"
   },
   "author": "Simon Green <simon@captaincodeman.com> (https://github.com/captaincodeman)",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/CaptainCodeman/rdx"
+  },
+  "bugs": {
+    "url": "https://github.com/CaptainCodeman/rdx/issues"
+  },
+  "keywords": [
+    "lightweight",
+    "tiny",
+    "state",
+    "client",
+    "store",
+    "redux",
+    "immutable",
+    "reducer"
+  ],
   "devDependencies": {
     "browser-sync": "^2.26.7",
+    "chai": "^4.2.0",
     "compression": "^1.7.4",
     "conditional-type-checks": "^1.0.4",
     "dtslint": "^2.0.2",
+    "mocha": "^6.2.2",
     "redux-devtools-extension": "^2.13.8",
     "rollup": "^1.27.5",
     "rollup-plugin-size": "^0.2.0",

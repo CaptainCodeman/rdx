@@ -1,4 +1,4 @@
-import { Store, combineReducers } from '../lib/index.min.js'
+import { Store, combineReducers, thunk } from '../lib/index.min.js'
 const { expect } = chai
 
 describe('store', function() {
@@ -60,4 +60,31 @@ describe('store', function() {
     store.dispatch({ type: 'rename', payload: 'CaptainCodeman' })
     expect(action).deep.equal({ type: 'rename', payload: 'CaptainCodeman' })
   })
+
+  it('should call thunks', async function() {
+    let called = false
+    const s = thunk(store)
+    s.dispatch(() => called = true)
+    expect(called).true
+  })
+
+  it('should dispatch from async thunks', async function() {
+    let action, r
+    const p = new Promise(resolve => r = resolve)
+    const s = thunk(store)
+    s.addEventListener('dispatch', e => action = e.detail.action)
+    s.dispatch(async () => {
+      await new Promise(r => setTimeout(r, 10))
+      s.dispatch({ type: 'rename', payload: 'CaptainCodeman' })
+      r()
+    })
+    await p
+    expect(action).deep.equal({ type: 'rename', payload: 'CaptainCodeman' })
+  })
+
+  // test actions handled by middleware (not hitting reducer)
+  // test middleware chaining
+  // test devtools
+  // test persistence
+  // test element connect
 })

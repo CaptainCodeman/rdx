@@ -6,17 +6,17 @@ This is a simple immutable state store along the lines of Redux but significantl
 smaller. It helps to build apps with super-small JavaScript payloads. It provides 
 all the basic features for creating a client-side app including:
 
-Redux-like state store
-Root reducer function (combineReducers)
-Handling of async actions (Thunks)
-Mixin to connect custom elements to the store (map state and events)
+Redux-like state store (actions / reducers / middleware)
+Root reducer utility function (combineReducers)
+Handling of async actions (aka 'thunks')
+Mixin to connect custom elements to the store (map state to properties and events to store dispatch)
 
 Total size: 1.49 Kb minified / 627 bytes gzipped
 
 With additional enhancements:
 
 Redux DevTools integration for debug and time-travel
-State hydrations / persistence using localStorage
+State hydration & persistence using localStorage
 
 Total size: 2.17 Kb minified / 946 bytes gzipped
 
@@ -49,4 +49,4 @@ routing system.
 
 Together, this will make it possible to have a fully functioning app
 complete with routing, async data fetching, persistence and UI components
-in less than 8 Kb of minified JS, around 3.5 Kb compressed.
+in approximately 8 Kb of minified JS, around 3.0 Kb compressed.

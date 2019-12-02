@@ -1,22 +1,5 @@
-import { Action, Store } from '../typings'
+import { Store, Constructor, Connectable, DispatchMap } from '../typings'
 import { stateEvent } from './const'
-
-export type DispatchMap = { [key: string]: (event: Event) => void }
-
-export interface ConnectProps {
-  mapState?(state: any): { [key: string]: any }
-}
-
-export interface ConnectEvents {
-  mapEvents?(): { [key: string]: (event: Event) => Action }
-}
-
-export interface Connectable extends HTMLElement, ConnectProps, ConnectEvents {
-  connectedCallback?(): void
-  disconnectedCallback?(): void
-}
-
-export type Constructor<T> = new (...args: any[]) => T
 
 const dispatchMap: unique symbol = Symbol()
 const createDispatchMap: unique symbol = Symbol()

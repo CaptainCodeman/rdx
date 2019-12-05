@@ -1,16 +1,15 @@
-import { Store, Reducer } from "../typings"
+import { Store, Reducer, Action } from "../typings"
 import { stateEvent } from "./const"
 
+// compatibility wrapper to make store provide the Redux API
 export function compat<S>(store: Store<S>) {
-  let listeners: Function[] = []
-
-  store.addEventListener(stateEvent, () => listeners.forEach(listener => listener()))
-
   return {
-    ...store,
+    dispatch(action: Action) {
+      return store.dispatch(action)
+    },
     subscribe(listener) {
-      listeners.push(listener)
-      return () => listeners = listeners.filter(l => l !== listener)
+      store.addEventListener(stateEvent, listener)
+      return () => store.removeEventListener(stateEvent, listener)
     },
     getState() {
       return store.state

@@ -1,4 +1,4 @@
-import { Store, StoreEvent } from "../typings"
+import { Store, Action } from "../typings"
 import { stateEvent } from "./const"
 
 declare global {
@@ -16,7 +16,7 @@ export function devtools<S>(store: Store<S>) {
     let ignoreState = false
 
     store.addEventListener(stateEvent, e => {
-      const { action } = (<CustomEvent<StoreEvent>>e).detail
+      const action = (<CustomEvent<Action>>e).detail
       if (ignoreState) {
         ignoreState = false
       } else {

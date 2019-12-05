@@ -15,6 +15,7 @@ export default [{
   input: {
     index: 'src/index.ts',
     combineReducers: 'src/combineReducers.ts',
+    compat: 'src/compat.ts',
     connect: 'src/connect.ts',
     devtools: 'src/devtools.ts',
     persist: 'src/persist.ts',

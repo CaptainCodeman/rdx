@@ -1,5 +1,5 @@
 import { stateEvent, dispatchEvent } from "./const"
-import { Action, Reducer, StoreEvent } from "../typings"
+import { Action, Reducer } from "../typings"
 
 export class Store<S> extends EventTarget {
   constructor(public state: S, public reducer: Reducer<S>) {
@@ -8,16 +8,16 @@ export class Store<S> extends EventTarget {
   }
 
   dispatch(action: Action) {
-    const evt = new CustomEvent<StoreEvent>(dispatchEvent, {
+    const evt = new CustomEvent<Action>(dispatchEvent, {
       cancelable: true,
-      detail: { action },
+      detail: action,
     })
 
     if (this.dispatchEvent(evt)) {
-      action = evt.detail.action
+      action = evt.detail
       this.state = this.reducer(this.state, action)
-      this.dispatchEvent(new CustomEvent<StoreEvent>(stateEvent, {
-        detail: { action },
+      this.dispatchEvent(new CustomEvent<Action>(stateEvent, {
+        detail: action,
       }))
     }
 

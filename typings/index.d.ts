@@ -9,6 +9,8 @@ export declare class Store<S = any> extends EventTarget {
 
 export type Action<P = any> = { type?: string, payload?: P }
 
+export type ActionEvent = { action: Action }
+
 export type Dispatch = <A extends Action>(action: A) => any
 
 export type Reducer<S = any, A = Action> = (state: S, action: A) => S

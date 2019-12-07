@@ -1,4 +1,4 @@
-import { Store, Action, PersistOptions } from "../typings"
+import { Store, Action, ActionEvent, PersistOptions } from "../typings"
 import { stateEvent } from "./const"
 
 // TODO: make storage plugable (localStorage, indexedDB etc...)
@@ -23,7 +23,7 @@ export function persist<S>(store: Store<S>, options?: Partial<PersistOptions<S>>
   let task = 0
 
   store.addEventListener(stateEvent, e => {
-    const action = (<CustomEvent<Action>>e).detail
+    const { action } = (<CustomEvent<ActionEvent>>e).detail
 
     if (opt.filter(action)) {
       if (task) {

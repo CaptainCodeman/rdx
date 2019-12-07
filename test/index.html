@@ -12,6 +12,7 @@
   mocha.setup('bdd')
 </script>
 <script type="module">
+  import './compat.js'
   import './store.js'
 
   mocha.checkLeaks();

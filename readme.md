@@ -9,14 +9,14 @@ This is a simple immutable state store along the lines of Redux but significantl
 * Handling of async actions (aka 'thunks')
 * Mixin to connect custom elements to the store (map state to properties and events to store dispatch)
 
-Total size: 1.45 Kb minified / 615 bytes gzipped
+Total size: 1.48 Kb minified / 656 bytes gzipped
 
 With additional enhancements:
 
 * Redux DevTools integration for debug and time-travel
 * State hydration & persistence using localStorage
 
-Total size: 2.11 Kb minified / 921 bytes gzipped
+Total size: 2.16 Kb minified / 963 bytes gzipped
 
 See a fully functional [example app](https://github.com/CaptainCodeman/rdx-example) built using this.
 

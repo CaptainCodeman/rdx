@@ -9,7 +9,7 @@ export function thunk<S>(store: Store<S>) {
 
     if (typeof action === 'function') {
       const thunk = <ThunkAction>action
-      thunk(dispatch, store.state)
+      thunk(dispatch, () => store.state)
 
       // stop event going to other listeners (we've handled it)
       e.stopImmediatePropagation()

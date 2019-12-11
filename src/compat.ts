@@ -1,11 +1,10 @@
-import { Store as ReduxStore, Reducer as ReduxReducer, AnyAction, Middleware } from 'redux'
+import { Store as ReduxStore, Reducer as ReduxReducer, AnyAction, Middleware, Observable } from 'redux'
 import { Store, ActionEvent, Reducer } from "../typings"
 import { dispatchEvent, stateEvent } from "./const"
 
 // compatibility wrapper to make store provide the Redux API
 export function compat<S>(store: Store<S>): ReduxStore<S> {
   return {
-    // TODO: fix up this type mismatch
     dispatch(action: AnyAction) {
       return store.dispatch(action)
     },
@@ -18,7 +17,9 @@ export function compat<S>(store: Store<S>): ReduxStore<S> {
     },
     replaceReducer(reducer: ReduxReducer<S>) {
       store.reducer = reducer as Reducer<S>
-    }
+    },
+    // TODO: implement observable ...
+    [Symbol.observable]() { return {} as Observable<S> }
   }
 }
 

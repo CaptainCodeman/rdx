@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-export function devtools<S, T extends Store<S>>(store: T) {
+export function devtools<T extends Store>(store: T) {
   const extension = window.__REDUX_DEVTOOLS_EXTENSION__
   
   if (extension) {

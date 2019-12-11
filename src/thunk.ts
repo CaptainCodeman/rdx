@@ -1,7 +1,7 @@
 import { Store, ActionEvent, ThunkAction } from "../typings"
 import { dispatchEvent } from './const'
 
-export function thunk<S>(store: Store<S>) {
+export function thunk<T extends Store>(store: T) {
   const dispatch = store.dispatch.bind(store)
 
   store.addEventListener(dispatchEvent, e => {

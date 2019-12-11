@@ -1,7 +1,7 @@
 import { Store, Action, ActionEvent, PersistOptions } from "../typings"
 import { stateEvent } from "./const"
 
-export function persist<S, T extends Store<S>>(store: T, options?: Partial<PersistOptions<S>>) {
+export function persist<S, T extends Store>(store: T, options?: Partial<PersistOptions<S>>) {
   const opt = {
     name: location.hostname,
     storage: localStorage,

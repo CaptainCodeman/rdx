@@ -53,7 +53,7 @@ export declare function connect<T extends Constructor<Connectable>, S>(
 
 // === devtools ===
 
-export declare function devtools<S, T extends Store<S>>(store: T): T
+export declare function devtools<T extends Store>(store: T): T
 
 // === persist ===
 
@@ -93,10 +93,10 @@ export interface PersistOptions<S> {
   // TODO: version for updates, expiry etc...
 }
 
-export declare function persist<S, T extends Store<S>>(store: T, options?: Partial<PersistOptions<S>>): T
+export declare function persist<S, T extends Store>(store: T, options?: Partial<PersistOptions<S>>): T
 
 // === thunk ===
 
 export type ThunkAction = <S>(dispatch: Dispatch, getState: GetState<S>) => void
 
-export declare function thunk<S>(store: Store<S>): Store<S>
+export declare function thunk<T extends Store>(store: T): T

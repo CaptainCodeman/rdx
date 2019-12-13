@@ -87,7 +87,7 @@ export interface PersistOptions<S> {
   // delay introduces a delay before the save is performed. If another persist
   // is triggered before it expires, the previous persist is cancelled and a
   // new one scheduled. This can save doing too many persist operations by
-  // debouncing the triggering. Default is 0 delay
+  // debouncing the triggering. Default is 0ms
   delay: number
 
   // TODO: version for updates, expiry etc...

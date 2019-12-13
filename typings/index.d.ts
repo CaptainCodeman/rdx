@@ -2,12 +2,16 @@
 
 export declare class Store<S = any> extends EventTarget {
   constructor(state: S, reducer: Reducer<S>);
-  dispatch(action: Action): Action<any>;
+  dispatch: Dispatch;
   reducer: Reducer<S>;
   state: S;
 }
 
 export type Action<P = any> = { type?: string, payload?: P }
+
+export type ActionEvent = { action: Action }
+
+export type GetState<S> = () => S
 
 export type Dispatch = <A extends Action>(action: A) => any
 
@@ -49,7 +53,7 @@ export declare function connect<T extends Constructor<Connectable>, S>(
 
 // === devtools ===
 
-export declare function devtools<S>(store: Store<S>): Store<S>
+export declare function devtools<T extends Store>(store: T): T
 
 // === persist ===
 
@@ -57,6 +61,20 @@ export interface PersistOptions<S> {
   // name sets the state key to use, useful in development to avoid conflict
   // with other apps. Default is to use the app location hostname
   name: string
+
+  // provide a hook where the serialization could be provided, e.g. by using
+  // something like https://github.com/KilledByAPixel/JSONCrush. Default is
+  // the JSON serializer
+  serializer: {
+    parse(text: string): any
+    stringify(value: any): string
+  }
+
+  // provide a hook where the storage can be replaced. Default is localStorage
+  storage: {
+    getItem(name: string): string | null
+    setItem(name: string, value: string): void
+  }
 
   // filter predicate allows control over whether to persist state based on 
   // the action. Default is to trigger persistence after all actions
@@ -69,16 +87,16 @@ export interface PersistOptions<S> {
   // delay introduces a delay before the save is performed. If another persist
   // is triggered before it expires, the previous persist is cancelled and a
   // new one scheduled. This can save doing too many persist operations by
-  // debouncing the triggering. Default is 0 delay
+  // debouncing the triggering. Default is 0ms
   delay: number
 
   // TODO: version for updates, expiry etc...
 }
 
-export declare function persist<S>(store: Store<S>, options?: Partial<PersistOptions<S>>): Store<S>
+export declare function persist<S, T extends Store>(store: T, options?: Partial<PersistOptions<S>>): T
 
 // === thunk ===
 
-export type ThunkAction = <S>(dispatch: Dispatch, state: S) => void
+export type ThunkAction = <S>(dispatch: Dispatch, getState: GetState<S>) => void
 
-export declare function thunk<S>(store: Store<S>): Store<S>
+export declare function thunk<T extends Store>(store: T): T

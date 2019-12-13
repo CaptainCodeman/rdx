@@ -1,4 +1,4 @@
-import { Store, Action } from "../typings"
+import { Store, ActionEvent } from "../typings"
 import { stateEvent } from "./const"
 
 declare global {
@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-export function devtools<S>(store: Store<S>) {
+export function devtools<T extends Store>(store: T) {
   const extension = window.__REDUX_DEVTOOLS_EXTENSION__
   
   if (extension) {
@@ -16,7 +16,7 @@ export function devtools<S>(store: Store<S>) {
     let ignoreState = false
 
     store.addEventListener(stateEvent, e => {
-      const action = (<CustomEvent<Action>>e).detail
+      const { action } = (<CustomEvent<ActionEvent>>e).detail
       if (ignoreState) {
         ignoreState = false
       } else {

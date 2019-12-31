@@ -1,5 +1,5 @@
-import { stateEvent, dispatchEvent } from "./const"
-import { Action, ActionEvent, Reducer } from "../typings"
+import { Action, ActionEvent, Reducer } from '../typings'
+import { dispatchEvent, stateEvent } from './const'
 
 export class Store<S> extends EventTarget {
   constructor(public state: S, public reducer: Reducer<S>) {

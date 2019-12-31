@@ -42,7 +42,7 @@ export interface ConnectProps {
 }
 
 export interface ConnectEvents {
-  mapEvents?(): { [key: string]: (event: Event) => Action }
+  mapEvents?(): DispatchMap
 }
 
 export interface Connectable extends HTMLElement, ConnectProps, ConnectEvents {

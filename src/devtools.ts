@@ -1,5 +1,5 @@
-import { Store, ActionEvent } from "../typings"
-import { stateEvent } from "./const"
+import { Store, ActionEvent } from '../typings'
+import { stateEvent } from './const'
 
 declare global {
   interface Window {

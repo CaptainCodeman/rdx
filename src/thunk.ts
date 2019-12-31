@@ -1,4 +1,4 @@
-import { Store, ActionEvent, ThunkAction } from "../typings"
+import { Store, ActionEvent, ThunkAction } from '../typings'
 import { dispatchEvent } from './const'
 
 export function thunk<T extends Store>(store: T) {

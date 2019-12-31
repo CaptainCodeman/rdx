@@ -41,13 +41,9 @@ export function connect<T extends Constructor<Connectable>, S>(
     }
 
     private [createDispatchMap]() {
-      this[dispatchMap] = {}
-      if (this.mapEvents) {
-        const eventMap = this.mapEvents()
-        for (const key in eventMap) {
-          this[dispatchMap][key] = (event: Event) => store.dispatch(eventMap[key](event))
-        }
-      }
+      this[dispatchMap] = this.mapEvents
+        ? this.mapEvents()
+        : {}
     }
 
     private [addEventListeners]() {

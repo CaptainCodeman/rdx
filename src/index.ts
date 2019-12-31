@@ -1,5 +1,6 @@
 export * from './combineReducers'
 export * from './connect'
+export * from './const'
 export * from './devtools'
 export * from './persist'
 export * from './store'

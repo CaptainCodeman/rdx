@@ -1,5 +1,11 @@
 // === store / combineReducers ===
 
+export type DispatchEvent = 'action'
+export type StateEvent = 'state'
+
+export const dispatchEvent: DispatchEvent
+export const stateEvent: StateEvent
+
 export declare class Store<S = any> extends EventTarget {
   constructor(state: S, reducer: Reducer<S>);
   dispatch: Dispatch;

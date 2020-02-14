@@ -49,7 +49,7 @@ describe('store', function() {
 
   it('should dispatch event when action dispatched', function() {
     let action
-    store.addEventListener('dispatch', e => action = e.detail.action)
+    store.addEventListener('action', e => action = e.detail.action)
     store.dispatch({ type: 'rename', payload: 'CaptainCodeman' })
     expect(action).deep.equal({ type: 'rename', payload: 'CaptainCodeman' })
   })
@@ -72,7 +72,7 @@ describe('store', function() {
     let action, r
     const p = new Promise(resolve => r = resolve)
     const s = thunk(store)
-    s.addEventListener('dispatch', e => action = e.detail.action)
+    s.addEventListener('action', e => action = e.detail.action)
     s.dispatch(async () => {
       await new Promise(r => setTimeout(r, 10))
       s.dispatch({ type: 'rename', payload: 'CaptainCodeman' })

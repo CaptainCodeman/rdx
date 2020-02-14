@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "declarationDir": "lib",
     "outDir": "lib",
     "sourceMap": true,
     "module": "esnext",
@@ -11,9 +9,7 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "noImplicitReturns": true,
-    "noImplicitAny": false,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
     "lib": [
       "esnext",
       "dom"

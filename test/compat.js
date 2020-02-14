@@ -1,5 +1,5 @@
 import { Store } from '../lib/index.min.js'
-import { middlewareAdaptor } from '../lib/compat.js'
+import { applyMiddleware } from '../lib/compat.js'
 const { expect } = chai
 
 describe('compat', function() {
@@ -27,13 +27,13 @@ describe('compat', function() {
   })
 
   it('should handle in middleware', async function() {
-    const s = middlewareAdaptor(store, testMiddleware)
+    const s = applyMiddleware(store, testMiddleware)
     s.dispatch({ type: 'handled'})
     expect(count).to.equal(0)
   })
 
   it('should not handle in middleware', async function() {
-    const s = middlewareAdaptor(store, testMiddleware)
+    const s = applyMiddleware(store, testMiddleware)
     s.dispatch({ type: 'unhandled'})
     expect(count).to.equal(1)
   })

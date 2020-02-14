@@ -1,7 +1,7 @@
 'use strict';
 
 import pkg from './package.json';
-import typescript from 'rollup-plugin-typescript';
+import typescript from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
 import size from 'rollup-plugin-size';
 

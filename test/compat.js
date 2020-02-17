@@ -1,4 +1,4 @@
-import { Store } from '../lib/index.min.js'
+import { Store } from '../lib/index.js'
 import { applyMiddleware } from '../lib/compat.js'
 const { expect } = chai
 

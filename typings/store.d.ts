@@ -11,11 +11,11 @@ export declare class Store<S = any> extends EventTarget {
   state: S;
 }
 
-export type Action<P = any> = { type?: string, payload?: P }
+export interface Action<P = any> { type?: string, payload?: P }
 
-export type ActionEvent = { action: Action }
+export interface ActionEvent { action: Action }
 
-export type GetState<S> = () => S
+export type GetState<S = any> = () => S
 
 export type Dispatch = <A extends Action>(action: A) => any
 

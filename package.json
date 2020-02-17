@@ -1,10 +1,9 @@
 {
   "name": "@captaincodeman/rdx",
   "version": "1.0.0-rc.1",
-  "description": "",
-  "main": "lib/index.cjs",
+  "description": "Small state library. Like Redux, but smaller",
+  "type": "module",
   "module": "lib/index.js",
-  "browser": "lib/index.umd.js",
   "types": "typings/index.d.ts",
   "files": [
     "lib/**",
@@ -13,7 +12,6 @@
   "scripts": {
     "build": "rollup -c",
     "build:watch": "rollup -c -w",
-    "sourcemap": "source-map-explorer lib/index.min.js",
     "test": "mocha",
     "test:watch": "mocha -w",
     "test:types": "dtslint ./test/types",
@@ -44,13 +42,12 @@
     "chai": "^4.2.0",
     "compression": "^1.7.4",
     "conditional-type-checks": "^1.0.5",
-    "dtslint": "^2.0.6",
+    "dtslint": "^3.0.0",
     "mocha": "^7.0.1",
     "redux": "^4.0.5",
     "rollup": "^1.31.1",
     "rollup-plugin-size": "^0.2.2",
     "rollup-plugin-terser": "^5.2.0",
-    "source-map-explorer": "^2.2.2",
     "tslib": "^1.10.0",
     "typescript": "^3.7.5"
   }

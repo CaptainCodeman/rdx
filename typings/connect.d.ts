@@ -1,6 +1,6 @@
 import { Store } from './store'
 
-export type DispatchMap = { [key: string]: (event: Event) => void }
+export interface DispatchMap { [key: string]: (event: Event) => void }
 
 export interface ConnectProps {
   mapState?(state: any): { [key: string]: any }

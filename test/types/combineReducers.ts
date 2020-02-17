@@ -2,7 +2,7 @@ import { assert, IsExact } from "conditional-type-checks"
 import { combineReducers } from '@captaincodeman/rdx'
 import { Action } from "../../typings"
 
-interface RootState {
+interface State {
   count: number
   name: string
 }
@@ -14,8 +14,8 @@ const reducers = {
 
 const reducer = combineReducers(reducers)
 
-assert<IsExact<{(state: RootState, action: Action): RootState }, typeof reducer>>(true)
+assert<IsExact<{(state: State, action: Action): State }, typeof reducer>>(true)
 
 const state = reducer({ count: 0, name: '' }, {})
 
-assert<IsExact<RootState, typeof state>>(true)
+assert<IsExact<State, typeof state>>(true)

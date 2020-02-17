@@ -1,4 +1,4 @@
-import { Store, combineReducers, thunk } from '../lib/index.min.js'
+import { Store, combineReducers, thunk } from '../lib/index.js'
 const { expect } = chai
 
 describe('store', function() {

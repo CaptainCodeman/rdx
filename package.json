@@ -1,6 +1,6 @@
 {
   "name": "@captaincodeman/rdx",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "description": "Small state library. Like Redux, but smaller",
   "type": "module",
   "module": "lib/index.js",

@@ -1,4 +1,4 @@
-import { createModel } from "../../typings"
+import { createModel } from "../../typings/model"
 import { Store } from "./effects-types"
 
 export const testModel = createModel({

@@ -1,6 +1,6 @@
 import { assert, IsExact } from "conditional-type-checks"
 
-import { ActionFromModelReducer, ActionsFromModelReducers, ActionFromModelEffect, ActionsFromModelEffects, ModelDispatch } from "../../typings"
+import { ActionFromModelReducer, ActionsFromModelReducers, ActionFromModelEffect, ActionsFromModelEffects, ModelDispatch } from "../../typings/model"
 
 enum Things {
   One,

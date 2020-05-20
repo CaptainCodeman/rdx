@@ -1,4 +1,4 @@
-import { Action, ActionEvent, Reducer } from '../typings'
+import { Action, ActionEvent, Reducer } from '../typings/store'
 import { dispatchEvent, stateEvent } from './const'
 
 export class Store<S> extends EventTarget {

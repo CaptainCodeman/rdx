@@ -1,8 +1,9 @@
 import { Matcher, Result } from '@captaincodeman/router'
 
-import { createModel } from './createModel'
+import { RoutingOptions, RoutingState, RoutingDispatch } from '../typings/routing'
+import { Store } from '../typings/modelStore'
 
-import { RoutingState, RoutingOptions, RoutingDispatch, ModelsStore } from "../typings"
+import { createModel } from './createModel'
 
 const history = window.history
 const popstate = 'popstate'
@@ -44,7 +45,7 @@ export const routingPluginFactory = (router: Matcher, options?: Partial<RoutingO
       }),
     }),
 
-    onStore(store: ModelsStore) {
+    onStore(store: Store) {
       // TODO: pass in typed 'this' so it can access it's own dispatch + state
       // also, name should be whatever name is being assigned to this plugin
       const dispatch = store.dispatch['routing'] as unknown as RoutingDispatch

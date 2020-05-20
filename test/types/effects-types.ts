@@ -1,4 +1,5 @@
-import { StoreState, StoreDispatch, ModelStore } from '../../typings'
+import { StoreState, StoreDispatch } from '../../typings/modelStore'
+import { ModelStore } from '../../typings/model'
 
 import { testConfig } from './effects-config'
 

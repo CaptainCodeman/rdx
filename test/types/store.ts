@@ -2,7 +2,9 @@ import { assert, Has, IsExact } from "conditional-type-checks"
 
 import createMatcher from '@captaincodeman/router'
 
-import { StoreDispatch, StoreState, RoutingState, routingPluginFactory, createModel } from '../../typings'
+import { createModel } from '../../typings/model'
+import { StoreDispatch, StoreState } from '../../typings/modelStore'
+import { RoutingState, routingPluginFactory } from '../../typings/routing'
 
 const routes = {
   '/test': 'test-view',

@@ -1,6 +1,6 @@
 import { assert, IsExact } from "conditional-type-checks"
 import { combineReducers } from 'combineReducers'
-import { Action } from "../../typings"
+import { Action } from "../../typings/store"
 
 interface State {
   count: number

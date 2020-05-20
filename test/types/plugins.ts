@@ -1,6 +1,6 @@
 import { assert, IsExact } from "conditional-type-checks"
 
-import { ExtractModelsFromPlugins, KeysOfPluginsWithModels, PluginsModels, ExtractConfigPlugins, ExtractConfigModels, ConfigModels } from '../../typings'
+import { ExtractModelsFromPlugins, KeysOfPluginsWithModels, PluginsModels, ExtractConfigPlugins, ExtractConfigModels, ConfigModels } from '../../typings/modelStore'
 import { createModel } from "createModel"
 
 const oneModel = createModel({

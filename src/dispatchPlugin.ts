@@ -1,8 +1,9 @@
+import { Model } from "../typings/model"
+import { Store } from "../typings/modelStore"
+
 import { actionType } from "./actionType"
 
-import { Model, ModelsStore } from "../typings"
-
-export const createDispatcher = (store: ModelsStore, name: string, key: string) => {
+export const createDispatcher = (store: Store, name: string, key: string) => {
   const type = actionType(name, key)
   store.dispatch[name][key] = (payload?: any): any => {
     const action = { type, ...(payload !== undefined && { payload }) }
@@ -12,7 +13,7 @@ export const createDispatcher = (store: ModelsStore, name: string, key: string) 
 }
 
 export const dispatchPlugin = {
-  onModel(store: ModelsStore, name: string, model: Model) {
+  onModel(store: Store, name: string, model: Model) {
     store.dispatch[name] = {}
 
     for (const key in model.reducers) {

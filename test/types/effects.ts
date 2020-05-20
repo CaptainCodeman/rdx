@@ -1,6 +1,6 @@
 import { assert, IsExact } from "conditional-type-checks"
 
-import { ExtractConfigModels, ConfigModels } from '../../typings'
+import { ExtractConfigModels, ConfigModels } from '../../typings/modelStore'
 
 import { testConfig, testModel } from './effects-config'
 

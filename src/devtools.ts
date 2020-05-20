@@ -1,4 +1,4 @@
-import { Store, ActionEvent } from '../typings'
+import { Store, ActionEvent } from '../typings/store'
 import { stateEvent } from './const'
 
 declare global {

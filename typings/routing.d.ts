@@ -1,7 +1,7 @@
 import { Result, Matcher } from "@captaincodeman/router"
 
 import { Model } from "./model"
-import { Plugin, ModelsStore } from './modelStore'
+import { Plugin, Store } from './modelStore'
 
 type RoutingReducers = {
   change: (state: any, payload: RoutingState) => RoutingState
@@ -22,7 +22,7 @@ interface RoutingPlugin extends Plugin {
 
   // TODO: thinking about it, why do we need 'onModel'? Can't we just handle
   // the store as a whole and the plugin can iterate the models if it wants?
-  onStore?(store: ModelsStore): void
+  onStore?(store: Store): void
 }
 
 export declare function routingPluginFactory(router: Matcher, options?: Partial<RoutingOptions>): RoutingPlugin

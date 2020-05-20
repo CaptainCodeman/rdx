@@ -27,7 +27,7 @@ const testConfig = {
   },
   plugins: {
     two: { model: twoModel },
-    three: { },
+    three: {},
   },
 }
 

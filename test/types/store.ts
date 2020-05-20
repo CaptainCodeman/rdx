@@ -33,11 +33,11 @@ const configWithRouting = {
 type dispatchWithRouting = StoreDispatch<typeof configWithRouting>
 
 assert<Has<dispatchWithRouting, {
-  count: { 
+  count: {
     inc: () => void,
     incBy: (payload: number) => void
   },
-  routing: { 
+  routing: {
     back: () => void,
     change: (payload: RoutingState) => void,
     forward: () => void,
@@ -73,7 +73,7 @@ const configNoPlugins = {
 type dispatchNoPlugins = StoreDispatch<typeof configNoPlugins>
 
 assert<Has<dispatchNoPlugins, {
-  count: { 
+  count: {
     inc: () => void,
     incBy: (payload: number) => void
   },

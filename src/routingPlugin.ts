@@ -2,7 +2,7 @@ import { Matcher, Result } from '@captaincodeman/router'
 
 import { createModel } from './createModel'
 
-import { RoutingState, RoutingOptions, RoutingDispatch, StoreX } from "../typings"
+import { RoutingState, RoutingOptions, RoutingDispatch, ModelsStore } from "../typings"
 
 const history = window.history
 const popstate = 'popstate'
@@ -44,11 +44,11 @@ export const routingPluginFactory = (router: Matcher, options?: Partial<RoutingO
       }),
     }),
 
-    onStore(store: StoreX) {
+    onStore(store: ModelsStore) {
       // TODO: pass in typed 'this' so it can access it's own dispatch + state
       // also, name should be whatever name is being assigned to this plugin
       const dispatch = store.dispatch['routing'] as unknown as RoutingDispatch
-      
+
       // listen for route changes
       const routeChanged = () => {
         const route = router(location.pathname)
@@ -92,12 +92,12 @@ const isDownload = (a: HTMLAnchorElement) => a.hasAttribute('download')
 const isTargeted = (a: HTMLAnchorElement) => a.target
 
 // if a non-default click or modifier key is used with the click, we leave native behavior
-const isModified = (e: MouseEvent) => (e.button && e.button !== 0) 
-                                    || e.metaKey
-                                    || e.altKey
-                                    || e.ctrlKey
-                                    || e.shiftKey
-                                    || e.defaultPrevented
+const isModified = (e: MouseEvent) => (e.button && e.button !== 0)
+  || e.metaKey
+  || e.altKey
+  || e.ctrlKey
+  || e.shiftKey
+  || e.defaultPrevented
 
 // get the anchor element clicked on, taking into account shadowDom components
 const getAnchor = (e: MouseEvent) => <HTMLAnchorElement>e.composedPath().find(n => (n as HTMLElement).tagName === 'A')
@@ -106,11 +106,11 @@ const getAnchor = (e: MouseEvent) => <HTMLAnchorElement>e.composedPath().find(n 
 const clickHandler = (e: MouseEvent) => {
   const anchor = getAnchor(e)
   return anchor === undefined // not a link
-      || !isInternal(anchor) 
-      || isDownload(anchor) 
-      || isExternal(anchor) 
-      || isTargeted(anchor)
-      || isModified(e)
+    || !isInternal(anchor)
+    || isDownload(anchor)
+    || isExternal(anchor)
+    || isTargeted(anchor)
+    || isModified(e)
     ? null
     : anchor.href
 }
@@ -128,14 +128,14 @@ export const withQuerystring = (result: Result) => {
 function parseQuery(params: URLSearchParams) {
   const q: { [key: string]: string | string[] } = {}
   for (const p of params.entries()) {
-    const [ k, v ] = p
+    const [k, v] = p
     const c = q[k]
     if (c) {
-        if (Array.isArray(c)) {
-          c.push(v)
-        } else {
-          q[k] = [c, v]
-        }
+      if (Array.isArray(c)) {
+        c.push(v)
+      } else {
+        q[k] = [c, v]
+      }
     } else {
       q[k] = v
     }

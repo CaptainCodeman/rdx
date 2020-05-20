@@ -1,4 +1,4 @@
-import { Plugins, Config, StoreX, ConfigModels, Reducer, Action } from '../typings'
+import { Plugins, Config, ModelsStore, ConfigModels, Reducer, Action } from '../typings'
 
 import { actionType } from './actionType'
 import { dispatchPlugin } from './dispatchPlugin'
@@ -8,11 +8,11 @@ import { Store } from './store'
 
 const corePlugins: Plugins = { dispatchPlugin, effectsPlugin }
 
-export const createStore = <C extends Config>(config: C): StoreX<ConfigModels<C>> => {
+export const createStore = <C extends Config>(config: C): ModelsStore<ConfigModels<C>> => {
   const models = { ...config.models }
-  
+
   // add models from plugins
-  const plugins: Plugins = {...corePlugins, ...config.plugins}
+  const plugins: Plugins = { ...corePlugins, ...config.plugins }
   for (const name in plugins) {
     const plugin = plugins[name]
     if (plugin.model) {
@@ -39,14 +39,14 @@ export const createStore = <C extends Config>(config: C): StoreX<ConfigModels<C>
   // create store
   const rootReducer = combineReducers(reducers)
   const initialState = config && config.state
-  const store = <StoreX<ConfigModels<C>>>new Store(initialState, rootReducer)
+  const store = <ModelsStore<ConfigModels<C>>>new Store(initialState, rootReducer)
 
   // give each plugin chance to handle the models
   for (const name in plugins) {
     const plugin = plugins[name]
     if (plugin.onModel) {
       for (const name in models) {
-        plugin.onModel(<StoreX>store, name, models[name])
+        plugin.onModel(<ModelsStore>store, name, models[name])
       }
     }
   }
@@ -55,9 +55,9 @@ export const createStore = <C extends Config>(config: C): StoreX<ConfigModels<C>
   for (const name in plugins) {
     const plugin = plugins[name]
     if (plugin.onStore) {
-      plugin.onStore(<StoreX>store)
+      plugin.onStore(<ModelsStore>store)
     }
   }
 
-  return <StoreX<ConfigModels<C>>>store
+  return <ModelsStore<ConfigModels<C>>>store
 }

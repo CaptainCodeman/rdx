@@ -14,7 +14,7 @@ const reducers = {
 
 const reducer = combineReducers(reducers)
 
-assert<IsExact<{(state: State, action: Action): State }, typeof reducer>>(true)
+assert<IsExact<{ (state: State, action: Action): State }, typeof reducer>>(true)
 
 const state = reducer({ count: 0, name: '' }, {})
 

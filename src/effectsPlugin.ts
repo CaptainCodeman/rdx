@@ -1,4 +1,4 @@
-import { Model, StoreX, EffectFn, ActionEvent } from "../typings"
+import { Model, ModelsStore, EffectFn, ActionEvent } from "../typings"
 
 import { createDispatcher } from "./dispatchPlugin"
 import { stateEvent } from "./const"
@@ -7,7 +7,7 @@ const effects: { [type: string]: EffectFn[] } = {}
 const inits: Function[] = []
 
 export const effectsPlugin = {
-  onModel(store: StoreX, name: string, model: Model) {
+  onModel(store: ModelsStore, name: string, model: Model) {
     if (!model.effects) {
       return
     }
@@ -35,7 +35,7 @@ export const effectsPlugin = {
     }
   },
 
-  onStore(store: StoreX) {
+  onStore(store: ModelsStore) {
     store.addEventListener(stateEvent, e => {
       const { action } = (<CustomEvent<ActionEvent>>e).detail
       const runEffects = effects[action.type!]

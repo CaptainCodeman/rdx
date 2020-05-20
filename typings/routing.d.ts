@@ -1,7 +1,7 @@
 import { Result, Matcher } from "@captaincodeman/router"
 
 import { Model } from "./model"
-import { Plugin, StoreX } from './modelStore'
+import { Plugin, ModelsStore } from './modelStore'
 
 type RoutingReducers = {
   change: (state: any, payload: RoutingState) => RoutingState
@@ -19,10 +19,10 @@ interface RoutingPlugin extends Plugin {
   // if the plugin adds any state to the store, it can define it's own model
   // which will be merged together with the application-defined models ...
   model: Model<RoutingState, RoutingReducers, RoutingEffects>
-  
+
   // TODO: thinking about it, why do we need 'onModel'? Can't we just handle
   // the store as a whole and the plugin can iterate the models if it wants?
-  onStore?(store: StoreX): void
+  onStore?(store: ModelsStore): void
 }
 
 export declare function routingPluginFactory(router: Matcher, options?: Partial<RoutingOptions>): RoutingPlugin
@@ -48,6 +48,4 @@ export interface RoutingOptions {
 
 export function withQuerystring(result: Result): RoutingState
 
-export type RoutingChange = 'routing/change'
-
-export const routingChange: RoutingChange
+export const routingChange = 'routing/change'

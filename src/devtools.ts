@@ -9,7 +9,7 @@ declare global {
 
 export function devtools<T extends Store>(store: T) {
   const extension = window.__REDUX_DEVTOOLS_EXTENSION__
-  
+
   if (extension) {
     const devtools = extension.connect()
 
@@ -32,9 +32,9 @@ export function devtools<T extends Store>(store: T) {
         store.dispatch({})
       }
     })
-    
+
     devtools.init(store.state)
   }
-  
+
   return store
 }

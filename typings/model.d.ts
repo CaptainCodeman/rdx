@@ -28,7 +28,7 @@ export interface Model<S = any, R extends ReducerFns<S> = any, E extends EffectF
   [key: string]: any
 }
 
-type ActionFromModelReducer<S, R extends ReducerFn<S>> = 
+type ActionFromModelReducer<S, R extends ReducerFn<S>> =
   R extends (state: S) => S ? () => void :
   R extends (state: S, payload: infer P) => S ? (payload: P) => void : never
 
@@ -36,7 +36,7 @@ type ActionsFromModelReducers<S, R extends ReducerFns<S>> = {
   [K in keyof R]: ActionFromModelReducer<S, R[K]>
 }
 
-type ActionFromModelEffect<R extends EffectFn> = 
+type ActionFromModelEffect<R extends EffectFn> =
   R extends () => void ? () => void :
   R extends (payload: infer P) => void ? (payload: P) => void : never
 

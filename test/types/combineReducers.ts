@@ -1,5 +1,5 @@
 import { assert, IsExact } from "conditional-type-checks"
-import { combineReducers } from '@captaincodeman/rdx'
+import { combineReducers } from 'combineReducers'
 import { Action } from "../../typings"
 
 interface State {

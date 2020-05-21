@@ -1,6 +1,6 @@
 import { assert, IsExact } from "conditional-type-checks"
 
-import { ActionFromModelReducer, ActionsFromModelReducers, ActionFromModelEffect, ActionsFromModelEffects, ModelDispatch } from "../../typings/model"
+import { ActionFromModelReducerFn, ActionsFromModelReducerFns, ActionFromModelEffectFn, ActionsFromModelEffectFns, ModelDispatch } from "../../typings/model"
 
 enum Things {
   One,
@@ -46,26 +46,26 @@ interface testDispatcherType {
 }
 
 // test individual patterns
-type objectActionType = ActionFromModelReducer<TestState, typeof testReducers.object>
+type objectActionType = ActionFromModelReducerFn<TestState, typeof testReducers.object>
 assert<IsExact<(payload: { count: number }) => void, objectActionType>>(true)
 
-type numberActionType = ActionFromModelReducer<TestState, typeof testReducers.number>
+type numberActionType = ActionFromModelReducerFn<TestState, typeof testReducers.number>
 assert<IsExact<(payload: number) => void, numberActionType>>(true)
 
-type voidActionType = ActionFromModelReducer<TestState, typeof testReducers.void>
+type voidActionType = ActionFromModelReducerFn<TestState, typeof testReducers.void>
 assert<IsExact<() => void, voidActionType>>(true)
 
-type booleanActionType = ActionFromModelReducer<TestState, typeof testReducers.boolean>
+type booleanActionType = ActionFromModelReducerFn<TestState, typeof testReducers.boolean>
 assert<IsExact<(payload: boolean) => void, booleanActionType>>(true)
 
-type stringActionType = ActionFromModelReducer<TestState, typeof testReducers.string>
+type stringActionType = ActionFromModelReducerFn<TestState, typeof testReducers.string>
 assert<IsExact<(payload: string) => void, stringActionType>>(true)
 
-type enumActionType = ActionFromModelReducer<TestState, typeof testReducers.enum>
+type enumActionType = ActionFromModelReducerFn<TestState, typeof testReducers.enum>
 assert<IsExact<(payload: Things) => void, enumActionType>>(true)
 
 // test entire dispatch interface
-type actionsDispatcherType = ActionsFromModelReducers<TestState, typeof testReducers>
+type actionsDispatcherType = ActionsFromModelReducerFns<TestState, typeof testReducers>
 assert<IsExact<actionsDispatcherType, testDispatcherType>>(true)
 
 // different patterns of effect method arguments
@@ -78,26 +78,26 @@ const testEffects = {
   enum(_payload: Things) { },
 }
 
-type objectEffectType = ActionFromModelEffect<typeof testEffects.object>
+type objectEffectType = ActionFromModelEffectFn<typeof testEffects.object>
 assert<IsExact<(payload: { count: number }) => void, objectEffectType>>(true)
 
-type numberEffectType = ActionFromModelEffect<typeof testEffects.number>
+type numberEffectType = ActionFromModelEffectFn<typeof testEffects.number>
 assert<IsExact<(payload: number) => void, numberEffectType>>(true)
 
-type voidEffectType = ActionFromModelEffect<typeof testEffects.void>
+type voidEffectType = ActionFromModelEffectFn<typeof testEffects.void>
 assert<IsExact<() => void, voidEffectType>>(true)
 
-type booleanEffectType = ActionFromModelEffect<typeof testEffects.boolean>
+type booleanEffectType = ActionFromModelEffectFn<typeof testEffects.boolean>
 assert<IsExact<(payload: boolean) => void, booleanEffectType>>(true)
 
-type stringEffectType = ActionFromModelEffect<typeof testEffects.string>
+type stringEffectType = ActionFromModelEffectFn<typeof testEffects.string>
 assert<IsExact<(payload: string) => void, stringEffectType>>(true)
 
-type enumEffectType = ActionFromModelEffect<typeof testEffects.enum>
+type enumEffectType = ActionFromModelEffectFn<typeof testEffects.enum>
 assert<IsExact<(payload: Things) => void, enumEffectType>>(true)
 
 // test entire dispatch interface
-type effectsDispatcherType = ActionsFromModelEffects<typeof testEffects>
+type effectsDispatcherType = ActionsFromModelEffectFns<typeof testEffects>
 assert<IsExact<effectsDispatcherType, testDispatcherType>>(true)
 
 // test combined (same reducers and effects)

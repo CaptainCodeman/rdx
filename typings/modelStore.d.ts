@@ -12,8 +12,6 @@ export interface Plugin<M extends Model = Model> {
   // whatever it needs to do based on each one.
   onModel?<M extends Model>(store: Store, name: string, model: M): void
 
-  // TODO: thinking about it, why do we need 'onModel'? Can't we just handle
-  // the store as a whole and the plugin can iterate the models if it wants?
   onStore?(store: Store): void
 }
 

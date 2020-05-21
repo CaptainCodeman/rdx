@@ -29,22 +29,22 @@ export interface Model<S = any, R extends ReducerFns<S> = any, E extends EffectF
   [key: string]: any
 }
 
-type ActionFromModelReducer<S, R extends ReducerFn<S>> =
+type ActionFromModelReducerFn<S, R extends ReducerFn<S>> =
   R extends (state: S) => S ? () => void :
   R extends (state: S, payload: infer P) => S ? (payload: P) => void : never
 
-type ActionsFromModelReducers<S, R extends ReducerFns<S>> = {
-  [K in keyof R]: ActionFromModelReducer<S, R[K]>
+type ActionsFromModelReducerFns<S, R extends ReducerFns<S>> = {
+  [K in keyof R]: ActionFromModelReducerFn<S, R[K]>
 }
 
-type ActionFromModelEffect<R extends EffectFn> =
+type ActionFromModelEffectFn<R extends EffectFn> =
   R extends () => void ? () => void :
   R extends (payload: infer P) => void ? (payload: P) => void : never
 
-type ActionsFromModelEffects<R extends EffectFns> = {
-  [K in keyof R]: ActionFromModelEffect<R[K]>
+type ActionsFromModelEffectFns<R extends EffectFns> = {
+  [K in keyof R]: ActionFromModelEffectFn<R[K]>
 }
 
-type ModelDispatch<S, R extends ReducerFns<S>, E extends EffectFns> = ActionsFromModelReducers<S, R> & ActionsFromModelEffects<E>
+type ModelDispatch<S, R extends ReducerFns<S>, E extends EffectFns> = ActionsFromModelReducerFns<S, R> & ActionsFromModelEffectFns<E>
 
 export declare function createModel<S, R extends ReducerFns<S>, E extends EffectFns>(model: Model<S, R, E>): Model<S, R, E>

@@ -15,7 +15,8 @@
     "test": "mocha",
     "test:watch": "mocha -w",
     "test:types": "dtslint ./test/types",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "start": "node server.js"
   },
   "author": "Simon Green <simon@captaincodeman.com> (https://github.com/captaincodeman)",
   "license": "ISC",

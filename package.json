@@ -10,6 +10,7 @@
     "typings/**"
   ],
   "scripts": {
+    "docs": "docsify serve ./docs",
     "build": "rollup -c",
     "build:watch": "rollup -c -w",
     "test": "mocha",
@@ -43,6 +44,7 @@
     "chai": "^4.2.0",
     "compression": "^1.7.4",
     "conditional-type-checks": "^1.0.5",
+    "docsify-cli": "^4.4.0",
     "dtslint": "^3.6.3",
     "mocha": "^7.1.2",
     "redux": "^4.0.5",

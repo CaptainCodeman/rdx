@@ -2,12 +2,11 @@ const browserSync = require('browser-sync').create();
 const compression = require('compression')
 
 browserSync.init({
-  server: {
-    index: 'index.html',
-  },
+  server: true,
+  startPath: 'test/index.html',
   files: [
-    'dist/**',
-    'index.html',
+    'lib/**',
+    'test/**',
   ],
   middleware: [
     compression({ level: 9, threshold: 1 }),

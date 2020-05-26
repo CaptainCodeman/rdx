@@ -1,4 +1,5 @@
-import { Store, Constructor, Connectable, DispatchMap } from '../typings'
+import { Store } from '../typings/store'
+import { Constructor, Connectable, DispatchMap } from '../typings/connect'
 import { stateEvent } from './const'
 
 const dispatchMap: unique symbol = Symbol()

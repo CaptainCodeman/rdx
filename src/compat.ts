@@ -1,5 +1,5 @@
 import { Store as ReduxStore, Reducer as ReduxReducer, AnyAction, Middleware, Observable } from 'redux'
-import { Store, ActionEvent, Reducer } from '../typings'
+import { Store, ActionEvent, Reducer } from '../typings/store'
 import { dispatchEvent, stateEvent } from './const'
 
 // compatibility wrapper to make store provide the Redux API
@@ -8,16 +8,20 @@ export function compat<S>(store: Store<S>): ReduxStore<S> {
     dispatch(action: AnyAction) {
       return store.dispatch(action)
     },
+
     subscribe(listener) {
       store.addEventListener(stateEvent, listener)
       return () => store.removeEventListener(stateEvent, listener)
     },
+    
     getState() {
       return store.state
     },
+
     replaceReducer(reducer: ReduxReducer<S>) {
       store.reducer = reducer as Reducer<S>
     },
+
     // TODO: implement observable ...
     [Symbol.observable]() { return {} as Observable<S> }
   }

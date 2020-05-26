@@ -1,4 +1,4 @@
-import { Store, ActionEvent } from '../typings'
+import { Store, ActionEvent } from '../typings/store'
 import { stateEvent } from './const'
 
 declare global {
@@ -9,7 +9,7 @@ declare global {
 
 export function devtools<T extends Store>(store: T) {
   const extension = window.__REDUX_DEVTOOLS_EXTENSION__
-  
+
   if (extension) {
     const devtools = extension.connect()
 
@@ -32,9 +32,9 @@ export function devtools<T extends Store>(store: T) {
         store.dispatch({})
       }
     })
-    
+
     devtools.init(store.state)
   }
-  
+
   return store
 }

@@ -1,4 +1,2 @@
-import { DispatchEvent, StateEvent } from '../typings'
-
-export const dispatchEvent: DispatchEvent = 'action'
-export const stateEvent: StateEvent = 'state'
+export const dispatchEvent = 'action'
+export const stateEvent = 'state'

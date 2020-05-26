@@ -1,4 +1,5 @@
-import { Store, Action, ActionEvent, PersistOptions } from '../typings'
+import { Store, Action, ActionEvent } from '../typings/store'
+import { PersistOptions } from '../typings/persist'
 import { stateEvent } from './const'
 
 export function persist<S, T extends Store>(store: T, options?: Partial<PersistOptions<S>>) {

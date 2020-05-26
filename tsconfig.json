@@ -12,7 +12,8 @@
     "noImplicitAny": true,
     "lib": [
       "esnext",
-      "dom"
+      "dom",
+      "dom.iterable"
     ],
     "baseUrl": "src",
     "paths": {

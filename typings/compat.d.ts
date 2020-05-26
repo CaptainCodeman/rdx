@@ -1,5 +1,5 @@
-import { Store } from "./index";
-import { Middleware } from "redux";
+import { Store } from "./store"
+import { Middleware } from "redux"
 
 export function applyMiddleware<S, M1>(store: Store<S>,
   middleware1: Middleware<M1, S, any>[],

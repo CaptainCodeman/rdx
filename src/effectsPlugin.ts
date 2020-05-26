@@ -42,6 +42,7 @@ export const effectsPlugin = {
     store.addEventListener(stateEvent, e => {
       const { action } = (<CustomEvent<ActionEvent>>e).detail
       const runEffects = effects[action.type!]
+
       if (runEffects) {
         // allow the triggering action to be reduced first
         // before we handle the effect(s) running

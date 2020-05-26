@@ -18,26 +18,32 @@ export const routingPluginFactory = (router: Matcher, options?: Partial<RoutingO
   return {
     model: createModel({
       state: <RoutingState>{ page: '', params: {} },
+
       reducers: {
         change: (_state: any, payload: RoutingState): RoutingState => payload
       },
+
       effects: (_store: any) => ({
         back() {
           history.back()
           dispatchPopstate()
         },
+
         forward() {
           history.forward()
           dispatchPopstate()
         },
+
         go(payload: number) {
           history.go(payload)
           dispatchPopstate()
         },
+
         push(href: string) {
           history.pushState(null, '', href)
           dispatchPopstate()
         },
+
         replace(href: string) {
           history.replaceState(null, '', href)
           dispatchPopstate()
@@ -57,11 +63,13 @@ export const routingPluginFactory = (router: Matcher, options?: Partial<RoutingO
           dispatch.change(opt.transform(route))
         }
       }
+
       window.addEventListener(popstate, routeChanged)
 
       // listen for click events
       window.addEventListener('click', (e: MouseEvent) => {
         const href = clickHandler(e)
+
         // handler returns null if we're not to handle it
         if (href) {
           e.preventDefault()
@@ -74,7 +82,7 @@ export const routingPluginFactory = (router: Matcher, options?: Partial<RoutingO
       // it makes things easier if the app can listen for "route changes"
       // in a consistent way without special-casing it. We do this using
       // a microtask so that if the devtools middleware is being added, 
-      // this initial dispatch can be captured by them
+      // this initial dispatch can be captured by it
       queueMicrotask(routeChanged)
     }
   }

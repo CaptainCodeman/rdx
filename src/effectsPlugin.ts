@@ -1,5 +1,5 @@
 
-import { Store } from "../typings/modelStore"
+import { ModelStore } from "../typings/modelStore"
 import { Model, EffectFn } from "../typings/model"
 import { ActionEvent } from "../typings/store"
 
@@ -10,7 +10,7 @@ const effects: { [type: string]: EffectFn[] } = {}
 const inits: Function[] = []
 
 export const effectsPlugin = {
-  onModel(store: Store, name: string, model: Model) {
+  onModel(store: ModelStore, name: string, model: Model) {
     if (!model.effects) {
       return
     }
@@ -38,7 +38,7 @@ export const effectsPlugin = {
     }
   },
 
-  onStore(store: Store) {
+  onStore(store: ModelStore) {
     store.addEventListener(stateEvent, e => {
       const { action } = (<CustomEvent<ActionEvent>>e).detail
       const runEffects = effects[action.type!]

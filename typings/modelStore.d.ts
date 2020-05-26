@@ -1,6 +1,6 @@
 import { Model } from './model'
 import { Models, ModelsDispatch, ModelsState } from './models'
-import { Store as BaseStore, Dispatch } from './store'
+import { Store, Dispatch } from './store'
 
 export interface Plugin<M extends Model = Model> {
   // if the plugin adds any state to the store, it can define it's own model
@@ -10,9 +10,9 @@ export interface Plugin<M extends Model = Model> {
   // NOTE: this is *NOT* the same model as above - this is called for each
   // model in the store as part of the setup, to give a plugin chance to do
   // whatever it needs to do based on each one.
-  onModel?<M extends Model>(store: Store, name: string, model: M): void
+  onModel?<M extends Model>(store: ModelStore, name: string, model: M): void
 
-  onStore?(store: Store): void
+  onStore?(store: ModelStore): void
 }
 
 export interface Plugins {
@@ -43,11 +43,11 @@ export interface Config {
   state?: any
 }
 
-interface Store<M extends Models = Models> extends BaseStore<ModelsState<M>> {
+interface ModelStore<M extends Models = Models> extends Store<ModelsState<M>> {
   dispatch: ModelsDispatch<M> & Dispatch
 }
 
-export declare function createStore<C extends Config>(config: C): Store<ConfigModels<C>>
+export declare function createStore<C extends Config>(config: C): ModelStore<ConfigModels<C>>
 
 export type StoreState<C extends Config> = ModelsState<ConfigModels<C>>
 

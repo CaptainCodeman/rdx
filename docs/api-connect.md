@@ -41,6 +41,7 @@ export class CounterElement extends connect(store, LitElement) {
       <increment-button></increment-button>
       <span>${this.count}</span>
       <decrement-button></decrement-button>
+    `
   }
 }
 ```

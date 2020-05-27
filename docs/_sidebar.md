@@ -2,6 +2,7 @@
 
   - [Overview](overview.md)
   - [Quick start](quickstart.md)
+  - [Advanced](advanced.md)
 
 - API Reference
 
@@ -21,4 +22,7 @@
   - [effects](plugin-effects.md)
   - [routing](plugin-routing.md)
 
-- Inspiration
+- Background
+
+  - [Redux Comparison](background.md)
+  - [Inspiration](inspiration.md)

@@ -4,14 +4,14 @@ Rdx is like Redux, but smaller.
 
 It is a fully featured state container that provides all the core functionality most apps require without adding a large payload to your bundle or requiring excessive boilerplate code &mdash; your apps runs faster and you write less code.
 
-Here's what you get with **_less than 1.8Kb_** of JavaScript added to your app:
+Here's what you get with **_jusr 1.83Kb_** of JavaScript added to your app:
 
 * A predictable, Redux-like, state container
 * Integration with Redux DevTools for inspection and debugging
 * Connect mixin to bind WebComponent properties to the store &amp; dispatch actions from events
 * Simpler definition of reducers with auto-generated action creators and action types
 * Strongly-typed State and Dispatch functions for use with TypeScript
-* Routing middleware to add routing to state store, with parameter extraction
+* Routing middleware to add route data to state store, with parameter extraction
 * Effect middleware for asynchronous code (respond to actions, fetch data etc&hellip;)
 * Persistence middleware to persist and rehydrate state (e.g. to `localStorage`)
 
@@ -21,9 +21,9 @@ It does exactly what Redux does, it just reverses how you define the reducers, a
 
 Here's the basic terminology explained based on how Redux works which will show how Rdx makes things significantly simpler.
 
-An `Action` is a Plain Old JavaScript Object (`POJO`) that is serializable. It consists of a `type` property which is a string that uniquely identifies that action in the store and an optional `payload` property which can contain additional information the reducer might need to mutate the state. The payload can be a simple value or a compex object or array.
+An `Action` is a Plain Old JavaScript Object (`POJO`) that is serializable. It consists of a `type` property which is a string that uniquely identifies that action in the store and an optional `payload` property which can contain additional information about the action that the reducer might need to mutate the state. The payload can be a simple value or a complex object or array.
 
-Here is an exampe of a simple `Action`:
+Here is an example of a simple `Action`:
 
 ```json
 {
@@ -44,7 +44,10 @@ export interface CounterAddAction {
   payload: number,
 }
 
-export type CounterActions = CounterAddAction | CounterSubtractAction // (not shown)
+export type CounterActions = CounterAddAction 
+                           | CounterSubtractAction
+                           | CounterIncrementAction
+                           | CounterDecrementAction // (additional types not shown)
 ```
 
 NOTE: Technically, the `CounterAddAction` is the Typescript _Type_ of the Action. But it can be confusing to refer to Action Type when every Action also has a `type` property. So we'll try to stick to `ActionInterface` for the Typescript _shape_ of a particular Action (it's a pity that `type` wasn't called `name` which would be less confusing).
@@ -71,18 +74,20 @@ const counter = function(state: number = 0, action: CounterActions) {
   switch (action.type) {
     case COUNTER_ADD:
       // the action type acts as a 'discriminator' in typescript
-      // so at this point, it knows that action.payload is a number
+      // so at this point, it knows that the payload is a number
       return state + action.payload
     
     default:
       // this default switch handler is _very_ important in Redux
-      // if you forget to add it your store will be broken
+      // if you forget to add it your store will be broken!
       return state
   }
 }
 ```
 
-At this point, you configure and create a `Store` instance (not showm) which allows you to retrieve the current state of your application and dispatch actions to mutate it in a predictable manner:
+Are you tired of typing variations of "Counter Add" yet?
+
+At this point, you configure and create a `Store` instance (not shown) which allows you to retrieve the current state of your application and dispatch actions to mutate it in a predictable manner:
 
 ```ts
 import { counterAdd } from './actions'
@@ -98,11 +103,11 @@ state = store.getState()
 // updated state is now { counter: 5 }
 ```
 
-Hopefully, that short overview gives you an idea of the important parts of Redux. It's actually very simple, it just makes things appear complex because there are so many fragmented parts that you need to write &mdash; the need to define all these pieces is why people complain about the "boilerplate" in Redux.
+Hopefully, that short overview gives you an idea of the important parts of Redux. It's actually very simple, it just makes things _appear_ complex because there are so many fragmented parts that you need to write &mdash; the need to define all these pieces is why people complain about the "boilerplate" in Redux. It can make coding with Redux a little laborious.
 
 ## Rdx Equivalent
 
-Rdx removes the need for all that. You effectively only need to write the initial state and reducer:
+Rdx removes the need for all that code. An action is effectively a serializable function call, with the function name as the `type` and parameters as the `payload`, so if we _have_ to write the reducer function we can infer the action, action type and action creator from it rather than have to define them ourselves. So you effectively only need to write the initial state and reducer function(s):
 
 ```ts
 import { createModel } from '@captaincodeman/rdx'
@@ -117,7 +122,7 @@ export const counter = createModel({
 })
 ```
 
-Through a combination of Rdx and TypeScript, that will give you a strongly typed state store AND dispatch methods, just like the action creators you had to write yourself:
+Through a combination of Rdx and TypeScript, that will give you a strongly typed state store AND dispatch methods, just like the action creators you had to write yourself. Using our store becomes simpler and we don't need to export / import as many pieces:
 
 ```ts
 import { store } from './store'
@@ -130,4 +135,10 @@ store.dispatch.counter.add(5)
 // updated store.state is now { counter: 5 }
 ```
 
-There are many additional savings when it comes to store configuration and creation, routing and asynchronous effects. Overall the code you write for your app is simpler and the bundle you ship will be smaller.
+Because it's all strongly typed we get full intellisense when using the store state or the dispatch.
+
+![](strongly-typed-state.png)
+![](strongly-typed-dispatch.png)
+![](dispatch-intellisense.png)
+
+There are many additional savings when it comes to store configuration and creation, routing and asynchronous effects. Overall the amount of code you have to write for your app is reduced, and the code you write is simpler. You get a smaller bundle size and develop quicker.

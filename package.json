@@ -5,6 +5,7 @@
   "type": "module",
   "module": "lib/index.js",
   "types": "typings/index.d.ts",
+  "sideEffects": false,
   "files": [
     "lib/**",
     "typings/**"

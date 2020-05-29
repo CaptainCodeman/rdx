@@ -22,6 +22,7 @@
   },
   "author": "Simon Green <simon@captaincodeman.com> (https://github.com/captaincodeman)",
   "license": "ISC",
+  "homepage": "https://captaincodeman.github.io/rdx/",
   "repository": {
     "type": "git",
     "url": "git://github.com/CaptainCodeman/rdx"

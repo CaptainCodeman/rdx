@@ -5,7 +5,7 @@
 
 Like Redux, but smaller ...
 
-[docs][https://captaincodeman.github.io/rdx]
+[docs](https://captaincodeman.github.io/rdx)
 
 This is a simple immutable state store along the lines of Redux but significantly smaller - it helps to build apps with super-tiny JavaScript payloads. It provides all the basic features for creating a client-side app including:
 

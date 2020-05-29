@@ -1,6 +1,11 @@
+![minified](https://badgen.net/bundlephobia/min/@captaincodeman/rdx)
+![minzipped](https://badgen.net/bundlephobia/minzip/@captaincodeman/rdx)
+
 # Rdx
 
 Like Redux, but smaller ...
+
+[docs][https://captaincodeman.github.io/rdx]
 
 This is a simple immutable state store along the lines of Redux but significantly smaller - it helps to build apps with super-tiny JavaScript payloads. It provides all the basic features for creating a client-side app including:
 

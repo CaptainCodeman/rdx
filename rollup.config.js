@@ -22,7 +22,7 @@ export default {
   output: {
     dir: 'lib',
     format: 'esm',
-    sourcemap: true,
+    sourcemap: 'hidden',
   },
   plugins: [
     typescript({ typescript: require('typescript') }),

@@ -4,7 +4,7 @@ Rdx is like Redux, but smaller.
 
 It is a fully featured state container that provides all the core functionality most apps require without adding a large payload to your bundle or requiring excessive boilerplate code &mdash; your apps runs faster and you write less code.
 
-Here's what you get with **_jusr 1.83Kb_** of JavaScript added to your app:
+Here's what you get with **_just 1.83Kb_** of JavaScript added to your app:
 
 * A predictable, Redux-like, state container
 * Integration with Redux DevTools for inspection and debugging
@@ -14,6 +14,8 @@ Here's what you get with **_jusr 1.83Kb_** of JavaScript added to your app:
 * Routing middleware to add route data to state store, with parameter extraction
 * Effect middleware for asynchronous code (respond to actions, fetch data etc&hellip;)
 * Persistence middleware to persist and rehydrate state (e.g. to `localStorage`)
+
+All that, for less than the size of Redux alone.
 
 ## Redux Approach
 

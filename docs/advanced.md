@@ -107,24 +107,25 @@ export class CounterElement extends Connected {
 }
 ```
 
-## Asynchronous Effects
+## Effects
 
 Beyond the basic principles of "predictable state" using actions and reducers, one of the key benefits of a state container is being able to hook into the state changes / action dispatches to run additional code, or "side effects". Effectively "when this happens, I also want to do XYZ".
 
-These are things that _shouldn't_ be done in a reducer because they are either asynchronous (such as calling a remote API to fetch data) or they depend on some external state (such as the browser `localStorage`) and so wouldn't be deterministic if it was done in the reducer (which need to be pure functions).
+These are things that _shouldn't be done in a reducer_ because they are either asynchronous (such as calling a remote API to fetch data) or they depend on some external state (such as the browser `localStorage`) and so wouldn't be deterministic if it was done in the reducer (which needs to be pure functions).
 
-An example would be when an item in a list is clicked and becomes 'selected'. We might dispatch an action to set the selected state in our store and _then_ we want to fetch the data to render it. The fetch is a remote API call and asynchronous so it can't be done inside the reducer because we can't guarantee if it will be successful or not and we don't know how long it will take to execute.
+An example would be when an item in a list is clicked and becomes 'selected'. We might dispatch an action to set the selected state in our store and _then_ we want to fetch the data to render it. The fetch is a remote API call and asynchronous so it can't be done inside the reducer because we can't guarantee whether it will be successful or not and we don't know how long it will take to execute.
 
 This is where Effects come in. An async effect function converts these operations into synchronous dispatch calls to mutate the store state in a predictable manner.
 
-Rdx comes with an inbuilt [effects plugin](plugin-effects) which is more powerful than the basic "thunk" plugin of Redux but easier to use than something like redux-saga (and significantly smaller).
+Rdx comes with an inbuilt [effects plugin](plugin-effects) which is more powerful than the basic "thunk" plugin of Redux and possibly easier to understand and simpler than something like redux-saga (and significantly smaller).
 
-Effect functions can be dispatched just like a reducer function (acting as an Action Creator) but if they share the same name as a reducer function, they will always execute _after_ the reducers have been processed. This allows them to be executed 
+Effect functions create methods on the dispatch function for the model, just like the reducer functions do. If you have an effect function called `load` on a `todos` model then you can call it using `dispatch.todos.load()`. It will dispatch a `todos/load` action through the store that you can see with DevTools, it just wont mutate the state unless there is also a reducer with the same name. If there _is_ a reducer with the same name then the reducer payload and the effect payload should match and the reducer will _always_ be executed before the effect function. At the point that the effect runs, the state has been mutated.
 
+### Effects Factory
 
-### Effects Typings
+Effects are defined in a similar way to reducers with the exception that instead of being declared as an object with reducer functions as properties, the effects property is a factory method that returns an object with the effect function properties. This factory method takes a parameter that provides access to the entire store state and dispatch methods.
 
-To use it we first define an extra `Store` type as part of our store setup:
+This requires a slight change to the store setup, with the introduction of an additional `Store` interface which adds to the `State` and `Dispatch` already defined:
 
 ```ts
 import { createStore, StoreState, StoreDispatch, ModelStore } from '@captaincodeman/rdx'
@@ -137,11 +138,9 @@ export interface Dispatch extends StoreDispatch<typeof config> {}
 export interface Store extends ModelStore<Dispatch, State> {}
 ```
 
-The `Store` interface is necessary to allow the effects defined in any single model of the store to access the full typed state and dispatch methods of the entire store, with all the models combined. We need access to the full store definition inside something that makes up only a part of that definition (which isn't normally possible). A little typescript indirection (magic?!) makes it work.
+The `Store` interface is necessary to allow the effects defined in any single model of the store to access the full typed state and dispatch methods of the entire store, with all the models combined. We need access to the full store definition inside something that itself makes up only a part of that definition. This is difficult to achieve which is why the slight typescript indirection (magic?!) is necessary to make it work.
 
-To add effects to a model, add an `effects` function to return an object containing the effect functions. The `effects` function accepts the `Store` as its only parameter, e.g.:
-
-Let's start with an example where we want to use Rdx to access a list of Todo items. The data will come from a remote REST API and we will have a UI that can display the full list and a detail page that shows an individual item. Someone could navigate to an individual item from the list page or could land there directly, so when an item is selected we _might_ have to load it based on the current state of the store.
+We can now define the `effects` factory function on a model. Let's start with an example where we want to use Rdx to access a list of Todo items. The data will come from a remote REST API and we will have a UI that can display the full list and a detail page that shows an individual item. Someone could navigate to an individual item from the list page or could land there directly, so when an item is selected we _might_ have to load it based on the current state of the store.
 
 ```ts
 import { createModel, RoutingState } from '@captaincodeman/rdx';
@@ -210,9 +209,10 @@ export default createModel({
 
     return {
       // select has the same name as the select reducer above which
-      // means it will run
+      // means it will run after that reducer has completed but will
+      // be passed the same payload
       async select(selected: number) {
-        // we need the current state each time this effect is run
+        // we need the _current_ state each time this effect is run
         // which is why we get it here instead of with the dispatch
         // above
         const state = store.getState()
@@ -230,6 +230,10 @@ export default createModel({
 
           // tell the store that we received the data
           dispatch.todos.received(todo)
+
+          // NOT SHOWN: this could be wrapped in a try / catch block
+          // to handle exceptions and dispatch the error message to
+          // the store
         }
       },
 
@@ -249,14 +253,11 @@ export default createModel({
 })
 ```
 
+### Effect init
 
-Effect functions can be added to any model, similar to the `reducers` object, but accepting the `Store` type we defined above so they have access to the `State` and `Dispatch` method of the _entire_ store.
+The example above includes a standalone (non-reducing) `load` effect, which could be called using `dispatch.todos.load()`. That might be something you do based on some UI interaction or due to a route change. Sometimes you may have an effect that you want to kick-start automatically when your app runs. While you _could_ just call the dispatch action yourself anytime after the store is initiated, Rdx will automatically run any effect called `init` when the store is created. This can be an ideal place to initialize external listeners that need to interact with the store or to trigger data fetches as soon as the store is initialized.
 
-TODO: special `init` function
-
-## Routing
-
-TODO
+There is also the factory method itself but remember - at the point that is called, and until the function returns the effects object, the store has not been fully initialized so the state and dispatch will not be available and should not be used.
 
 ## Inter-Model Communication
 
@@ -366,6 +367,93 @@ Dispatching multiple actions when there is already an action that the model coul
 See this presentation ([slides](https://rangle.slides.com/yazanalaboudi/deck)) for a more in-depth explanation of why this approach can be wrong:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/K6OlKeQRCzo?start=2626" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Routing
+
+Routing is usually an important part of any client-side app. The current view and parameters for it can be extracted from the browser address bar and if you click a link within your app, the navigation should be intercepted to update the state. Because it's so common, Rdx provides an inbuilt and integrated router which adds the routing information to the store which it can be used as a trigger within your models and also to drive the views in your UI.
+
+The routing plugin for Rdx relies on a separate [ultra-tiny (370 byte) router library](https://www.npmjs.com/package/@captaincodeman/router) to perform the route matching. The plugin provides the browser navigation interception and integration of routing information into the store state.
+
+### Routing Configuration
+
+Remember the ridiculously simple config we created earlier? Let's add the routing config to it. Here's an example showing some routes defined and the config that we return expanded to include the routing plugin.
+
+```ts
+import { routingPluginFactory } from '@captaincodeman/rdx'
+import createMatcher from '@captaincodeman/router'
+import * as models from './models'
+
+const routes = {
+  '/':          'view-home',
+  '/todos':     'view-todos',
+  '/todos/:id': 'view-todo-detail',
+  '/*':         'view-404',
+}
+
+const matcher = createMatcher(routes)
+const routing = routingPluginFactory(matcher)
+
+export const config = { models, plugins: { routing } }
+```
+
+The default plugin configuration handles parameters in the URL path, so navigating to `/todos/123` would result in the state containing:
+
+```json
+{
+  "routing": {
+    "page": "view-todo-detail",
+    "params": {
+      "id": "123"
+    },
+    "queries": {}
+  }
+}
+```
+
+The routing plugin intercepts any navigation links within your app ignoring download, external and targeted links plus keyboard-modified clicks to retain normal browser-behavior (e.g. of opening a link in a new tab). It also adds additional dispatch methods to the store to allow you to navigate programmatically using `dispatch.routing.back()` to go back, for instance.
+
+See the [routing API](api-routing) for more details on the options available.
+
+### Router Outlet
+
+When you have the route information in the state store, you can use it to drive your application views. To do this you will typically have some kind of 'router outlet' which switches the UI shown based on the current route selected.
+
+There are several ways to do this, see the [routing recipes](recipe-routing) for more alternatives and the nuances between them. Here is a simple router as a WebComponent:
+
+```ts
+import { RoutingState } from '@captaincodeman/rdx'
+import { Connected, State } from '../connected'
+
+class AppRouterElement extends Connected {
+  // the page property is the _current_ page / view rendered
+  private page: string
+
+  // connected mapState method sets the route from the state
+  mapState(state: State) {
+    return {
+      route: state.routing
+    }
+  }
+
+  // route setter handles the route changing. If the page has
+  // changed (not just a parameter) then we need to clear any
+  // previous view and render the new one. In this case we're
+  // assuming that a page called 'view-home' would correspond
+  // to a WebComponent with the same name
+  set route(val: RoutingState) {
+    if (val.page !== this.page) {
+      const el = document.createElement(val.page)
+      this.textContent = ''
+      this.appendChild(el)
+      this.page = val.page
+    }
+  }
+}
+
+customElements.define('app-router', AppRouterElement)
+```
+
+You can simply include this `<app-router>` element in your index.html page or the main app-shell component of your application and your app will then render the appropriate view as you navigate. If you include it in another connected component, you could remove the need for it to be connected to the store and do the `mapState` of the routing in the parent, passing it as a property to the router outlet.
 
 ## Polyfills
 

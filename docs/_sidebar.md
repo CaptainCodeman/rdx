@@ -12,6 +12,7 @@
   - [createStore](api-createStore.md)
   - [devtools](api-devtools.md)
   - [persist](api-persist.md)
+  - [routing](api-routing.md)
   - [thunk](api-thunk.md)
   - [Store](api-store.md)
 

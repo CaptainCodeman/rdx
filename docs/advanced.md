@@ -476,7 +476,7 @@ export default createModel({
     const dispatch = store.dispatch()
 
     return {
-      'routing/change': async function(payload: RoutingState) {
+      async 'routing/change'(payload: RoutingState) {
         // check the page from routing
         switch (payload.page) {
           // if we're on the todos-view

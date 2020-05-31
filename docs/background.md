@@ -74,7 +74,7 @@ export type TodoActions = AddTodoAction // | OtherActions ...
 
 #### todos/actionCreators.ts
 
-We want to create actions consistently and ensure they are the correct type, so anytime we want to create on we use a function.
+We want to create actions consistently and ensure they are the correct type, so anytime we want to create one we use a factory function.
 
 ```ts
 import { ADD_TODO, AddTodoAction } from './actions'
@@ -187,7 +187,7 @@ This. Is. Too. Verbose.
 
 The same names are repeated over and over and over and this is the code to handle _one_ single action in _one_ state branch. Not only that, but the code is often spread out over several files. Even with nice IDEs and refactoring tools, it's complex to work with. If you want to add another action, you are likely going to be touching multiple files.
 
-I believe this is why beginners struggle with Redux. It creates too many moving parts that are in too many different places. It's not like normal coding where you're maybe working on "class" that is self-contained and you just need to keep in your head what it is doing. In the article linked above, Dan Abramov claims these are needed:
+I believe this is why beginners struggle with Redux. It creates too many moving parts that are in too many different places. It's not like normal coding where you're maybe working on a "class" that is self-contained and you just need to keep in your head what it is doing. In the article linked above, Dan Abramov claims these are needed:
 
 > Redux offers a tradeoff. It asks you to:
 > * Describe application state as plain objects and arrays.
@@ -200,7 +200,7 @@ But it doesn't mean that we _need_ to use actions, action types, action creators
 
 Why should we need to define action names and action types and action creators and remember to return the default state if the action isn't handled. Why do I even care about actions, why can't I just write reducer functions?
 
-We _know_ we need reducer function, that is the core part of the _concept_ of a predictable state container, that starting with a given state and applying a pure function to it will produce a predicable (and testable) mutation of the state.
+We _know_ we need the reducer function, that is the core part of the _concept_ of a predictable state container, that starting with a given state and applying a pure function to it will produce a predicable (and testable) mutation of the state.
 
 An action is effectively a serializable function call. It specifies the function to call (from the action `type`) and the parameters it needs (the action `payload`). If we have the reducer function, we shouldn't need to define action types, action interfaces or action creator functions.
 
@@ -241,7 +241,7 @@ The only other thing we require in order to define an action, besides the action
 
 ### Action Creators
 
-If we know the action type and the payload type, we can automatically generate an action creator for it. It's effectively the same function signature as the reducer but without the `state` passed in. We take the `payload` parameter, combine it with the generated type string and have our creator, as though we had written:
+If we know the action type and the payload type, we can automatically generate an action creator for it. It's effectively the same function signature as the reducer but without the `state` passed in. We take the `payload` parameter, combine it with the generated type string and have our creator, as though we had ourselves written:
 
 ```ts
 export const TODOS_ADD = 'todos/add'
@@ -276,10 +276,12 @@ This will still dispatch a familiar looking action to the store:
 }
 ```
 
-In fact, because it is _so_ similar, it can be wired up to use the Redux dev-tools so we keep all the great debugging an inspection tools. Creating a store is significantly simpler:
+In fact, because it is _so_ similar, it can be wired up to use the Redux dev-tools so we keep all the great debugging and inspection tools.
+
+Creating a store is significantly simpler:
 
 ```ts
-import { createStore, StoreState, devtools } from '@captaincodeman/rdx'
+import { createStore, devtools } from '@captaincodeman/rdx'
 import todos from './todos'
 
 export const store = devtools(createStore({ models: { todos } }))
@@ -296,7 +298,7 @@ At this point, you may be thinking "I've seen things like this already" and if, 
 
 `rematch` was really the main inspiration for Rdx and it's worth reading their reasoning behind [Redesigning Redux](https://hackernoon.com/redesigning-redux-b2baee8b8a38) which really resonated with me.
 
-So there's definitely lots of "prior art" but I see that as validation that this approach is worthwhile but people rarely took the final logical step of removing Redux itself which ultimately limits their benefits.
+So there's definitely lots of "prior art" but I see that as validation that this approach is worthwhile but people rarely took the final logical step of removing Redux itself which ultimately limits the benefits and leaves the convoluted configuration.
 
 All the solutions I found suffered from one or more of these issues:
 
@@ -325,23 +327,23 @@ Not in the world of JavaScript! If you actually look at the bundle size of out-t
 
 Wha...? Let me explain...
 
-Someone writes a framework. It contains a lot of JS. Maybe not as much as some of the other frameworks, but it was envisaged before much of what it provided was built into the web platform and already available on every browser. So it's larger than it needs to be, and not as fast as it could be.
+Someone writes a framework. It contains a lot of JS. Maybe not as much as some of the other frameworks, but it was envisaged before much of what it provided was built into the web platform and already available on every browser. So it's larger than it now needs to be, and not as fast as it could be as a result. More bytes means slow download and parsing + execution time.
 
 Q. How do you address the performance issues and make it faster?
 
-Option 1: Accept that it's become like jQuery and is no longer essential for building apps. Rejoice that it helped to push the evolution of the web formward and enjoy the web-features it inspired, with smaller bundled and faster apps.
+Option 1: Accept that it's become like jQuery and is no longer defacto essential for building web-apps. Rejoice that it helped to push the evolution of the web forward and enjoy the web-features it inspired, with smaller bundles and faster apps.
 
-Option 2: Stick to the belief that it's the "one true way" and add additional code to support it running on the server so it can generate a static view for fast initial loading and render (*cough* definitely not to cheat benchmarks *cough*) using "Server Side Rendering" (SSR) and then continue to use the same code, now with extra pieces added and therefore slower to load, on the client.
+Option 2: Stick to the belief that it's the "one true way" and add _additional_ code to support it running on the server so it can generate a static view for fast initial loading and render (*cough* definitely not to cheat benchmarks *cough*) using "Server Side Rendering" (SSR) and then continue to use the same code, now with extra pieces added and therefore slower to load, on the client.
 
 Of course, the answer was Option 2. If you follow the [Create React App](https://reactjs.org/docs/create-a-new-react-app.html) instructions and then [add a router](https://create-react-app.dev/docs/adding-a-router/) you are [adding nearly 30Kb to your bundle](https://bundlephobia.com/result?p=react-router-dom@5.2.0) and a significant part of that is code that already exists natively on the client but is required to allow the same code to run on the server.
 
-Yes, you send _additional_ code to the client which it doesn't need because what it does is already built in just so the same code can also run on the server (where a client needs to be 'emulated') to allow the page to be pre-rendered ... because the previous code was already too large and otherwise made it too slow.
+Yes, you send _additional_ code to the client which it doesn't need because what it does is already built in just so the same code can also run on the server (where a client needs to be 'emulated') to allow the page to be pre-rendered ... because the _previous_ code being sent to the client was already too large and otherwise made it too slow.
 
-Thanks, JavaScript!
+This is _insane_ isn't it?! Thanks, JavaScript world!
 
 But it gets worse. As you learn to make more use of Redux you discover that there is more value as you make state information available in the store. You can react to actions and state changes which could be fetching data. The trigger for doing this is often routing information - what view is the user looking at and what information needs to be fetched to provide it? Don't worry, the Redux ecosystem has you covered by [adding another 10Kb to your bundle](https://bundlephobia.com/result?p=connected-react-router@6.8.0) to make it possible.
 
-That's just routing. You also typically need some middleware to handle side-effects in your store, transforming the asynchronous operations of fetching data into synchronous actions dispatched to the store. If you only need something simple, you might start with [redux-thunk](https://github.com/reduxjs/redux-thunk) which is tiny, but its limitations mean that most real-life apps will outgrow it very quickly and you'll typically be using something such as [redux-saga](https://redux-saga.js.org/) or [redux-observable](https://redux-observable.js.org/), both of which have additional 'learning curve'.
+That's just routing. You also typically need some middleware to handle side-effects in your store, transforming the asynchronous operations of fetching data into synchronous actions dispatched to the store. If you only need something simple, you might start with [redux-thunk](https://github.com/reduxjs/redux-thunk) which is tiny, but its limitations mean that most real-life apps will outgrow it very quickly and you'll typically be using something such as [redux-saga](https://redux-saga.js.org/) or [redux-observable](https://redux-observable.js.org/), both of which have additional 'learning curve' (where the curve is a mountain).
 
 These can add another 15Kb to you bundle not to mention the additional code that you add to your app to use them. Hear that? It's the sound of your [lighthouse](https://developers.google.com/web/tools/lighthouse/) score dropping ...
 
@@ -351,7 +353,7 @@ It's not to say _what_ this all does, the end result, is bad or wrong. You get a
 
 One of the things I wanted with Rdx is something that provided all the basic features that you typically need in a state store for an app, in a tiny bundle size, with an API that also reduces the amount of app code you have to write.
 
-Here's what you get with just 4Kb minified / 1.83Kb gzipped JavaScript:
+Here's what you get with just 4Kb minified / 1.83Kb gzipped JavaScript (about half the size of Redux alone):
 
 * Redux-like state container
 * Integration with Redux DevTools
@@ -362,6 +364,6 @@ Here's what you get with just 4Kb minified / 1.83Kb gzipped JavaScript:
 * Async effect middleware with easy-to-use semantics
 * Persistence middleware to rehydrate or persist state (e.g. to `localStorage`)
 
-The best part though is how easy it makes development. I'll post further about how best to use it including proper documentation but if you want an early peak you can checkout this [Example]() and [Demo]() project showing how little JavaScript you really need to get a fully-functioning, modern-looking, easy-to-maintain, Progressive Web App.
+The best part though is how much easier it makes the development of your application. Your state store no longer needs so much boilerplate and isn't such a chore to work with.
 
 Let me know what you think!

@@ -242,7 +242,6 @@ export default createModel({
         // have a matching reducer - it will still dispatch an action
         // called `todos/load` which we'll see in the DevTools but it
         // doesn't mutate any state (in this model)
-        const state = store.getState()
         dispatch.todos.request()
         const resp = await fetch(`${endpoint}todos`)
         const todos: Todo[] = await resp.json()
@@ -454,6 +453,104 @@ customElements.define('app-router', AppRouterElement)
 ```
 
 You can simply include this `<app-router>` element in your index.html page or the main app-shell component of your application and your app will then render the appropriate view as you navigate. If you include it in another connected component, you could remove the need for it to be connected to the store and do the `mapState` of the routing in the parent, passing it as a property to the router outlet.
+
+The router outlet can also be an ideal place to code-split your UI, so code for views is only loaded when (and if) someone navigates to them.
+
+### Models Integration
+
+But changing the UI is just one part of what routing can be used for. One thing people often do is use UI components to trigger data fetching but in my opinion this is an anti-pattern. Not only does it couple the UI components to non-UI concerns, making them more complex to develop and test, but it means that the data fetch doesn't happen _until_ the UI component has been rendered.
+
+This initial render often means a relatively large UI framework has been loaded plus additional UI components and widgets. Waiting for all this to happen simply delays the fetch and adds latency to the time when your users see data on the screen.
+
+Utilizing Rdx can make your code easier and faster. Because the state store part of your app can be so small and everything relies on it, it makes sense to load it sooner. When it loads, the models in your store can make use of the routing information to fetch data even though the views to render that data are themselves still being loaded. This ensures that rendering information is not the cumulative time for UI and data to load, but the time of whichever is the slowest.
+
+If there's a single fetch based on the route (without parameters) then an effect can be setup to check the route and initiate the data fetching (if it hasn't already been done). This would load the todos only when someone navigated to the `todos-view` which would render the list when loaded.
+
+```ts
+import { createModel, RoutingState } from '@captaincodeman/rdx'
+
+export default createModel({
+  // state and reducers not shown
+
+  effects(store: Store) {
+    const dispatch = store.dispatch()
+
+    return {
+      'routing/change': async function(payload: RoutingState) {
+        // check the page from routing
+        switch (payload.page) {
+          // if we're on the todos-view
+          case 'todos-view':
+            // check if we've already loaded them
+            const state = store.getState()
+            if (state.todos.ids.length === 0) {
+              // if not, show the loading indicator
+              dispatch.todos.request()
+              // request them
+              const resp = await fetch(`${endpoint}todos`)
+              const todos: Todo[] = await resp.json()
+              // and update the store
+              dispatch.todos.receivedList(todos)
+            }
+            break
+        }
+      }
+    }
+  }
+})
+```
+
+If the data for a route depends on parameter values from the route, it's usually best to set any `selected` state property in a reducer and then use the effect to load the data. As you saw in the [Inter-Model communication Using Effects](advanced?id=using-effects) section, setting the selected item in the effect _can_ lead to inconsistent state as at that point, the UI could be attempting to render something based on the reducer state, with the model state that relies on the reducer state not yet reflecting it and needing another action dispatch to synchronize it.
+
+Here's how it might look:
+
+```ts
+import { createModel, RoutingState } from '@captaincodeman/rdx'
+
+export default createModel({
+  // state and other reducers not shown
+
+  reducers: {
+    'routing/change'(state, payload: RoutingState) {
+      return {
+        ...state,
+        selected: payload.params.id
+      }
+    }
+  },
+
+  effects(store: Store) {
+    const dispatch = store.dispatch()
+
+    return {
+      async 'routing/change'(payload: RoutingState) {
+        // check the page from routing
+        switch (payload.page) {
+          // if we're on the todos-detail-view
+          case 'todos-detail-view':
+            // check if we've already loaded it
+            const state = store.getState()
+            const id = payload.params.id
+            if (state.todos.items[id] === undefined) {
+              // if not, show the loading indicator
+              dispatch.todos.request()
+              // request it
+              const resp = await fetch(`${endpoint}todos/${id}`)
+              const todo: Todo = await resp.json()
+              // and update the store
+              dispatch.todos.received(todo)
+            }
+            break
+        }
+      }
+    }
+  }
+})
+```
+
+Note that we still do the fetching in an effect (and we're checking if we really need to fetch it first) but the actual state update of which item is currently selected is done in the reducer.
+
+Although re-dispatching in an effect in response to route changes does, in some ways, seem to provide more "informative" explicit actions in the store (i.e. your might see `todo/selected` instead of `routing/change`) the drawbacks and extra UI complications it can create far outweigh this slight benefit.
 
 ## Polyfills
 

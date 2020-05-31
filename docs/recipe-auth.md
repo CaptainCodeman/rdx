@@ -13,7 +13,6 @@ Rdx, of course, makes it easy. Here's a simple model that can be used to integra
 ```ts
 import { createModel } from '@captaincodeman/rdx'
 import { State, Store } from '../store'
-import { createSelector } from 'reselect'
 import { auth } from '../firebase'
 
 export type User = import('firebase').User
@@ -21,12 +20,14 @@ export type User = import('firebase').User
 export interface AuthState {
   user: User | null
   statusKnown: boolean
+  error: string
 }
 
 export default createModel({
   state: <AuthState>{
     user: null,
     statusKnown: false,
+    error: '',
   },
 
   reducers: {
@@ -37,27 +38,18 @@ export default createModel({
     signedOut(state) {
       return { ...state, user: null, statusKnown: true }
     },
+
+    failed(state, error: string) {
+      return { ...state, error }
+    }
   },
 
   effects(store: Store) {
+    const dispatch = store.dispatch()
+
     return {
-      async signout() {
-        await auth.signOut()
-      },
-
-      async signinProvider(name: string) {
-        const provider = providerFromName(name)
-        await auth.signInWithRedirect(provider)
-      },
-
-      async signinEmailPassword(payload: { email: string, password: string }) {
-        await auth.signInWithEmailAndPassword(payload.email, payload.password)
-      },
-
+      // listen to firebase auth state changes and reflect in state
       async init() {
-        const dispatch = store.dispatch()
-
-        // listen to firebase auth state changes and reflect in state
         auth.onAuthStateChanged(async user => {
           if (user) {
             dispatch.auth.signedIn(user)
@@ -65,6 +57,29 @@ export default createModel({
             dispatch.auth.signedOut()
           }
         })
+      },
+
+      // provide whatever signin methods you want to support
+      async signinProvider(name: string) {
+        try {
+          const provider = providerFromName(name)
+          await auth.signInWithRedirect(provider)
+        } catch (err) {
+          dispatch.auth.failed(err.message)
+        }
+      },
+
+      async signinEmailPassword(payload: { email: string, password: string }) {
+        try {
+          await auth.signInWithEmailAndPassword(payload.email, payload.password)
+        } catch (err) {
+          dispatch.auth.failed(err.message)
+        }
+      },
+
+      // provide signout method
+      async signout() {
+        await auth.signOut()
       },
     }
   }
@@ -81,7 +96,7 @@ function providerFromName(name: string) {
 }
 ```
 
-Note the `auth` imported is the configured and loaded firebase auth object as per the SDK examples (not show here). It's also possible to lazy-load the firebase packages as they are fairly large and making them asynchronous can speed up the initial rendering of your app but when startup time and total JS bundle size is a concern, be sure to checkout the [firebase-auth-lite](https://github.com/samuelgozi/firebase-auth-lite) package for an excellent and much smaller alternative - the code is very easy to adapt and it makes a perfect companion to the tiny size approach of Rdx.
+Note the imported `auth` is the configured and loaded firebase auth object as per the SDK examples (not show here). It's also possible to lazy-load the firebase packages as they are fairly large and making them asynchronous can speed up the initial rendering of your app but when startup time and total JS bundle size is a concern be sure to checkout the [firebase-auth-lite](https://github.com/samuelgozi/firebase-auth-lite) package for an excellent and much smaller alternative - the code is very easy to adapt and it makes a perfect companion to the tiny size approach of Rdx.
 
 ## Auth Status UI
 
@@ -215,3 +230,5 @@ The sign-in view simply has to dispatch the appropriate action in response to a 
 ```ts
 dispatch.auth.signinProvider('google')
 ```
+
+It can also display any auth failure messages from the state.

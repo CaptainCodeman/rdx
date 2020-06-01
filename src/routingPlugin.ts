@@ -9,7 +9,7 @@ const history = window.history
 const popstate = 'popstate'
 const dispatchPopstate = () => dispatchEvent(new Event(popstate))
 
-export const routingPluginFactory = (router: Matcher, options?: Partial<RoutingOptions>) => {
+export const routingPlugin = (router: Matcher, options?: Partial<RoutingOptions>) => {
   const opt = <RoutingOptions>{
     transform: (result) => result,
     ...options,

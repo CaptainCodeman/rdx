@@ -378,7 +378,7 @@ The routing plugin for Rdx relies on a separate [ultra-tiny (370 byte) router li
 Remember the ridiculously simple config we created earlier? Let's add the routing config to it. Here's an example showing some routes defined and the config that we return expanded to include the routing plugin.
 
 ```ts
-import { routingPluginFactory } from '@captaincodeman/rdx'
+import { routingPlugin } from '@captaincodeman/rdx'
 import createMatcher from '@captaincodeman/router'
 import * as models from './models'
 
@@ -390,7 +390,7 @@ const routes = {
 }
 
 const matcher = createMatcher(routes)
-const routing = routingPluginFactory(matcher)
+const routing = routingPlugin(matcher)
 
 export const config = { models, plugins: { routing } }
 ```

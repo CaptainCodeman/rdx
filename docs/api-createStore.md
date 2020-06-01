@@ -52,7 +52,7 @@ export interface Store extends ModelStore<Dispatch, State> {}
 #### state/config.ts
 
 ```ts
-import { routingPluginFactory } from '@captaincodeman/rdx'
+import { routingPlugin } from '@captaincodeman/rdx'
 import createMatcher from '@captaincodeman/router'
 import * as models from './models'
 
@@ -63,7 +63,7 @@ const routes = {
 }
 
 const matcher = createMatcher(routes)
-const routing = routingPluginFactory(matcher)
+const routing = routingPlugin(matcher)
 
 export const config = {
   models,

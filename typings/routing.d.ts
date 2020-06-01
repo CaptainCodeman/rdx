@@ -21,7 +21,7 @@ interface RoutingPlugin extends Plugin {
   model: Model<RoutingState, RoutingReducers, RoutingEffects>
 }
 
-export declare function routingPluginFactory(router: Matcher, options?: Partial<RoutingOptions>): RoutingPlugin
+export declare function routingPlugin(router: Matcher, options?: Partial<RoutingOptions>): RoutingPlugin
 
 export interface RoutingState extends NonNullable<Result> {
   queries?: {

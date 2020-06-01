@@ -4,14 +4,14 @@ import createMatcher from '@captaincodeman/router'
 
 import { createModel } from '../../typings/model'
 import { StoreDispatch, StoreState } from '../../typings/modelStore'
-import { RoutingState, routingPluginFactory } from '../../typings/routing'
+import { RoutingState, routingPlugin } from '../../typings/routing'
 
 const routes = {
   '/test': 'test-view',
 }
 
 const matcher = createMatcher(routes)
-const routing = routingPluginFactory(matcher)
+const routing = routingPlugin(matcher)
 
 const configWithRouting = {
   models: {

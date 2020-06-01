@@ -128,7 +128,7 @@ First, we'll define our store configuration, including routes, in a separate fil
 
 ```ts
 import createMatcher from '@captaincodeman/router'
-import { routingPluginFactory } from '@captaincodeman/rdx'
+import { routingPlugin } from '@captaincodeman/rdx'
 import * as models from './models'
 
 const routes = {
@@ -139,7 +139,7 @@ const routes = {
 }
 
 const matcher = createMatcher(routes)
-const routing = routingPluginFactory(matcher)
+const routing = routingPlugin(matcher)
 
 export const config = { models, plugins: { routing } }
 ```

@@ -252,17 +252,17 @@ export default createModel({
 })
 ```
 
-### Effect init
+### init() effect
 
 The example above includes a standalone (non-reducing) `load` effect, which could be called using `dispatch.todos.load()`. That might be something you do based on some UI interaction or due to a route change. Sometimes you may have an effect that you want to kick-start automatically when your app runs. While you _could_ just call the dispatch action yourself anytime after the store is initiated, Rdx will automatically run any effect called `init` when the store is created. This can be an ideal place to initialize external listeners that need to interact with the store or to trigger data fetches as soon as the store is initialized.
 
-There is also the factory method itself but remember - at the point that is called, and until the function returns the effects object, the store has not been fully initialized so the state and dispatch will not be available and should not be used.
+There is also the factory method itself but remember - at the point that is called, and until the function returns the effects object, the store has _not_ been fully initialized so the state and dispatch should not be used directly.
 
 ## Inter-Model Communication
 
 Because models typically deal with one 'slice' of state in the overall store, it's easy to develop a blinkered view and imagine that there is always a 1:1 mapping between each model's actions (reducers + effects) and that model's state.
 
-But sometimes you will need one model to respond to actions dispatched to a _different_ model. You could, for instance, have a "todos" model that loads data based on the current authenticated user, with "auth" in it's own model, and when a user signs out you want to clear the list of todo items from memory. There are two ways to approach this.
+But sometimes you will need one model to respond to actions defined and dispatched by a _different_ model. You could, for instance, have a "todos" model that loads data based on the current authenticated user, with "auth" in it's own model, and when a user signs out you want to clear the list of todo items from memory. There are two ways to approach this.
 
 ### Using Reducers
 
@@ -296,7 +296,7 @@ export default createModel({
     //
     // NOTE: that the state we're dealing with is always the state of the model we're
     // in, the payload is available (if the source reducer defines one) but each model
-    // can only ever mutate it's own state
+    // can only ever mutate it's _own_ state
     'auth/signedOut'(state) {
       return { ...state
         entities: {},
@@ -363,7 +363,7 @@ The aim of a state container is to have predictable and _consistent_ state so wh
 
 Dispatching multiple actions when there is already an action that the model could respond to is really an anti-pattern and not recommended.
 
-See this presentation ([slides](https://rangle.slides.com/yazanalaboudi/deck)) for a more in-depth explanation of why this approach can be wrong:
+See this excellent presentation ([slides](https://rangle.slides.com/yazanalaboudi/deck)) for a more in-depth explanation of why this approach can be wrong:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/K6OlKeQRCzo?start=2626" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -554,7 +554,9 @@ Although re-dispatching in an effect in response to route changes does, in some 
 
 ## Polyfills
 
-We've built Rdx to use modern web standards and if you're using a modern browser such as Chrome then Rdx will work directly. Some platform features that it relies on have been added at later times in different browsers so sometimes a polyfill may be required. Best practice is to leave the loading of polyfills as an application concern rather than force them on users that don't need them, have them duplicated in different packages, and to provide flexibility for [fast and efficient polyfill loading](https://www.captaincodeman.com/2020/03/10/eternal-polyfilling-of-the-legacy-browser).
+We've built Rdx to use modern web standards and if you're using a modern browser such as Chrome then Rdx will work directly. Some platform features that it relies on have been added at later times in different browsers so sometimes a polyfill may be required if you want to support those browsers. Best practice is to leave the loading of polyfills as an application concern rather than force them on users that don't need them, have them duplicated by different packages, and to provide flexibility for [fast and efficient polyfill loading](https://www.captaincodeman.com/2020/03/10/eternal-polyfilling-of-the-legacy-browser).
+
+Here are the features that may require polyfills:
 
 ### queueMicrotask
 

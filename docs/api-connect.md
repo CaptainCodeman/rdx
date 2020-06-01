@@ -8,7 +8,7 @@
 
 ## mapEvents
 
-`mapEvents()` defines a mapping from events that the component will listen to and actions that it can dispatch to the store.
+`mapEvents()` defines a mapping from events that the component will listen to and actions that it can dispatch to the store. The method should return an object that maps the event names to listen to, to the functions that will be called (usually to dispatch an action to the store using details from the event).
 
 ## example
 

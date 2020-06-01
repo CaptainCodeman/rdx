@@ -143,7 +143,7 @@ The `Store` interface is necessary to allow the effects defined in any single mo
 We can now define the `effects` factory function on a model. Let's start with an example where we want to use Rdx to access a list of Todo items. The data will come from a remote REST API and we will have a UI that can display the full list and a detail page that shows an individual item. Someone could navigate to an individual item from the list page or could land there directly, so when an item is selected we _might_ have to load it based on the current state of the store.
 
 ```ts
-import { createModel, RoutingState } from '@captaincodeman/rdx';
+import { createModel } from '@captaincodeman/rdx';
 import { Store } from '../store';
 
 export interface Todo {

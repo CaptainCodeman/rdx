@@ -17,6 +17,8 @@ Here's what you get with **_just 1.83Kb_** of JavaScript added to your app:
 
 All that, for less than the size of Redux alone.
 
+Not all apps need to persist and re-hydrate state and you may want to exclude devtools integration for production. Without those the size becomes **_just 1.43Kb_**.
+
 ## Redux Approach
 
 It does exactly what Redux does, it just reverses how you define the reducers, action types, action interfaces and action creators. All you need to do is define the initial state and reducer functions (in a simpler way) and Rdx does the rest.

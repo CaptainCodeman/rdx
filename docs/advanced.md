@@ -138,7 +138,7 @@ export interface Dispatch extends StoreDispatch<typeof config> {}
 export interface Store extends ModelStore<Dispatch, State> {}
 ```
 
-The `Store` interface is necessary to allow the effects defined in any single model of the store to access the full typed state and dispatch methods of the entire store, with all the models combined. We need access to the full store definition inside something that itself makes up only a part of that definition. This is difficult to achieve which is why the slight typescript indirection (magic?!) is necessary to make it work.
+The `Store` interface is necessary to allow the effects defined in any single model of the store to access the full typed state and dispatch methods of the entire store, with all the models combined. We need access to the full store definition inside something that itself makes up only a part of that definition. This is difficult to achieve which is why the slight TypeScript indirection (magic?!) is necessary to make it work.
 
 We can now define the `effects` factory function on a model. Let's start with an example where we want to use Rdx to access a list of Todo items. The data will come from a remote REST API and we will have a UI that can display the full list and a detail page that shows an individual item. Someone could navigate to an individual item from the list page or could land there directly, so when an item is selected we _might_ have to load it based on the current state of the store.
 

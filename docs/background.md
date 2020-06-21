@@ -36,7 +36,7 @@ Let's look at what the issue is with Redux and why beginners find it confusing. 
 
 It does sound very simple, but in reality there are usually lots of other ancilliary pieces required to combine separate reducers and to create actions consistently. Yes, you can use Redux without these, but only for trivial demos and tutorials to give a rather misleading portrayal of how simple it can all be - if you're using it for any real app of substance you'll almost certainly be using these extra pieces.
 
-Let's take this [TODO Example](https://redux.js.org/basics/example) from the Redux docs but instead of just copying the code as-is, I'm going to apply the best-practices that are also in the Redux docs, but unfortunately not applied in the examples. I'm also going to add Typescript, because it's increasingly common to use and useful to have strongly-typed code in a larger app:
+Let's take this [TODO Example](https://redux.js.org/basics/example) from the Redux docs but instead of just copying the code as-is, I'm going to apply the best-practices that are also in the Redux docs, but unfortunately not applied in the examples. I'm also going to add TypeScript, because it's increasingly common to use and useful to have strongly-typed code in a larger app:
 
 ### Todo state branch
 
@@ -303,12 +303,12 @@ So there's definitely lots of "prior art" but I see that as validation that this
 All the solutions I found suffered from one or more of these issues:
 
 * They are built in top of Redux so add more to the bundle size of your app
-* Don't play well with Typescript to provide fully typed state and dispatch
+* Don't play well with TypeScript to provide fully typed state and dispatch
 * Are deprecated and no longer actively developed / supported
 
 The latter isn't always an issue if a library is small in scope and complete / stable plus if you're using open-source libs the _only_ contract you really have is that you have access to the source-code so ultimately you are responsible for any long-term support you might need.
 
-But I really _want_ to have full typescript support and lately I've become a little obsessed with bundle-sizes.
+But I really _want_ to have full TypeScript support and lately I've become a little obsessed with bundle-sizes.
 
 ## Bundle Size
 
@@ -359,7 +359,7 @@ Here's what you get with just 4Kb minified / 1.83Kb gzipped JavaScript (about ha
 * Integration with Redux DevTools
 * Connect mixin to bind WebComponents to the store
 * Reducer definitions to auto-generate action creators and types
-* Fully stong-typed Typescript typing of State and Dispatch functions
+* Fully stong-typed TypeScript typing of State and Dispatch functions
 * Routing middleware to add route state to store, with parameter extraction
 * Async effect middleware with easy-to-use semantics
 * Persistence middleware to rehydrate or persist state (e.g. to `localStorage`)

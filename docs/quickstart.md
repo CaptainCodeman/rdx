@@ -46,7 +46,7 @@ export const counter = createModel({
 })
 ```
 
-NOTE: typescript inference removes the need to define the state type on each function, even with strict type checks enabled. In this example, it _knows_ that `state` is a number:
+NOTE: TypeScript inference removes the need to define the state type on each function, even with strict type checks enabled. In this example, it _knows_ that `state` is a number:
 
 ![](reducer-state-inference.png)
 

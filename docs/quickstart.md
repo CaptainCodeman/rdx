@@ -63,7 +63,7 @@ All the reducers for a model work on the same state. If you try to define a redu
 We want to be able to easily import all the models that we add, so we re-export them in an `index.ts` file. As we add additional models, we'll just need to reference them in this file to have them be part of the store.
 
 ```ts
-export { counter } from './counter.ts'
+export { counter } from './counter'
 ```
 
 ## Create Store

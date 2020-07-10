@@ -225,7 +225,7 @@ export default createModel({
           dispatch.todos.request()
           
           // make the REST API using async await syntax
-          const resp = await fetch(`${endpoint}todos/${payload}`)
+          const resp = await fetch(`${endpoint}todos/${selected}`)
           const todo: Todo = await resp.json()
 
           // tell the store that we received the data

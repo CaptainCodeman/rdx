@@ -4,6 +4,7 @@
   "description": "Small state library. Like Redux, but smaller",
   "type": "module",
   "module": "lib/index.js",
+  "main": "lib/index.js",
   "types": "typings/index.d.ts",
   "sideEffects": false,
   "files": [

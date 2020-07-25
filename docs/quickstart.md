@@ -9,7 +9,7 @@ NOTE: This isn't intended to show you how to build and develop an app in general
 Rdx is available as a package on NPM for use with a bundler / build tool. You'll want to install the package and add it to your projects dependencies:
 
 ```bash
-npm install -D @captaincodeman/rdx
+npm install @captaincodeman/rdx
 ```
 
 ## Define Models

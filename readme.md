@@ -96,7 +96,7 @@ Once [support is added](https://bugs.webkit.org/show_bug.cgi?id=174313) this pol
 
 But it's not "just" a Redux implementation, it makes it much easier to develop your app.
 
-I really liked the approach of [redux-rematch](https://rematch.github.io/rematch/) to reduce the boilerplate required when using redux. For more background and the motivation behind this approach
+I really liked the approach of [redux-rematch](https://rematch.github.io/rematch/) to reduce the boilerplate required when using Redux. For more background and the motivation behind this approach
 see [redesigning-redux](https://hackernoon.com/redesigning-redux-b2baee8b8a38).
 
 This brings that same approach to `rdx` and allows you to define your state models in a very small and compact way, without verbose boilerplate code by providing helpers to create the store for you and plugins to add common functionality such as routing.
@@ -120,7 +120,7 @@ The store that is created is a regular `rdx` store with some additional, auto-ge
 
 ### plugins and extensions
 
-If we require additional store functionality, that can be added by wrapping the store or providing plugins. Lets add state persistence and hydration using `localStorage` and also wire up the redux devtools extension  (both provided by `rdx`) plus add routing using a plugin provided by this package.
+If we require additional store functionality, that can be added by wrapping the store or providing plugins. Lets add state persistence and hydration using `localStorage` and also wire up the Redux devtools extension  (both provided by `rdx`) plus add routing using a plugin provided by this package.
 
 First, we'll define our store configuration, including routes, in a separate file using a [tiny client-side router package](https://github.com/CaptainCodeman/js-router):
 
@@ -282,9 +282,9 @@ A counter is the simplest canonical example of a reducer. Often you need to have
 
 Let's look at something more complex, the state for a 'todo' app which needs to handle async fetching of data from a REST API. We want to only fetch data when we don't already have it and what we need to fetch will depend on the route we're on - if we go from a list view to a single-item view, we don't need to fetch that single item as we already have it, but if our first view is the single item we want to fetch just that, and then fetch the list if we navigate in the other direction.
 
-Also, we want to be able to display loading state in the UI so we need to be able to indicate when we've requested data and when it's loaded. This is where the redux approach shines - converting asynchronous changes to predictable and replayable synchonous state updates
+Also, we want to be able to display loading state in the UI so we need to be able to indicate when we've requested data and when it's loaded. This is where the Redux approach shines - converting asynchronous changes to predictable and replayable synchonous state updates
 
-The state part of this example is just a more complex but still typical example of immutable, redux-like, state. But as well as defining actions as reducers, we can also define effects. These can also be dispatched just like the reducer-generated actions, but they also act as hooks so that when an action has been dispatched, if an effect exists with the same name, that will be called automatically.
+The state part of this example is just a more complex but still typical example of immutable, Redux-like, state. But as well as defining actions as reducers, we can also define effects. These can also be dispatched just like the reducer-generated actions, but they also act as hooks so that when an action has been dispatched, if an effect exists with the same name, that will be called automatically.
 
 #### store/models/todos.ts
 

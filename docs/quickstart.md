@@ -2,11 +2,11 @@
 
 Using Rdx is easy. Here's how to get started.
 
-NOTE: This isn't intended to show you how to build and develop an app in general, only the specifics of how to use Rdx. It assumes you know how to use tools such as NPM, TypeScript, rollup etc... But for a complete ready-made example, see the [demo project](https://github.com/CaptainCodeman/rdx-demo/)
+NOTE: This isn't intended to show you how to build and develop an app in general, only the specifics of how to use Rdx. It assumes you know how to use tools such as [npm], [TypeScript](https://www.typescriptlang.org/), [rollup](https://rollupjs.org/) etc... But for a complete ready-made example, see the [demo project](https://github.com/CaptainCodeman/rdx-demo/)
 
 ## Install Package
 
-Rdx is available as a package on NPM for use with a bundler / build tool. You'll want to install the package and add it to your projects dependencies:
+Rdx is available as a package on [npm] for use with a bundler / build tool. You'll want to install the package and add it to your projects dependencies:
 
 ```bash
 npm install @captaincodeman/rdx
@@ -18,7 +18,7 @@ In Redux you often create different "branches" of state and combine them using t
 
 ### src/state/models/counter.ts
 
-We use the `createModel` function which accepts the initial default state for the model and the reducer methods that can mutate it. It automatically checks that the state type used in each function matches and the state can be a simple value or an object with nested properties and arrays. Reducers can include an optional property that becomes the `payload` in an Action.
+We use the `createModel` function, which accepts the initial default state for the model and the reducer methods that can "mutate" the state. (Technically, instead of mutating the state, a new state is returned.) Thanks to TypeScript, it is automatically checked that the state type used in each reducer method matches the state type of the model. That state can be a simple value (e.g. a number) or an object with nested properties and arrays. Reducer methods can include an optional parameter. Internally that parameter becomes the `payload` in an action, but you probably won't ever need to use actions directly when using Rdx.
 
 ```ts
 import { createModel } from '@captaincodeman/rdx'
@@ -79,7 +79,7 @@ export const store = createStore({ models })
 
 ## Using the Store
 
-That's _all_ that is required for a basic store - much simpler than Redux eh?!
+That's _all_ that is required for a basic store - much simpler than Redux, eh?!
 
 Rdx combines the state of all the models into one root state. You can refer to this from the store:
 
@@ -94,3 +94,5 @@ store.dispatch.counter.increment(5)
 ```
 
 But there's a lot more to Rdx, so checkout the [advanced usage](advanced) for a more complete walk-through of functionality.
+
+[npm]: https://www.npmjs.com/

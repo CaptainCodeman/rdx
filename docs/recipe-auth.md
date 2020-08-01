@@ -4,7 +4,7 @@ Most apps require some kind of authentication to identify the user and allow the
 
 [Firebase Auth](https://firebase.google.com/products/auth) is a powerful and free auth service from Google that supports multiple auth providers (Google, Firebase, Twitter, Microsoft, Github, Apple, Yahoo and more) as well as other auth methods such as Email + Password, Email Only (Passwordless), Phone and Anonymous accounts.
 
-While Firebase do provide a ready-made UI library as part of auth, it is fairly large and doesn't work well with modern WebComponent-based apps. As with many other things, there are benefits to integrating the auth state into your state store as other models will often want to respond to auth status changes or make use of auth data to securely fetch data.
+While Firebase do provide a ready-made UI library as part of auth, it is fairly large and doesn't work well with modern web component based apps. As with many other things, there are benefits to integrating the auth state into your state store as other models will often want to respond to auth status changes or make use of auth data to securely fetch data.
 
 ## Auth Model
 
@@ -100,7 +100,7 @@ Note the imported `auth` is the configured and loaded firebase auth object as pe
 
 ## Auth Status UI
 
-The UI can easily show the auth status to the user with a WebComponent connected to the store. This example is designed to fit in the top of a material design drawer:
+The UI can easily show the auth status to the user with a web component connected to the store. This example is designed to fit in the top of a material design drawer:
 
 **anonymous state**
 

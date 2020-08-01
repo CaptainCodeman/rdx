@@ -13,7 +13,7 @@
 - Redux DevTools Supported
 - Strongly-Typed (TypeScript)
 - Integrated Routing with Params
-- WebComponent Connect Binding
+- Web Component Connect Binding
 
 [GitHub](https://github.com/CaptainCodeman/rdx/)
 [Learn More](overview)

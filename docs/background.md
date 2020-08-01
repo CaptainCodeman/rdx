@@ -357,7 +357,7 @@ Here's what you get with just 4Kb minified / 1.83Kb gzipped JavaScript (about ha
 
 * Redux-like state container
 * Integration with Redux DevTools
-* Connect mixin to bind WebComponents to the store
+* Connect mixin to bind web components to the store
 * Reducer definitions to auto-generate action creators and types
 * Fully stong-typed TypeScript typing of State and Dispatch functions
 * Routing middleware to add route state to store, with parameter extraction

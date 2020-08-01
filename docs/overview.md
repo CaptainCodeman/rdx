@@ -8,7 +8,7 @@ Here's what you get with **_just 1.83Kb_** of JavaScript added to your app:
 
 * A predictable, Redux-like, state container
 * Integration with Redux DevTools for inspection and debugging
-* Connect mixin to bind WebComponent properties to the store &amp; dispatch actions from events
+* Connect mixin to bind web component properties to the store &amp; dispatch actions from events
 * Simpler definition of reducers with auto-generated action creators and action types
 * Strongly-typed State and Dispatch functions for use with TypeScript
 * Routing middleware to add route data to state store, with parameter extraction

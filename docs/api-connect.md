@@ -1,6 +1,6 @@
 # connect
 
-`connect` is a mixin that "connects" a WebComponent to the store. It provides two methods:
+`connect` is a mixin that "connects" a web component to the store. It provides two methods:
 
 ## mapState
 

@@ -1,6 +1,8 @@
 # createModel
 
-`function createModel(model: Model): Model`
+```ts
+function createModel(model: Model): Model
+```
 
 The `createModel` function asserts that the model has the correct properties and consistent types (e.g. the state parameter of each reducer function matches the model state).
 
@@ -8,7 +10,9 @@ The properties defined on the model includes:
 
 ## state
 
-The `state` property defines both the shape (type) of the state and the initial state value to use if no predefined state is passed to the `createStore` function. So, the first time a store is initialized the value here will be used. If the store state is then persisted (e.g. to `localStorage`) and on the next app startup is re-hydrated from there, then that saved state will be used instead.
+The `state` property defines both the shape (TypeScript type) of the state and the initial state value to use if no predefined state is passed to the `createStore` function. So, the first time a store is initialized the value here will be used.
+
+*NOTE:* If the store state is configured for [persistence and re-hydration](api-persist) (e.g. persisted to `localStorage`), then on the next app startup the state will be re-hydrated from there and will be used instead of the initial state.
 
 The type of the model `state` can be a simple value, an array, or an object containing other properties that are values, arrays and objects. It is good practice to only include serializable values in the state.
 
@@ -45,9 +49,9 @@ export default createModel({
 
 ## reducers
 
-The `reducers` property returns a map of the reducer functions. Each function accepts a `state` property as it's first parameter, which must match the state type defined for the model, and then an optional payload (of any type). The state type can be inferred so doesn't need to be defined in each reducer even if using strict mode in TypeScript.
+The `reducers` property returns a map of the reducer functions. Each function accepts a `state` property as it's first parameter, which must match the state type defined for the model, and then an optional payload (of any type). The state's (TypeScript) type can be inferred, so doesn't need to be defined in each reducer even if using strict mode in TypeScript.
 
-Reducers must be pure functions. That means they only use the parameters passed in to them. They must also return the new mutated state or can return the original state passed in if no change is to be applied.
+Reducers must be pure functions. That means, they only use the parameters passed in to them. They must also return a new (mutated) state or can return the original state passed in if no change is to be applied.
 
 The same familiar [immutable update patterns as used in Redux](https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns) should be applied.
 
@@ -79,7 +83,7 @@ export default createModel({
 This will produce a dispatch type (which will be added to the store dispatch method) of:
 
 ```ts
-interface counter = {
+interface counter {
   inc(): State
   add(value: number): State
 }
@@ -137,11 +141,11 @@ store.dispatch.auth.signedIn({ id: 1, name: 'CaptainCodeman' })
 }
 ```
 
-Reducer functions with a string name containing a '/' character allow the model to listen to actions defined and dispatched by other models.
+Reducer functions with a string name containing a `'/'` character allow the model to listen to actions defined and dispatched by other models.
 
 ## effects
 
-The `effects` property is a factory function that is passed a `store` parameter which provides access to the store's typed dispatch method and the current state. It should return a map of effect functions which are similar to the reducers except the functions don't accept the state as the first property and they can be async.
+The `effects` property is a factory function that is passed a `store` parameter which provides access to the store's typed dispatch method and the current state. It should return a map of effect functions, which are similar to the reducers except the functions don't accept the state as the first property and they can be `async`.
 
 Effect functions can use the same `model/function` string naming to listen to actions defined and dispatched by other models.
 

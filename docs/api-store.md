@@ -6,7 +6,9 @@ TODO: handles dispatch, events, inherits from `EventTarget` (may require polyfil
 
 ## constructor
 
-`new Store(state: State | undefined, reducer: (state: State, action: Action) => State)`
+```ts
+new Store(state: State | undefined, reducer: (state: State, action: Action) => State)
+```
 
 Create an instance, passing in the existing state to start with (if re-hydrating or including as server-rendered JSON) together with the root reducer functions to use (reducers can be combined with the `combineReducers` function)
 
@@ -25,18 +27,24 @@ const store = new Store(undefined, reducer)
 
 ## dispatch method
 
-`store.dispatch(action: Action)`
+```ts
+store.dispatch(action: Action)
+```
 
-The dispatch method is used to dispatch an action to the store. The store will raise an `action` event that middleware subscribers can handle if required (either cancelling the action, or transforming it). If not cancelled, the store reducer is called to mutate the state and a `state` event is then raised. Any subscriber interested in state changes (e.g. UI components) can subscribe to this event to be notified that they should render updates.
+The `dispatch` method is used to dispatch an action to the store. The store will raise an `action` event, that middleware subscribers can handle if required (either cancelling the action, or transforming it). If not cancelled, the store reducer is called to mutate the state and a `state` event is then raised. Any subscriber interested in state changes (e.g. UI components) can subscribe to this event to be notified that they should render updates.
 
 ## reducer property
 
-`reducer: Reducer<State>`
+```ts
+store.reducer: Reducer<State>
+```
 
-The reducer function is available as a property of the store. It is only used to allow the reducer function to be replaced / augmented, such as when lazy-loading parts of the store. Rdx is so small that this is rarely necessary.
+The `reducer` function is available as a property of the store. It is only used to allow the reducer function to be replaced / augmented, such as when lazy-loading parts of the store. Rdx is so small, that this is rarely necessary.
 
 ## state property
 
-`store.state: State`
+```ts
+store.state: State
+```
 
-The state property returns the current state of the store.
+The `state` property returns the current state of the store.

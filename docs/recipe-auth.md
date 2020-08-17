@@ -2,13 +2,13 @@
 
 Most apps require some kind of authentication to identify the user and allow them secure access to their own data.
 
-[Firebase Auth](https://firebase.google.com/products/auth) is a powerful and free auth service from Google that supports multiple auth providers (Google, Firebase, Twitter, Microsoft, Github, Apple, Yahoo and more) as well as other auth methods such as Email + Password, Email Only (Passwordless), Phone and Anonymous accounts.
+[Firebase Auth](https://firebase.google.com/products/auth) is a powerful and free auth service from Google that supports multiple auth providers (Google, Firebase, Twitter, Microsoft, Github, Apple, Yahoo and more) as well as other auth methods such as email + password, email only (passwordless), phone, and anonymous accounts.
 
-While Firebase do provide a ready-made UI library as part of auth, it is fairly large and doesn't work well with modern web component based apps. As with many other things, there are benefits to integrating the auth state into your state store as other models will often want to respond to auth status changes or make use of auth data to securely fetch data.
+While Firebase does provide a ready-made UI library as part of auth, it is fairly large and doesn't work well with modern web component based apps. As with many other things, there are benefits to integrating the auth state into your state store, as other models will often want to respond to auth status changes or make use of auth data to securely fetch data.
 
 ## Auth Model
 
-Rdx, of course, makes it easy. Here's a simple model that can be used to integrate Firebase Auth into your store. Other models can then chose to make use of the `auth/signedIn` and `auth/signedOut` actions for their own data management.
+Rdx, of course, makes it easy. Here's a simple model that can be used to integrate Firebase Auth into your store. Other models can then choose to make use of the `auth/signedIn` and `auth/signedOut` actions for their own data management.
 
 ```ts
 import { createModel } from '@captaincodeman/rdx'
@@ -91,12 +91,12 @@ function providerFromName(name: string) {
     case 'google': return new window.firebase.auth.GoogleAuthProvider()
     case 'facebook': return new window.firebase.auth.FacebookAuthProvider()
     case 'twitter': return new window.firebase.auth.TwitterAuthProvider()
-    default: throw `unknown provider ${name}`
+    default: throw new Error(`unknown provider ${name}`)
   }
 }
 ```
 
-Note the imported `auth` is the configured and loaded firebase auth object as per the SDK examples (not show here). It's also possible to lazy-load the firebase packages as they are fairly large and making them asynchronous can speed up the initial rendering of your app but when startup time and total JS bundle size is a concern be sure to checkout the [firebase-auth-lite](https://github.com/samuelgozi/firebase-auth-lite) package for an excellent and much smaller alternative - the code is very easy to adapt and it makes a perfect companion to the tiny size approach of Rdx.
+Note the imported `auth` is the configured and loaded Firebase auth object as per the SDK examples (not shown here). It's also possible to lazy-load the firebase packages as they are fairly large and making them asynchronous can speed up the initial rendering of your app, but when startup time and total JS bundle size is a concern be sure to checkout the [firebase-auth-lite](https://github.com/samuelgozi/firebase-auth-lite) package for an excellent and much smaller alternative - the code is very easy to adapt and it makes a perfect companion to the tiny size approach of Rdx.
 
 ## Auth Status UI
 

@@ -13,7 +13,7 @@ Here's what you get with **_just 1.83Kb_** of JavaScript added to your app:
 * Strongly-typed State and Dispatch functions for use with TypeScript
 * Routing middleware to add route data to state store, with parameter extraction
 * Effect middleware for asynchronous code (respond to actions, fetch data etc&hellip;)
-* Persistence middleware to persist and rehydrate state (e.g. to `localStorage`)
+* Persistence middleware to persist and re-hydrate state (e.g. to `localStorage`)
 
 All that, for less than the size of Redux alone.
 

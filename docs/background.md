@@ -40,7 +40,7 @@ Let's take this [TODO Example](https://redux.js.org/basics/example) from the Red
 
 ### Todo State Branch
 
-Stored in a separate folder as per the "ducks" approach:
+Stored in a separate folder as per the ["ducks"](https://github.com/erikras/ducks-modular-redux) approach:
 
 #### todos/models.ts
 

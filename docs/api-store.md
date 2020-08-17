@@ -25,7 +25,7 @@ const reducer = (state = 0, action) => {
 const store = new Store(undefined, reducer)
 ```
 
-## dispatch method
+## dispatch Method
 
 ```ts
 store.dispatch(action: Action)
@@ -33,7 +33,7 @@ store.dispatch(action: Action)
 
 The `dispatch` method is used to dispatch an action to the store. The store will raise an `action` event, that middleware subscribers can handle if required (either cancelling the action, or transforming it). If not cancelled, the store reducer is called to mutate the state and a `state` event is then raised. Any subscriber interested in state changes (e.g. UI components) can subscribe to this event to be notified that they should render updates.
 
-## reducer property
+## reducer Property
 
 ```ts
 store.reducer: Reducer<State>
@@ -41,7 +41,7 @@ store.reducer: Reducer<State>
 
 The `reducer` function is available as a property of the store. It is only used to allow the reducer function to be replaced / augmented, such as when lazy-loading parts of the store. Rdx is so small, that this is rarely necessary.
 
-## state property
+## state Property
 
 ```ts
 store.state: State

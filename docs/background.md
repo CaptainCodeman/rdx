@@ -1,6 +1,6 @@
 # Introducing Rdx, a Tiny State Store
 
-## Like Redux, but smaller (and easier)
+## Like Redux, but Smaller (and Easier)
 
 If you've worked on client-side web apps for any length of time then it's almost guaranteed that you are familiar with, or at least aware of, [Redux](https://redux.js.org/). Redux advertizes itself as "A Predictable State Container for JS Apps" and is of course wildly successful as its 5m weekly npm downloads show.
 

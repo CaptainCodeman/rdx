@@ -118,7 +118,7 @@ export const store = createStore({ models })
 
 The store that is created is a regular `rdx` store with some additional, auto-generated actionCreator-type methods added to the `dispatch` method to make using the store easier ... we'll get to those later.
 
-### plugins and extensions
+### Plugins and Extensions
 
 If we require additional store functionality, that can be added by wrapping the store or providing plugins. Lets add state persistence and hydration using `localStorage` and also wire up the Redux DevTools extension  (both provided by `rdx`) plus add routing using a plugin provided by this package.
 
@@ -276,7 +276,7 @@ How many times should we have to type 'counter', _really_? So many potential got
 
 Yes, some of this is deliberately verbose to make the point and there are various helpers that can be used to reduce some of the pain points (at the cost of extra code), but Redux definitely has some overhead - it's not simple to use and the extra code doesn't really add any value and it becomes complex to work with as it's often spread across multiple files, sometimes even multiple folders.
 
-### async effects
+### async Effects
 
 A counter is the simplest canonical example of a reducer. Often you need to have a combination of state and reducers plus some 'side-effects' - async functions can can be dispatched (thunks) or that can execute in response to the synchronous actions that go through the store, often as middleware. We have that covered! Oh, and there's no middleware to add, all the functionality is baked into the `createStore` that we saw earlier.
 

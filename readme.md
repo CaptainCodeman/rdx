@@ -99,7 +99,7 @@ But it's not "just" a Redux implementation, it makes it much easier to develop y
 I really liked the approach of [redux-rematch](https://rematch.github.io/rematch/) to reduce the boilerplate required when using Redux. For more background and the motivation behind this approach
 see [redesigning-redux](https://hackernoon.com/redesigning-redux-b2baee8b8a38).
 
-This brings that same approach to `rdx` and allows you to define your state models in a very small and compact way, without verbose boilerplate code by providing helpers to create the store for you and plugins to add common functionality such as routing.
+This brings that same approach to Rdx and allows you to define your state models in a very small and compact way, without verbose boilerplate code by providing helpers to create the store for you and plugins to add common functionality such as routing.
 
 See a [live example](https://captaincodeman.github.io/rdx-example/) or checkout the [source code](https://github.com/CaptainCodeman/rdx-example). The usage example below is based on this example.
 
@@ -116,11 +116,11 @@ import * as models from './models'
 export const store = createStore({ models })
 ```
 
-The store that is created is a regular `rdx` store with some additional, auto-generated actionCreator-type methods added to the `dispatch` method to make using the store easier ... we'll get to those later.
+The store that is created is a regular Rdx store with some additional, auto-generated actionCreator-type methods added to the `dispatch` method to make using the store easier ... we'll get to those later.
 
 ### Plugins and Extensions
 
-If we require additional store functionality, that can be added by wrapping the store or providing plugins. Lets add state persistence and hydration using `localStorage` and also wire up the Redux DevTools extension  (both provided by `rdx`) plus add routing using a plugin provided by this package.
+If we require additional store functionality, that can be added by wrapping the store or providing plugins. Lets add state persistence and hydration using `localStorage` and also wire up the Redux DevTools extension (both provided by Rdx) plus add routing using a plugin provided by this package.
 
 First, we'll define our store configuration, including routes, in a separate file using a [tiny client-side router package](https://github.com/CaptainCodeman/js-router):
 
@@ -144,7 +144,7 @@ const routing = routingPlugin(matcher)
 export const config = { models, plugins: { routing } }
 ```
 
-We'll import the exported `config` and use the `createStore` helper to create an instance of the `rdx` store and this time we'll decorate it with the `devtools` and `persist` enhancers that the `rdx` package provides so we get the integration with Redux DevTools plus state persistence using `localStorage`. It's only slightly more complex than the first example:
+We'll import the exported `config` and use the `createStore` helper to create an instance of the Rdx store and this time we'll decorate it with the `devtools` and `persist` enhancers that the `rdx` package provides so we get the integration with Redux DevTools plus state persistence using `localStorage`. It's only slightly more complex than the first example:
 
 #### store/index.ts
 

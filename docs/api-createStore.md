@@ -36,7 +36,7 @@ The `state` property allows the initial state for the store to be set which is u
 
 ## Example
 
-Here's a simple but complete example of setting up a store to support devtools, persistence, routing and async effects with models separated into their own modules.
+Here's a simple but complete example of setting up a store to support DevTools, persistence, routing and async effects with models separated into their own modules.
 
 ### Store
 

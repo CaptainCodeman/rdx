@@ -120,7 +120,7 @@ The store that is created is a regular `rdx` store with some additional, auto-ge
 
 ### plugins and extensions
 
-If we require additional store functionality, that can be added by wrapping the store or providing plugins. Lets add state persistence and hydration using `localStorage` and also wire up the Redux devtools extension  (both provided by `rdx`) plus add routing using a plugin provided by this package.
+If we require additional store functionality, that can be added by wrapping the store or providing plugins. Lets add state persistence and hydration using `localStorage` and also wire up the Redux DevTools extension  (both provided by `rdx`) plus add routing using a plugin provided by this package.
 
 First, we'll define our store configuration, including routes, in a separate file using a [tiny client-side router package](https://github.com/CaptainCodeman/js-router):
 
@@ -418,7 +418,7 @@ export default createModel({
 
 Yes, it's more code than the counter model, but it's a lot less code to write than the Redux equivalent and it contributes less to the JS bundle for your app.
 
-Note that the effects are dispatchable just like the reducers and they show up in the devtools just the same. In the example above, calling `dispatch.todos.select(123)` would dispatch an action that would hit the reducer and _then_ the effect of the same name. Whereas calling `dispatch.todos.load()` would still dispatch an action but only run the effect (as there is no matching reducer).
+Note that the effects are dispatchable just like the reducers and they show up in the DevTools just the same. In the example above, calling `dispatch.todos.select(123)` would dispatch an action that would hit the reducer and _then_ the effect of the same name. Whereas calling `dispatch.todos.load()` would still dispatch an action but only run the effect (as there is no matching reducer).
 
 We can also listen for actions dispatched from other state models, in both the reducers and effects functions. We've seen how this is done to listen for route changes but there are often cases where we may want to act on our local state based on some other dispatched action. As an example, we could clear data from the store when the auth model dispatches a signout action:
 

@@ -364,7 +364,7 @@ export default createModel({
   // our async effects
   effects(store: Store) {
     // reference the dispatch method, which is used in multiple effects
-    const dispatch = store.dispatch()
+    const dispatch = store.getDispatch()
 
     // return the effect methods so they are wired up by the middleware
     return {

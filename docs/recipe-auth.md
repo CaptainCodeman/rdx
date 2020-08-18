@@ -45,7 +45,7 @@ export default createModel({
   },
 
   effects(store: Store) {
-    const dispatch = store.dispatch()
+    const dispatch = store.getDispatch()
 
     return {
       // listen to firebase auth state changes and reflect in state

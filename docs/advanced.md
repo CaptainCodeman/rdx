@@ -201,7 +201,7 @@ export default createModel({
     // we want to dispatch actions in multiple effects so we can
     // capture the typed dispatch method from the store here instead
     // of repeating it
-    const dispatch = store.dispatch()
+    const dispatch = store.getDispatch()
 
     // this is also a great place to put other variables that may
     // need to be accessed from multiple effects such as firestore
@@ -341,7 +341,7 @@ export default createModel({
   },
 
   effects(store: Store) {
-    const dispatch = store.dispatch()
+    const dispatch = store.getDispatch()
 
     return {
       async signedOut() {
@@ -473,7 +473,7 @@ export default createModel({
   // state and reducers not shown
 
   effects(store: Store) {
-    const dispatch = store.dispatch()
+    const dispatch = store.getDispatch()
 
     return {
       async 'routing/change'(payload: RoutingState) {
@@ -520,7 +520,7 @@ export default createModel({
   },
 
   effects(store: Store) {
-    const dispatch = store.dispatch()
+    const dispatch = store.getDispatch()
 
     return {
       async 'routing/change'(payload: RoutingState) {

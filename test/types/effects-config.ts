@@ -11,7 +11,7 @@ export const testModel = createModel({
   effects: (store: Store) => ({
     async run(_payload: string) {
       // dispatch returns the typed, store dispatch
-      store.dispatch().test.add(10)
+      store.getDispatch().test.add(10)
 
       // getState returns the typed, store state
       const state = store.getState()

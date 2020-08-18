@@ -184,7 +184,7 @@ export default createModel({
   effects(store: Store) {
     // this captures the strongly typed store dispatch
     // which effects can use to dispatch other actions
-    const dispatch = store.dispatch()
+    const dispatch = store.getDispatch()
 
     return {
       // this will be called _after_ the signedIn

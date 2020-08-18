@@ -7,29 +7,25 @@ declare global {
   }
 }
 
-export function devtools<T extends Store>(store: T) {
+const isJumpToState = (action: any) => action.type === 'DISPATCH'
+
+export function devtools<T extends Store>(store: T, options?: any) {
   const extension = window.__REDUX_DEVTOOLS_EXTENSION__
 
   if (extension) {
-    const devtools = extension.connect()
-
-    let ignoreState = false
+    const devtools = extension.connect(options)
 
     store.addEventListener(stateEvent, e => {
       const { action } = (<CustomEvent<ActionEvent>>e).detail
-      if (ignoreState) {
-        ignoreState = false
-      } else {
+      if (!isJumpToState(action)) {
         devtools.send(action, store.state)
       }
     })
 
-    devtools.subscribe((message: any) => {
-      if (message.type === 'DISPATCH' && message.state) {
-        ignoreState = true
-        store.state = JSON.parse(message.state)
-        // trigger state change for connected components
-        store.dispatch({})
+    devtools.subscribe((action: any) => {
+      if (isJumpToState(action)) {
+        store.state = JSON.parse(action.state)
+        store.dispatchEvent(new CustomEvent<ActionEvent>(stateEvent, { detail: { action } }))
       }
     })
 

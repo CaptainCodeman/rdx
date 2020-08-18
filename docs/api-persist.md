@@ -1,6 +1,6 @@
 # persist
 
-The `persist` store decorator adds state persistence and hyration to the store.
+The `persist` store decorator adds state persistence and hydration to the store.
 
 ```ts
 import { createStore, persist } from '@captaincodeman/rdx'
@@ -9,7 +9,7 @@ import { config } from './config'
 export const store = persist(createStore(config))
 ```
 
-The default persistence saves the entire state to `localStorage` using `JSON` serialization after each action dispatch and checks for it's existence at startup, rehyrating the state to restore it if found.
+The default persistence saves the entire state to `localStorage` using `JSON` serialization after each action dispatch and checks for its existence at startup, re-hydrating the state to restore it if found.
 
 ## Options
 

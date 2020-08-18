@@ -2,30 +2,30 @@
 
 Rdx is like Redux, but smaller.
 
-It is a fully featured state container that provides all the core functionality most apps require without adding a large payload to your bundle or requiring excessive boilerplate code &mdash; your apps runs faster and you write less code.
+It is a fully featured state container, that provides all the core functionality most apps require without adding a large payload to your bundle or requiring excessive boilerplate code &mdash; your app runs faster and you write less code.
 
 Here's what you get with **_just 1.83Kb_** of JavaScript added to your app:
 
 * A predictable, Redux-like, state container
 * Integration with Redux DevTools for inspection and debugging
-* Connect mixin to bind WebComponent properties to the store &amp; dispatch actions from events
+* Connect mixin to bind web component properties to the store &amp; dispatch actions from events
 * Simpler definition of reducers with auto-generated action creators and action types
 * Strongly-typed State and Dispatch functions for use with TypeScript
 * Routing middleware to add route data to state store, with parameter extraction
 * Effect middleware for asynchronous code (respond to actions, fetch data etc&hellip;)
-* Persistence middleware to persist and rehydrate state (e.g. to `localStorage`)
+* Persistence middleware to persist and re-hydrate state (e.g. to `localStorage`)
 
 All that, for less than the size of Redux alone.
 
-Not all apps need to persist and re-hydrate state and you may want to exclude devtools integration for production. Without those the size becomes **_just 1.43Kb_**.
+Not all apps need to persist and re-hydrate state and you may want to exclude DevTools integration for production. Without those the size becomes **_just 1.43Kb_**.
 
 ## Redux Approach
 
-It does exactly what Redux does, it just reverses how you define the reducers, action types, action interfaces and action creators. All you need to do is define the initial state and reducer functions (in a simpler way) and Rdx does the rest.
+Rdx does exactly what Redux does, it just reverses how you define the reducers, action types, action interfaces and action creators. All you need to do is define the initial state and reducer functions (in a simpler way) and Rdx does the rest.
 
 Here's the basic terminology explained based on how Redux works which will show how Rdx makes things significantly simpler.
 
-An `Action` is a Plain Old JavaScript Object (`POJO`) that is serializable. It consists of a `type` property which is a string that uniquely identifies that action in the store and an optional `payload` property which can contain additional information about the action that the reducer might need to mutate the state. The payload can be a simple value or a complex object or array.
+An `Action` is a Plain Old JavaScript Object (*POJO*) that is serializable. It consists of a `type` property, which is a string that uniquely identifies that action in the store, and an optional `payload` property, which can contain additional information about the action, that the reducer might need to mutate the state. The payload can be a simple value or a complex object or array.
 
 Here is an example of a simple `Action`:
 
@@ -54,9 +54,9 @@ export type CounterActions = CounterAddAction
                            | CounterDecrementAction // (additional types not shown)
 ```
 
-NOTE: Technically, the `CounterAddAction` is the Typescript _Type_ of the Action. But it can be confusing to refer to Action Type when every Action also has a `type` property. So we'll try to stick to `ActionInterface` for the Typescript _shape_ of a particular Action (it's a pity that `type` wasn't called `name` which would be less confusing).
+NOTE: Technically, the `CounterAddAction` is the TypeScript _type_ of the action (object). But it can be confusing to refer to an action's type when every action also has a `type` property. So we'll try to stick to `ActionInterface` for the TypeScript _shape_ of a particular Action (it's a pity that `type` wasn't called `name`, which would be less confusing).
 
-When using Redux, it's typical to also define an `ActionCreator` which is a function to create the action in a consistent way.
+When using Redux, it's typical to also define an *action creator*, which is a function to create the action in a consistent way.
 
 ```ts
 import { COUNTER_ADD, CounterAddAction } from './actions'
@@ -69,7 +69,7 @@ export function counterAdd(amount: number): CounterAddAction {
 }
 ```
 
-Finally, we get to define a Reducer. In Redux, this would be something like:
+Finally, we get to define a *reducer*. In Redux, this would be something like:
 
 ```ts
 import { CounterActions, COUNTER_ADD } from './actions'
@@ -77,13 +77,13 @@ import { CounterActions, COUNTER_ADD } from './actions'
 const counter = function(state: number = 0, action: CounterActions) {
   switch (action.type) {
     case COUNTER_ADD:
-      // the action type acts as a 'discriminator' in typescript
-      // so at this point, it knows that the payload is a number
+      // `action.type` acts as a 'type discriminator' in TypeScript.
+      // So at this point, TypeScript knows, that the payload is a number.
       return state + action.payload
     
     default:
-      // this default switch handler is _very_ important in Redux
-      // if you forget to add it your store will be broken!
+      // This default switch handler is _very_ important in Redux:
+      // If you forget to add it, your store will be broken!
       return state
   }
 }
@@ -91,7 +91,7 @@ const counter = function(state: number = 0, action: CounterActions) {
 
 Are you tired of typing variations of "Counter Add" yet?
 
-At this point, you configure and create a `Store` instance (not shown) which allows you to retrieve the current state of your application and dispatch actions to mutate it in a predictable manner:
+At this point, you configure and create a `Store` instance (not shown), which allows you to retrieve the current state of your application and dispatch actions to mutate it in a predictable manner:
 
 ```ts
 import { counterAdd } from './actions'
@@ -126,7 +126,7 @@ export const counter = createModel({
 })
 ```
 
-Through a combination of Rdx and TypeScript, that will give you a strongly typed state store AND dispatch methods, just like the action creators you had to write yourself. Using our store becomes simpler and we don't need to export / import as many pieces:
+Through a combination of Rdx and TypeScript, the above will give you a strongly typed state store **and** dispatch methods, just like the action creators you had to write yourself. Using our store becomes simpler and we don't need to export / import as many pieces:
 
 ```ts
 import { store } from './store'

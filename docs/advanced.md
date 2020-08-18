@@ -6,7 +6,7 @@ Let's expand on what else you need to create an application. We'll assume that t
 
 ## Store Configuration
 
-Some of the advanced cases need to know the 'type' of the store which contains two things - the structure of the `state` and the properties and methods available on the `dispatch` function. This can be inferred from the configuration passed to the `createStore` function so it's helpful to create a const to make re-using this config easier. As you add additional plugins, such as routing, it's also useful to have a separate place to put the setup for those too and it helps to keep the config of the store separated from the instantiation of it.
+Some of the advanced cases need to know the 'type' of the store, which contains two things - the structure of the `state`, and the properties and methods available on the `dispatch` function. This can be inferred from the configuration passed to the `createStore` function, so it's helpful to create a `const` to make re-using this config easier. As you add additional plugins, such as routing, it's also useful to have a separate place to put the setup for those, too, and it helps to keep the config of the store separated from the instantiation of it.
 
 ### src/state/config.ts
 
@@ -20,7 +20,7 @@ export const config = { models }
 
 ### src/state/store.ts
 
-We now use this in the store setup and also define the type of the store `State` and `Dispatch`. These can be useful if you need to use them as parameters with strict typing enabled and again, we'll make more use of them later so just go along with it for now.
+We now use this in the store setup and also define the type of the store `State` and `Dispatch`. These can be useful if you need to use them as parameters with strict typing enabled, and again, we'll make more use of them later, so just go along with it for now.
 
 ```ts
 import { createStore, StoreState, StoreDispatch } from '@captaincodeman/rdx'
@@ -34,21 +34,21 @@ export interface Dispatch extends StoreDispatch<typeof config> {}
 
 ## Connected UI Components
 
-While a state store may be the "engine" of our application, what most people think of an app is usually the User Interface that they see. So we want to be able to reflect the state in the UI.
+While a state store may be the "engine" of our application, what most people think of an app is usually the user interface (UI), that they see. So we want to be able to reflect the state in the UI.
 
-Rdx is designed for the modern web, not web frameworks of yesteryear. The web platform now has a well supported and inbuilt UI component system in the form of WebComponents. There's no need to include any component system in our app bundle which is just additional unnecessary bloat although there are some lightweight template libraries such as [lit-element](https://lit-element.polymer-project.org/) which can be useful to make creating Custom Elements easier.
+Rdx is designed for the modern web, not web frameworks of yesteryear. The web platform now has a well supported and inbuilt UI component system in the form of *web components*. There's no need to include any component system in our app bundle which is just additional unnecessary bloat although there are some lightweight libraries such as [lit-element](https://lit-element.polymer-project.org/), which can be useful to make creating web components (or *custom elements*) easier.
 
-Not _every_ component needs to be connected to the state store but you are free to connect them as needed. You may be familiar with the patterns in React known as "High Order Components" or Smart vs Dumb components. The difference is that some components are aware of the state store, routing and other concerns and others are just plain UI widgets.
+Not _every_ component needs to be connected to the state store, but you are free to connect them as needed. You may be familiar with the patterns in React known as "Higher Order Components" or Smart vs Dumb components. The difference is that some components are aware of the state store, routing, and other concerns, while others are just plain UI widgets.
 
-Think about your app. You may use UI widgets in the form of a design system / component library such as [Material Web Components](https://material-components.github.io/material-components-web-components/demos/index.html). These are the basic UI pieces manipulated entirely by setting attributed or properties on them and they typically communicate any user interaction by raising DOM events. These UI widgets won't know about Rdx, state, routing and so on. You want as much of your UI to be built with these sorts of simple widgets, as it makes developing and testing them easier.
+Think about your app. You may use UI widgets in the form of a design system / component library such as [Material Web Components](https://material-components.github.io/material-components-web-components/demos/index.html). These are the basic UI pieces, manipulated entirely by setting attributes or properties on them, and they typically communicate any user interaction by raising DOM events. These UI widgets won't know about Rdx, state, routing and so on. You want as much of your UI to be built with these sorts of simple widgets, as it makes developing and testing them easier.
 
-In your app you will then have some richer components that render information from the state store and pass the data on to the simple UI widgets. These are pages or views and they need to be connected to the store and will translate the DOM events that happen as a result of user interactions into actions dispatched to the store. These actions mutate the store state which causes the affected parts of the UI to be re-rendered to reflect the changes.
+In your app you will then have some richer components, that render information from the state store and pass the data on to the simple UI widgets. These are "pages" or "views", and they need to be connected to the store and will translate the DOM events that happen as a result of user interactions into actions dispatched to the store. These actions mutate the store state which causes the affected parts of the UI to be re-rendered to reflect the changes.
 
-Using a combination of the [reselect](https://github.com/reduxjs/reselect) package to memoize state changes<sup>1</sup> and a Web Component library such as [lit-element](https://lit-element.polymer-project.org/) which provides efficient DOM updates _without_ the [overhead of a Virtual DOM (vdom)](https://svelte.dev/blog/virtual-dom-is-pure-overhead) approach, we get a very responsive and efficient UI.
+Using a combination of the [reselect](https://github.com/reduxjs/reselect) package to memoize state changes<sup>1</sup> and a web component library such as [lit-element](https://lit-element.polymer-project.org/) which provides efficient DOM updates _without_ the [overhead of a virtual DOM (vdom)](https://svelte.dev/blog/virtual-dom-is-pure-overhead) approach, we get a very responsive and efficient UI.
 
-<sup>1</sup> Reselect can _also_ insulate components from changes to the structure of the state store so is good practice, as well as beneficial for performance, and is well under 1Kb when gzipped.
+<sup>1</sup> Reselect can _also_ insulate components from changes to the structure of the state store. So using it is good practice, as well as beneficial for performance, and is well under 1Kb when gzipped.
 
-Connecting an element to the store is easy - simply inherit from the `connect` mixin which accepts the `store` instance and the base element as parameters, here's the direct approach for a single component:
+Connecting an element to the store is easy: Simply inherit from the `connect` mixin which accepts the `store` instance and the base element as parameters. Here's the direct approach for a single component:
 
 ```ts
 import { LitElement, customElement, property, html } from 'lit-element'
@@ -56,7 +56,7 @@ import { connect } from '@captaincodeman/rdx'
 import { store, State } from '../state'
 
 @customElement("counter-view")
-export class CounterElement extends connect(store, LitElement) {
+export class CounterViewElement extends connect(store, LitElement) {
   @property({ type: Number }) count = 0
 
   mapState(state: State) {
@@ -77,7 +77,7 @@ export class CounterElement extends connect(store, LitElement) {
 
 The `mapState` and `mapEvents` methods can be used to set the properties on the component and listen to DOM events, mapping them back to the store by dispatching actions. The example above utilizes [lit-html](https://lit-html.polymer-project.org/) event listeners to wire up the events directly. See the [connect API](api-connect) for full usage.
 
-If you have more than a few connected components you can save some code repetition by creating a connected base component that they inherit from. e.g.
+If you have more than a few connected components, you can save some code repetition by creating a connected base component that they inherit from. e.g.
 
 ### src/ui/connected.ts
 
@@ -109,23 +109,23 @@ export class CounterElement extends Connected {
 
 ## Effects
 
-Beyond the basic principles of "predictable state" using actions and reducers, one of the key benefits of a state container is being able to hook into the state changes / action dispatches to run additional code, or "side effects". Effectively "when this happens, I also want to do XYZ".
+Beyond the basic principles of "predictable state" using actions and reducers, one of the key benefits of a state container is being able to hook into the state changes / action dispatches to run additional code, or "side effects". Effectively: "when this happens, I also want to do XYZ".
 
 These are things that _shouldn't be done in a reducer_ because they are either asynchronous (such as calling a remote API to fetch data) or they depend on some external state (such as the browser `localStorage`) and so wouldn't be deterministic if it was done in the reducer (which needs to be pure functions).
 
-An example would be when an item in a list is clicked and becomes 'selected'. We might dispatch an action to set the selected state in our store and _then_ we want to fetch the data to render it. The fetch is a remote API call and asynchronous so it can't be done inside the reducer because we can't guarantee whether it will be successful or not and we don't know how long it will take to execute.
+An example would be when an item in a list is clicked and becomes 'selected'. We might dispatch an action to set the selected state in our store and _then_ we want to fetch the data to render it. The fetch is a remote API call and asynchronous so it can't be done inside the reducer because we can't guarantee whether it will be successful or not, and we don't know how long it will take to execute.
 
-This is where Effects come in. An async effect function converts these operations into synchronous dispatch calls to mutate the store state in a predictable manner.
+This is where *effects* come in. An `async` effect function converts these operations into synchronous dispatch calls to mutate the store state in a predictable manner.
 
-Rdx comes with an inbuilt [effects plugin](plugin-effects) which is more powerful than the basic "thunk" plugin of Redux and possibly easier to understand and simpler than something like redux-saga (and significantly smaller).
+Rdx comes with an inbuilt [effects plugin](plugin-effects), which is more powerful than the basic "thunk" plugin of Redux, and possibly easier to understand and simpler than something like redux-saga (and significantly smaller).
 
-Effect functions create methods on the dispatch function for the model, just like the reducer functions do. If you have an effect function called `load` on a `todos` model then you can call it using `dispatch.todos.load()`. It will dispatch a `todos/load` action through the store that you can see with DevTools, it just wont mutate the state unless there is also a reducer with the same name. If there _is_ a reducer with the same name then the reducer payload and the effect payload should match and the reducer will _always_ be executed before the effect function. At the point that the effect runs, the state has been mutated.
+Effect functions create methods on the dispatch function for the model, just like the reducer functions do. If you have an effect function called `load` on a `todos` model then you can call it using `dispatch.todos.load()`. It will dispatch a `todos/load` action through the store that you can see with DevTools, it just wont mutate the state unless there is also a reducer with the same name. If there _is_ a reducer with the same name, then the reducer payload and the effect payload should match, and the reducer will _always_ be executed _before_ the effect function. At the point that the effect runs, the state has already been mutated.
 
 ### Effects Factory
 
-Effects are defined in a similar way to reducers with the exception that instead of being declared as an object with reducer functions as properties, the effects property is a factory method that returns an object with the effect function properties. This factory method takes a parameter that provides access to the entire store state and dispatch methods.
+Effects are defined in a similar way to reducers with the exception, that, instead of being declared as an object with reducer functions as properties, the effects property is a _factory method_, that returns an object with the effect function properties. This factory method takes a parameter, that provides access to the entire store state, and dispatch methods.
 
-This requires a slight change to the store setup, with the introduction of an additional `Store` interface which adds to the `State` and `Dispatch` already defined:
+This requires a slight change to the store setup, with the introduction of an additional `Store` interface, which adds to the `State` and `Dispatch` already defined:
 
 ```ts
 import { createStore, StoreState, StoreDispatch, ModelStore } from '@captaincodeman/rdx'
@@ -138,9 +138,9 @@ export interface Dispatch extends StoreDispatch<typeof config> {}
 export interface Store extends ModelStore<Dispatch, State> {}
 ```
 
-The `Store` interface is necessary to allow the effects defined in any single model of the store to access the full typed state and dispatch methods of the entire store, with all the models combined. We need access to the full store definition inside something that itself makes up only a part of that definition. This is difficult to achieve which is why the slight typescript indirection (magic?!) is necessary to make it work.
+The `Store` interface is necessary to allow the effects defined in any single model of the store to access the full typed state and dispatch methods of the entire store, with all the models combined. We need access to the full store definition inside something that itself makes up only a part of that definition. This is difficult to achieve, which is why the slight TypeScript indirection (magic?!) is necessary to make it work.
 
-We can now define the `effects` factory function on a model. Let's start with an example where we want to use Rdx to access a list of Todo items. The data will come from a remote REST API and we will have a UI that can display the full list and a detail page that shows an individual item. Someone could navigate to an individual item from the list page or could land there directly, so when an item is selected we _might_ have to load it based on the current state of the store.
+We can now define the `effects` factory function on a model. Let's start with an example where we want to use Rdx to access a list of Todo items. The data will come from a remote REST API and we will have a UI that can display the full list, and a detail page that shows an individual item. Someone could navigate to an individual item from the list page or could land there directly, so when an item is selected, we _might_ have to load it, based on the current state of the store.
 
 ```ts
 import { createModel } from '@captaincodeman/rdx';
@@ -225,7 +225,7 @@ export default createModel({
           dispatch.todos.request()
           
           // make the REST API using async await syntax
-          const resp = await fetch(`${endpoint}todos/${payload}`)
+          const resp = await fetch(`${endpoint}todos/${selected}`)
           const todo: Todo = await resp.json()
 
           // tell the store that we received the data
@@ -252,11 +252,11 @@ export default createModel({
 })
 ```
 
-### init() effect
+### init() Effect
 
 The example above includes a standalone (non-reducing) `load` effect, which could be called using `dispatch.todos.load()`. That might be something you do based on some UI interaction or due to a route change. Sometimes you may have an effect that you want to kick-start automatically when your app runs. While you _could_ just call the dispatch action yourself anytime after the store is initiated, Rdx will automatically run any effect called `init` when the store is created. This can be an ideal place to initialize external listeners that need to interact with the store or to trigger data fetches as soon as the store is initialized.
 
-There is also the factory method itself but remember - at the point that is called, and until the function returns the effects object, the store has _not_ been fully initialized so the state and dispatch should not be used directly.
+There is also the factory method itself, but remember: At the point the `effects` factory method is called, and until the function returns the effects object, the store has _not_ been fully initialized so the state and dispatch should not be used directly.
 
 ## Inter-Model Communication
 
@@ -312,7 +312,7 @@ This allows the `todos` model to "hook into" the reducer action defined in the a
 
 ### Using Effects
 
-Another way to coordinate work between models is to use an effect in one model to dispatch an action to another. With the auth / todos example, we have a `signedOut` reducer that clears the auth state so we could add an identically named `signedOut` effect that will run immediately after that which could then dispatch an action to clear the todos:
+Another way to coordinate work between models is to use an effect in one model to dispatch an action to another. With the auth / todos example, we have a `signedOut` reducer that clears the auth state, so we could add an identically named `signedOut` effect, that will run immediately after the reducer, which could then dispatch an action to clear the todos:
 
 ```ts
 import { createModel } from '@captaincodeman/rdx'
@@ -357,11 +357,11 @@ This adds the knowledge of the inter-model communication to the sender - the tod
 
 The benefit of this approach is that it's strongly typed and you see the clear, separate, todos action in the DevTools. But the downside is that it's less immediate - there is a state immediately after the user being signed out where the `state.auth.user` is null but the `state.todos.items` is still populated. Although effects run almost immediately, any state update will likely trigger UI changes that could show that inconsistent state - an auth status may show 'anonymous visitor' while the todos are still shown.
 
-If signing out the user has to dispatch multiple actions, then this causes multiple UI updates in a cascade which may or may not be noticeable. One place where it can become more obvious is if you combine routing and use an effect, listening to the `route/change` action, to extract parameters and dispatch a `select` type reducer action. Suppose your router is looking at the routing state to chose which view to render. The user clicks a link to navigate to `/todos/123`. At this point the state has changed so any affected UI components will update which causes the `TodoDetail` view to render. It looks for the selected todo to display but the selected ID has not been set yet or or is still set to a previously viewed ID. In this case the view could be showing the wrong thing. If you have a more elaborate scenario where you have summary data in a list and extra detail that loads when an item is selected, you could end up showing the title (from the summary) for one item and the detail (from the previously selected) from another.
+If signing out the user has to dispatch multiple actions, then this causes multiple UI updates in a cascade, which may or may not be noticeable. One place where it can become more obvious is if you combine routing and use an effect, listening to the `route/change` action, to extract parameters and dispatch a `select` type reducer action. Suppose your router is looking at the routing state to chose which view to render. The user clicks a link to navigate to `/todos/123`. At this point the state has changed so any affected UI components will update which causes the `TodoDetail` view to render. It looks for the selected todo to display but the selected ID has not been set yet or is still set to a previously viewed ID. In this case the view could be showing the wrong thing. If you have a more elaborate scenario where you have summary data in a list and extra detail that loads when an item is selected, you could end up showing the title (from the summary) for one item and the detail (from the previously selected) from another.
 
-The aim of a state container is to have predictable and _consistent_ state so whenever you can update state in a reducer it's preferable to doing it in an effect, regardless of which model the effect is in.
+The aim of a state container is to have predictable and _consistent_ state, so whenever you can update state in a reducer, this is _preferred_ over updating state through an effect, regardless of which model the effect is in.
 
-Dispatching multiple actions when there is already an action that the model could respond to is really an anti-pattern and not recommended.
+Dispatching multiple actions when there is already an action that the model could respond to is really an _anti-pattern_ and _not recommended_.
 
 See this excellent presentation ([slides](https://rangle.slides.com/yazanalaboudi/deck)) for a more in-depth explanation of why this approach can be wrong:
 
@@ -369,7 +369,7 @@ See this excellent presentation ([slides](https://rangle.slides.com/yazanalaboud
 
 ## Routing
 
-Routing is usually an important part of any client-side app. The current view and parameters for it can be extracted from the browser address bar and if you click a link within your app, the navigation should be intercepted to update the state. Because it's so common, Rdx provides an inbuilt and integrated router which adds the routing information to the store which it can be used as a trigger within your models and also to drive the views in your UI.
+Routing is usually an important part of any client-side app. The current view and parameters for it can be extracted from the browser address bar, and if you click a link within your app, the navigation should be intercepted to update the state. Because it's so common, Rdx provides an inbuilt and integrated router, which adds the routing information to the store. This way it can be used as a trigger within your models and also to drive the views in your UI.
 
 The routing plugin for Rdx relies on a separate [ultra-tiny (370 byte) router library](https://www.npmjs.com/package/@captaincodeman/router) to perform the route matching. The plugin provides the browser navigation interception and integration of routing information into the store state.
 
@@ -417,7 +417,7 @@ See the [routing API](api-routing) for more details on the options available.
 
 When you have the route information in the state store, you can use it to drive your application views. To do this you will typically have some kind of 'router outlet' which switches the UI shown based on the current route selected.
 
-There are several ways to do this, see the [routing recipes](recipe-routing) for more alternatives and the nuances between them. Here is a simple router as a WebComponent:
+There are several ways to do this, see the [routing recipes](recipe-routing) for more alternatives and the nuances between them. Here is a simple router outlet as a web component:
 
 ```ts
 import { RoutingState } from '@captaincodeman/rdx'
@@ -438,7 +438,7 @@ class AppRouterElement extends Connected {
   // changed (not just a parameter) then we need to clear any
   // previous view and render the new one. In this case we're
   // assuming that a page called 'view-home' would correspond
-  // to a WebComponent with the same name
+  // to a web component with the same name
   set route(val: RoutingState) {
     if (val.page !== this.page) {
       const el = document.createElement(val.page)
@@ -452,13 +452,13 @@ class AppRouterElement extends Connected {
 customElements.define('app-router', AppRouterElement)
 ```
 
-You can simply include this `<app-router>` element in your index.html page or the main app-shell component of your application and your app will then render the appropriate view as you navigate. If you include it in another connected component, you could remove the need for it to be connected to the store and do the `mapState` of the routing in the parent, passing it as a property to the router outlet.
+You can simply include this `<app-router>` element in your `index.html` page or the main app-shell component of your application and your app will then render the appropriate view as you navigate. If you include it in another connected component, you could remove the need for it to be connected to the store and do the `mapState` of the routing in the parent, passing it as a property to the router outlet.
 
 The router outlet can also be an ideal place to code-split your UI, so code for views is only loaded when (and if) someone navigates to them.
 
 ### Models Integration
 
-But changing the UI is just one part of what routing can be used for. One thing people often do is use UI components to trigger data fetching but in my opinion this is an anti-pattern. Not only does it couple the UI components to non-UI concerns, making them more complex to develop and test, but it means that the data fetch doesn't happen _until_ the UI component has been rendered.
+But changing the UI is just one part of what routing can be used for. One thing people often do is use UI components to trigger data fetching, but in my opinion this is an anti-pattern. Not only does it couple the UI components to non-UI concerns, making them more complex to develop and test, but it means that the data fetch doesn't happen _until_ the UI component has been rendered.
 
 This initial render often means a relatively large UI framework has been loaded plus additional UI components and widgets. Waiting for all this to happen simply delays the fetch and adds latency to the time when your users see data on the screen.
 
@@ -500,7 +500,7 @@ export default createModel({
 })
 ```
 
-If the data for a route depends on parameter values from the route, it's usually best to set any `selected` state property in a reducer and then use the effect to load the data. As you saw in the [Inter-Model communication Using Effects](advanced?id=using-effects) section, setting the selected item in the effect _can_ lead to inconsistent state as at that point, the UI could be attempting to render something based on the reducer state, with the model state that relies on the reducer state not yet reflecting it and needing another action dispatch to synchronize it.
+If the data for a route depends on parameter values from the route, it's usually best to set any `selected` state property in a reducer and then use the effect to load the data. As you saw in the [Inter-Model Communication Using Effects](advanced?id=using-effects) section, setting the selected item in the effect _can_ lead to inconsistent state as at that point, the UI could be attempting to render something based on the reducer state, with the model state that relies on the reducer state not yet reflecting it and needing another action dispatch to synchronize it.
 
 Here's how it might look:
 
@@ -548,19 +548,19 @@ export default createModel({
 })
 ```
 
-Note that we still do the fetching in an effect (and we're checking if we really need to fetch it first) but the actual state update of which item is currently selected is done in the reducer.
+Note that we still do the fetching in an effect (and we're checking if we really need to fetch it first), but the actual state update of which item is currently selected is done in the reducer.
 
-Although re-dispatching in an effect in response to route changes does, in some ways, seem to provide more "informative" explicit actions in the store (i.e. your might see `todo/selected` instead of `routing/change`) the drawbacks and extra UI complications it can create far outweigh this slight benefit.
+Although re-dispatching in an effect in response to route changes does, in some ways, seem to provide more "informative" explicit actions in the store (i.e. you might see `todo/selected` instead of `routing/change`) the drawbacks and extra UI complications it can create far outweigh this slight benefit.
 
 ## Polyfills
 
-We've built Rdx to use modern web standards and if you're using a modern browser such as Chrome then Rdx will work directly. Some platform features that it relies on have been added at later times in different browsers so sometimes a polyfill may be required if you want to support those browsers. Best practice is to leave the loading of polyfills as an application concern rather than force them on users that don't need them, have them duplicated by different packages, and to provide flexibility for [fast and efficient polyfill loading](https://www.captaincodeman.com/2020/03/10/eternal-polyfilling-of-the-legacy-browser).
+We've built Rdx to use modern web standards and if you're using a modern browser such as Chrome then Rdx will work directly. Some platform features that it relies on have been added at later times in different browsers, so sometimes a polyfill may be required if you want to support those browsers. Best practice is to leave the loading of polyfills as an application concern, rather than force them on users that don't need them, have them duplicated by different packages, and to provide flexibility for [fast and efficient polyfill loading](https://www.captaincodeman.com/2020/03/10/eternal-polyfilling-of-the-legacy-browser).
 
 Here are the features that may require polyfills:
 
 ### queueMicrotask
 
-The [`queueMicrotask()`](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/queueMicrotask) method of the Window object queues a microtask to be executed at the end of the current event loop.
+The [`queueMicrotask()`](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/queueMicrotask) method of the `window` object queues a microtask to be executed at the end of the current event loop.
 
 A polyfill for this is very small and should be inlined if your target browsers don't support it.
 
@@ -572,12 +572,14 @@ if (typeof window.queueMicrotask !== 'function') {
 
 ### EventTarget
 
-The underlying `Store` implementation acts as an [`EventTarget`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget), using the browsers in-built `addEventListener` for subscriber functionality used internally and available if you want to subscribe to store state changes or implement your own middleware.
+The underlying `Store` implementation acts as an [`EventTarget`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget), using the browsers inbuilt `addEventListener` for subscriber functionality used internally and available if you want to subscribe to store state changes or implement your own middleware.
 
-Unfortunately, the [`EventTarget` constructor()](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/EventTarget) is not currently supported in WebKit so if you want to support Safari users an additional small (589 byte) polyfill is needed which can be loaded only when required:
+Unfortunately, the [`EventTarget` constructor()](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/EventTarget) is not currently supported in WebKit, so if you want to support Safari users, an additional small (589 byte) polyfill is needed, which can be loaded only when required:
 
+```html
 <script>try{new EventTarget}catch(e){document.write('<script src="https://unpkg.com/@ungap/event-target@0.1.0/min.js"><\x2fscript>')}</script>
+```
 
-Once support is added this polyfill can be removed and will stop loading automatically.
+Once support for `EventTarget` is added, this polyfill will stop loading automatically, at which point it can be removed.
 
 Because it's so small you might chose to include it in your bundle to avoid the additional request and possible effect that having a `document.write` statement has on Chrome optimizations. The [demo project](https://github.com/CaptainCodeman/rdx-demo/) demonstrates how to do this.

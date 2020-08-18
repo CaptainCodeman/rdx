@@ -17,11 +17,13 @@
   - [Store](api-store.md)
 
 - Recipes
+
   - [Firebase Auth](recipe-auth.md)
   - [Firestore Subscriptions](recipe-firestore.md)
   - [REST data fetching](recipe-fetch.md)
 
 - Plugins
+
   - [dispatch](plugin-dispatch.md)
   - [effects](plugin-effects.md)
   - [routing](plugin-routing.md)

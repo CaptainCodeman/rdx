@@ -55,7 +55,7 @@ export default createModel({
 
   effects(store: Store) {
     // capture the store dispatch method
-    const dispatch = store.dispatch()
+    const dispatch = store.getDispatch()
 
     // listListener will be used to keep track of the listener
     // for the list of todo items. Because we want to unsubscribe 

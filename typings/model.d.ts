@@ -13,11 +13,9 @@ interface EffectFns {
 }
 
 export interface ModelStore<D = any, S = any> {
-  // TODO: for consistency with state, rename dispatch to getDispatch (?)
-
-  // dispatch has to be a function that returns the Dispatch for the store
+  // getDispatch has to be a function that returns the Dispatch for the store
   // otherwise it creates a circular reference when added to the models' effects
-  dispatch: () => D
+  getDispatch: () => D
   getState: GetState<S>
 }
 

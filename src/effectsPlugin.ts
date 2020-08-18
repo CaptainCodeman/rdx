@@ -16,7 +16,7 @@ export const effectsPlugin = {
     }
 
     const modelEffects = model.effects({
-      dispatch: () => store.dispatch,
+      getDispatch: () => store.dispatch,
       getState: () => store.state
     })
 

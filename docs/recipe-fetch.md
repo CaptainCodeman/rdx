@@ -42,29 +42,35 @@ export default createModel({
 
     invalidateSubreddit(state, subreddit: string) {
       return { ...state,
-        [subreddit]: { ...state[subreddit] || blankSubredditState,
-          didInvalidate: true,
-        }
+        postsBySubreddit: {...state.postsBySubreddit,
+          [subreddit]: { ...state.postsBySubreddit[subreddit] || blankSubredditState,
+            didInvalidate: true,
+          },
+        },
       }
     },
 
     requestPosts(state, subreddit: string) {
       return { ...state,
-        [subreddit]: { ...state[subreddit] || blankSubredditState,
-          isFetching: true,
-          didInvalidate: false,
-        }
+        postsBySubreddit: { ...state.postsBySubreddit,
+          [subreddit]: { ...state.postsBySubreddit[subreddit] || blankSubredditState,
+            isFetching: true,
+            didInvalidate: false,
+          },
+        },
       }
     },
 
     receivePosts(state, payload: { subreddit: string, posts: any[], receivedAt: number }) {
       return { ...state,
-        [payload.subreddit]: { ...state[payload.subreddit] || blankSubredditState,
-          isFetching: false,
-          didInvalidate: false,
-          items: payload.items,
-          lastUpdated: payload.receivedAt,
-        }
+        postsBySubreddit: { ...state.postsBySubreddit,
+          [payload.subreddit]: { ...state[payload.subreddit] || blankSubredditState,
+            isFetching: false,
+            didInvalidate: false,
+            items: payload.posts,
+            lastUpdated: payload.receivedAt,
+          },
+        },
       }
     },
   },

@@ -147,6 +147,8 @@ Reducer functions with a string name containing a `'/'` character allow the mode
 
 The `effects` property is a factory function that is passed a `store` parameter which provides access to the store's typed dispatch method and the current state. It should return a map of effect functions, which are similar to the reducers except the functions don't accept the state as the first property and they can be `async`.
 
+_NOTE:_ It is important that you **always declare `effects`** like this: `effects(store:Store) { /* ... */ }`. I.e. **don't use an arrow function** as this will mess up intellisense (code completion).
+
 Effect functions can use the same `model/function` string naming to listen to actions defined and dispatched by other models.
 
 An effect function can match a reducer function of the same name and will be called _after_ the corresponding action has been dispatched to the store reducers and the state mutated. The effect will be passed the same payload originally passed to the reducer.

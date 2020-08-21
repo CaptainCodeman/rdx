@@ -35,36 +35,24 @@ The plugin further allows you to programmatically navigate by using the [`Histor
 
 This is a short example how you would set-up the routingPlugin.
 
-### src/state/routing.ts
-
-```ts
-// using an enum will help prevent typos
-// but the router would work just as fine with simple strings
-export enum ROUTE {
-    HOME = 'home',
-    TODO_LIST = 'todo-list',
-    TODO_DETAILS = 'todo-details',
-    NOT_FOUND = 'not-found',
-}
-
-const routes = {
-  '/': ROUTE.HOME,
-  '/todos': ROUTE.TODO_LIST,
-  '/todos/:id': ROUTE.TODO_DETAILS,
-  '/*': ROUTE.NOT_FOUND,
-}
-
-const matcher = createMatcher(routes)
-export const routing = routingPlugin(matcher)
-```
-
 ### src/state/config.ts
 
 ```ts
 import createMatcher from '@captaincodeman/router'
 import { routingPlugin } from '@captaincodeman/rdx'
 import * as models from './models'
-import { routing } from './routing'
+
+// map the URL pattern (optionally with named parameters)
+// to any value. strings will do just fine.
+const routes = {
+  '/': 'home',
+  '/todos': 'todo-list',
+  '/todos/:id': 'todo-details',
+  '/*': 'not-found',
+}
+
+const matcher = createMatcher(routes)
+const routing = routingPlugin(matcher)
 
 export const config = { models, plugins: { routing } }
 ```
@@ -86,4 +74,10 @@ export interface Dispatch extends StoreDispatch<typeof config> {}
 export interface Store extends ModelStore<Dispatch, State> {}
 ```
 
+### Afterthoughts
+
 Now that the routing plugin is set up, check out the advanced usage guide and see you how to [render different views in a router outlet](advanced?id=router-outlet) based on that routing information, and also how to [early start loading data](advanced?id=models-integration) (i.e. don't wait for the view to load, but start fetching data as soon as the route changes).
+
+Some things were deliberately kept simple. E.g. if you have many routes, or need to [configure the router](api-routing?id=routing-options), you might want to extract the routing bits from the `config.ts` module into their own file.
+
+Also, for simplicity, in this example the routes just resolve to simple string literals like `'home'`. If your app doesn't have many routes and only a single router outlet, this will do just fine. Should you want to add additional protection from typos as your app grows, and improve support for refactoring, consider using string `enum`s or `const`s instead.

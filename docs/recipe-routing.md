@@ -229,7 +229,7 @@ class LazyAppRouterElement extends Connected {
         case 'todo-list':
           import('./view-todo-list').then(() => { this.content = html`<view-todo-list></view-todo-list>` })
           break
-        case 'todo-list':
+        case 'todo-details':
           import('./view-todo-details').then(() => { this.content = html`<view-todo-details></view-todo-details>` })
           break
       }

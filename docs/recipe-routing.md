@@ -227,10 +227,10 @@ class LazyAppRouterElement extends Connected {
           break
         // dynamic imports provide a Promise based API
         case 'todo-list':
-          import('./view-todo-list').then(() => { this.content = html`<view-todo-list>` })
+          import('./view-todo-list').then(() => { this.content = html`<view-todo-list></view-todo-list>` })
           break
         case 'todo-list':
-          import('./view-todo-details').then(() => { this.content = html`<view-todo-details>` })
+          import('./view-todo-details').then(() => { this.content = html`<view-todo-details></view-todo-details>` })
           break
       }
     }

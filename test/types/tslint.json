@@ -6,6 +6,7 @@
     "no-relative-import-in-test": false,
     "no-trailing-whitespace": false,
     "no-useless-files": false,
-    "semicolon": [true, "never"]
+    "semicolon": [true, "never"],
+    "object-literal-key-quotes": false
   }
 }

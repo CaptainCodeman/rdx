@@ -65,7 +65,7 @@ export function connect<T extends Constructor<Connectable>, S>(
     }
 
     private [removeStateSubscription]() {
-      this.removeEventListener(stateEvent, this[onStateChange])
+      store.removeEventListener(stateEvent, this[onStateChange])
     }
 
     private [onStateChange]() {

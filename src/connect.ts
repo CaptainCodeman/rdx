@@ -49,13 +49,13 @@ export function connect<T extends Constructor<Connectable>, S>(
 
     private [addEventListeners]() {
       for (const key in this[dispatchMap]) {
-        this.addEventListener(key, this[dispatchMap][key], false)
+        this.addEventListener(key, this[dispatchMap][key] as EventListener, false)
       }
     }
 
     private [removeEventListeners]() {
       for (const key in this[dispatchMap]) {
-        this.removeEventListener(key, this[dispatchMap][key], false)
+        this.removeEventListener(key, this[dispatchMap][key] as EventListener, false)
       }
     }
 
@@ -65,7 +65,7 @@ export function connect<T extends Constructor<Connectable>, S>(
     }
 
     private [removeStateSubscription]() {
-      this.removeEventListener(stateEvent, this[onStateChange])
+      store.removeEventListener(stateEvent, this[onStateChange])
     }
 
     private [onStateChange]() {

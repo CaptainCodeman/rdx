@@ -34,7 +34,7 @@ While the aim isn't to be 100% compatible with Redux, it can work with the Redux
 To create your state store:
 
 ```ts
-import { Store, combineReducers, connect, thunk, persist, devtools} from '@captaincodeman/rdx'
+import { Store, combineReducers, thunk, persist, devtools} from '@captaincodeman/rdx'
 
 // a very simple reducer state
 const counter = (state = 0, action) => {	

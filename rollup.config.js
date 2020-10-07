@@ -17,6 +17,7 @@ export default {
     persist: 'src/persist.ts',
     routing: 'src/routingPlugin.ts',
     store: 'src/store.ts',
+    svelte: 'src/svelte.ts',
     thunk: 'src/thunk.ts',
   },
   output: {

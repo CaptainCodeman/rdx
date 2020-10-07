@@ -59,5 +59,8 @@
   },
   "dependencies": {
     "@captaincodeman/router": "^1.0.1"
+  },
+  "peerDependencies": {
+    "svelte": "^3.0.0"
   }
 }

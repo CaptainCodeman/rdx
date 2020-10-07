@@ -1,6 +1,6 @@
 import { assert, IsExact } from "conditional-type-checks"
 
-import { DispatchMap } from '../../typings/connect'
+import { DispatchMap } from '../../typings/components'
 
 const map: DispatchMap = {
   'click': (_e: Event) => {},

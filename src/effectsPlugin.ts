@@ -50,6 +50,7 @@ export const effectsPlugin = {
       }
     })
 
-    inits.forEach(effect => effect())
+    // allow other store decorators to 'wire up' before initialization
+    queueMicrotask(() => inits.forEach(effect => effect()))
   },
 }

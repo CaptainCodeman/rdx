@@ -1,5 +1,4 @@
 export * from './combineReducers'
-export * from './connect'
 export * from './const'
 export * from './createModel'
 export * from './createStore'

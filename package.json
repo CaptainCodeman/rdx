@@ -42,22 +42,22 @@
     "reducer"
   ],
   "devDependencies": {
-    "@rollup/plugin-typescript": "^5.0.2",
-    "browser-sync": "^2.26.12",
+    "@rollup/plugin-typescript": "^6.0.0",
+    "browser-sync": "^2.26.13",
     "chai": "^4.2.0",
     "compression": "^1.7.4",
     "conditional-type-checks": "^1.0.5",
     "docsify-cli": "^4.4.1",
-    "dtslint": "^4.0.0",
-    "mocha": "^8.1.3",
+    "dtslint": "^4.0.4",
+    "mocha": "^8.2.0",
     "redux": "^4.0.5",
-    "rollup": "^2.26.11",
+    "rollup": "^2.32.1",
     "rollup-plugin-size": "^0.2.2",
     "rollup-plugin-terser": "^7.0.2",
-    "tslib": "^2.0.1",
-    "typescript": "^4.0.2"
+    "tslib": "^2.0.3",
+    "typescript": "^4.0.3"
   },
   "dependencies": {
-    "@captaincodeman/router": "^1.0.1"
+    "@captaincodeman/router": "^1.0.2"
   }
 }

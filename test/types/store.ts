@@ -41,7 +41,7 @@ assert<Has<dispatchWithRouting, {
   },
   routing: {
     back: () => void,
-    change: (payload: RoutingState) => void,
+    change: (payload: RoutingState<string>) => void,
     forward: () => void,
     go: (payload: number) => void,
     push: (payload: string) => void,
@@ -53,7 +53,7 @@ type stateWithRouting = StoreState<typeof configWithRouting>
 
 assert<IsExact<{
   count: number,
-  routing: RoutingState,
+  routing: RoutingState<string>,
 }, stateWithRouting>>(true)
 
 const configNoPlugins = {

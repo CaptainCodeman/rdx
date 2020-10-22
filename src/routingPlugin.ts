@@ -9,18 +9,18 @@ const history = window.history
 const popstate = 'popstate'
 const dispatchPopstate = () => dispatchEvent(new Event(popstate))
 
-export const routingPlugin = (router: Matcher, options?: Partial<RoutingOptions>) => {
-  const opt = <RoutingOptions>{
+export const routingPlugin = <T>(router: Matcher<T>, options?: Partial<RoutingOptions<T>>) => {
+  const opt = <RoutingOptions<T>>{
     transform: (result) => result,
     ...options,
   }
 
   return {
     model: createModel({
-      state: <RoutingState>{ page: '', params: {} },
+      state: <RoutingState<T>>{ page: <T><unknown>undefined, params: {} },
 
       reducers: {
-        change: (_state: any, payload: RoutingState): RoutingState => payload
+        change: (_state: any, payload: RoutingState<T>): RoutingState <T> => payload
       },
 
       effects: (_store: any) => ({
@@ -54,7 +54,7 @@ export const routingPlugin = (router: Matcher, options?: Partial<RoutingOptions>
     onStore(store: ModelStore) {
       // TODO: pass in typed 'this' so it can access it's own dispatch + state
       // also, name should be whatever name is being assigned to this plugin
-      const dispatch = store.dispatch['routing'] as unknown as RoutingDispatch
+      const dispatch = store.dispatch['routing'] as unknown as RoutingDispatch<T>
 
       // listen for route changes
       const routeChanged = () => {
@@ -128,10 +128,10 @@ const clickHandler = (e: MouseEvent) => {
 // not every app will require this so we can make it optional by setting 
 // the transform to withQuerystring
 
-export const withQuerystring = (result: Result) => {
+export const withQuerystring = <T>(result: Result<T>) => {
   const params = new URLSearchParams(location.search)
   const queries = parseQuery(params)
-  return <RoutingState>{ ...result, queries }
+  return <RoutingState<T>>{ ...result, queries }
 }
 
 function parseQuery(params: URLSearchParams) {

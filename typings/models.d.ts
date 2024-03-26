@@ -1,4 +1,4 @@
-import { Model, ModelDispatch } from './model'
+import { Model, ModelDispatch } from './model.js'
 
 interface Models {
   [name: string]: Model

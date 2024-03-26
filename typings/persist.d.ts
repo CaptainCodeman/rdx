@@ -1,4 +1,4 @@
-import { Action, Store } from './store'
+import { Action, Store } from './store.js'
 
 export interface PersistOptions<S> {
   // name sets the state key to use, useful in development to avoid conflict
@@ -19,7 +19,7 @@ export interface PersistOptions<S> {
     setItem(name: string, value: string): void
   }
 
-  // filter predicate allows control over whether to persist state based on 
+  // filter predicate allows control over whether to persist state based on
   // the action. Default is to trigger persistence after all actions
   filter: (action: Action) => boolean
 

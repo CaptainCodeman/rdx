@@ -1,4 +1,4 @@
-import { Store } from './store'
+import { Store } from './store.js'
 
 export interface DispatchMap { [key: string]: <T extends CustomEvent>(event: T) => void }
 

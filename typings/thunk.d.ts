@@ -1,4 +1,4 @@
-import { Dispatch, GetState, Store } from './store'
+import { Dispatch, GetState, Store } from './store.js'
 
 export type ThunkAction = <S>(dispatch: Dispatch, getState: GetState<S>) => void
 

@@ -1,4 +1,4 @@
-import { Store } from "./store"
+import { Store } from "./store.js"
 import { Middleware } from "redux"
 
 export function applyMiddleware<S, M1>(store: Store<S>,

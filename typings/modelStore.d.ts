@@ -1,6 +1,6 @@
-import { Model } from './model'
-import { Models, ModelsDispatch, ModelsState } from './models'
-import { Store, Dispatch } from './store'
+import { Model } from './model.js'
+import { Models, ModelsDispatch, ModelsState } from './models.js'
+import { Store, Dispatch } from './store.js'
 
 export interface Plugin<M extends Model = Model> {
   // if the plugin adds any state to the store, it can define it's own model

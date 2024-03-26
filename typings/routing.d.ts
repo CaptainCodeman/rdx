@@ -1,7 +1,7 @@
 import { Result, Matcher } from "@captaincodeman/router"
 
-import { Model } from "./model"
-import { Plugin } from './modelStore'
+import { Model } from "./model.js"
+import { Plugin } from './modelStore.js'
 
 type RoutingReducers<T> = {
   change: (state: any, payload: RoutingState<T>) => RoutingState<T>

@@ -1,4 +1,4 @@
-import { GetState } from "./store"
+import { GetState } from "./store.js"
 
 export type ReducerFn<S, P = any> = (state: S, payload: P) => S
 
